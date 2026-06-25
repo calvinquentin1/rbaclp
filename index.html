@@ -420,32 +420,67 @@ a{color:inherit;text-decoration:none}
   flex:1;border:none;width:100%;height:100%;
   background:var(--bg);
 }
+
+/* ── COMPARE ── */
+.compare{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:12px;margin-top:44px;
+}
+.compare__col{
+  border-radius:var(--r);
+  padding:28px 24px;
+}
+.compare__col--old{
+  background:rgba(255,255,255,.02);
+  border:1px solid var(--border);
+}
+.compare__col--new{
+  background:rgba(207,80,0,.07);
+  border:1px solid rgba(207,80,0,.28);
+}
+.compare__label{
+  font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  margin-bottom:20px;padding-bottom:14px;
+  border-bottom:1px solid var(--border);
+}
+.compare__col--old .compare__label{color:var(--text-dim)}
+.compare__col--new .compare__label{color:var(--accent)}
+.compare__rows{display:flex;flex-direction:column;gap:18px}
+.compare__row-lbl{font-size:11px;color:var(--text-dim);letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
+.compare__row-val{font-size:15px;font-weight:600;line-height:1.35}
+.compare__col--old .compare__row-val{color:var(--text-2)}
+.compare__col--new .compare__row-val{color:var(--text)}
+@media(max-width:640px){
+  .compare{grid-template-columns:1fr}
+  .compare__col{padding:22px 18px}
+  .compare__row-val{font-size:14px}
+}
 </style>
 
 <!-- NAV -->
 <nav class="nav" id="top">
   <div class="wrap--wide nav__inner">
     <div class="nav__logo">No Accent Callers <b>/ Roofing</b></div>
-    <span class="nav__tag">Pay Per Lead</span>
+    <span class="nav__tag">Internal Lead Systems</span>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero" id="hero">
   <div class="wrap">
-    <div class="hero__eyebrow">Done-For-You Outbound</div>
+    <div class="hero__eyebrow">The Lead Gen Industry's Best-Kept Secret</div>
     <h1 class="hero__hl">
-      10–15 Qualified Roofing Leads<br>
-      <em>Delivered Weekly</em>
+      Stop Paying $200 a Lead.<br>
+      <em>Own the System Instead.</em>
     </h1>
     <p class="hero__price">
-      Starting at <strong style="color:var(--text)">$45/Lead</strong> &nbsp;·&nbsp; No retainer. No setup fees. <strong style="color:var(--text)">Pay only for results.</strong>
+      Your internal cost: <strong style="color:var(--text)">$10 to $20 per lead</strong> &nbsp;·&nbsp; vs. $100 to $200 buying from someone else
     </p>
     <p class="hero__sub">
-      We cold call homeowners in your service area, qualify their roofing need, and hand you a live conversation — or a CRM-ready lead. <strong>You close, we dial.</strong>
+      We build you the exact same outreach system that lead gen companies use to generate your leads. The data. The SMS setup. The trained assistant who filters responses. <strong>You own it. They stop making money off you.</strong>
     </p>
-    <button onclick="openCalModal()" class="btn btn--lg">Schedule a Call &rarr;</button>
-    <p class="hero__note">No obligation · 15-minute intro call</p>
+    <button onclick="openCalModal()" class="btn btn--lg">Build My Internal System &rarr;</button>
+    <p class="hero__note">Free 20-minute strategy call &nbsp;·&nbsp; No obligation</p>
   </div>
 </section>
 
@@ -453,47 +488,47 @@ a{color:inherit;text-decoration:none}
 <div class="stats">
   <div class="stats__grid">
     <div>
-      <div class="stats__n"><b>$45</b></div>
-      <div class="stats__l">Per qualified lead</div>
+      <div class="stats__n"><b>$10</b>–20</div>
+      <div class="stats__l">Your cost per lead</div>
     </div>
     <div>
-      <div class="stats__n">10<b>–</b>15</div>
-      <div class="stats__l">Leads per week</div>
+      <div class="stats__n">$100–200</div>
+      <div class="stats__l">What you pay now</div>
     </div>
     <div>
-      <div class="stats__n"><b>0</b></div>
-      <div class="stats__l">Monthly retainer</div>
+      <div class="stats__n"><b>1x</b></div>
+      <div class="stats__l">One-time system build</div>
     </div>
   </div>
 </div>
 
-<!-- BENEFITS -->
+<!-- PROBLEM -->
 <section class="section">
   <div class="wrap">
-    <p class="eyebrow">Why It Works</p>
-    <h2 class="h2">The only roofing lead source you don't pay for in advance</h2>
-    <p class="lead">Most lead gen locks you into a monthly fee regardless of results. We flip that. You only pay when we deliver a homeowner who actually wants a quote.</p>
+    <p class="eyebrow">The Lead Gen Industry Secret</p>
+    <h2 class="h2">They are selling you your own leads at a 10x markup</h2>
+    <p class="lead">Here is exactly what every lead gen company charging you $100 to $200 per roofing lead is actually doing.</p>
 
     <div class="benefits">
       <div class="benefit">
-        <div class="benefit__ico">📞</div>
-        <div class="benefit__t">Human-to-Human Conversations</div>
-        <div class="benefit__d">Our callers have real conversations, not robocalls. Homeowners are engaged before they ever talk to you.</div>
-      </div>
-      <div class="benefit">
-        <div class="benefit__ico">🎯</div>
-        <div class="benefit__t">Pre-Qualified Before Delivery</div>
-        <div class="benefit__d">We confirm roof age, storm history, and willingness to get a quote. You receive leads, not phone numbers.</div>
-      </div>
-      <div class="benefit">
         <div class="benefit__ico">📋</div>
-        <div class="benefit__t">Delivered to Your CRM</div>
-        <div class="benefit__d">Leads drop into your system with notes, contact info, and qualifying details — ready for your sales process.</div>
+        <div class="benefit__t">Step 1: They Pull a List</div>
+        <div class="benefit__d">They buy homeowner data filtered by roof age and location. That list costs them a few cents per record. You could pull the exact same data yourself.</div>
       </div>
       <div class="benefit">
-        <div class="benefit__ico">⚙️</div>
-        <div class="benefit__t">Runs Alongside Your Other Marketing</div>
-        <div class="benefit__d">No exclusivity. Use us as a consistent baseline while you run ads, do door-knocking, or generate referrals.</div>
+        <div class="benefit__ico">📱</div>
+        <div class="benefit__t">Step 2: They Send a Text</div>
+        <div class="benefit__d">They load the list into an SMS platform and blast it out. A simple, low-cost setup that any business can run. There is no secret technology involved.</div>
+      </div>
+      <div class="benefit">
+        <div class="benefit__ico">🌐</div>
+        <div class="benefit__t">Step 3: An Overseas Rep Filters It</div>
+        <div class="benefit__d">A trained assistant handles the replies, screens out bad fits, and passes the interested homeowners forward. Then they charge you $150 for what just happened.</div>
+      </div>
+      <div class="benefit" style="background:rgba(207,80,0,.06);border-color:rgba(207,80,0,.25)">
+        <div class="benefit__ico">💡</div>
+        <div class="benefit__t">The Entire Operation, Exposed</div>
+        <div class="benefit__d">No proprietary algorithm. No magic. Just data, a text, and a filter. They profit because you do not have the system set up yourself. We fix that.</div>
       </div>
     </div>
   </div>
@@ -503,161 +538,90 @@ a{color:inherit;text-decoration:none}
 <section class="section section--alt">
   <div class="wrap">
     <p class="eyebrow">How It Works</p>
-    <h2 class="h2">Five steps from list to lead in your inbox</h2>
+    <h2 class="h2">We build the system. You keep the leads.</h2>
 
     <div class="process">
       <div class="step">
         <div class="step__num">1</div>
         <div class="step__body">
-          <div class="step__t">We build your target list</div>
-          <div class="step__d">We pull homeowner data in your service area — filtering by roof age, recent hail or wind events, and property type so every dial is on-target.</div>
+          <div class="step__t">Data and Compliance</div>
+          <div class="step__d">We register your phone numbers for SMS outreach so you never get blocked or flagged. Then we pull a targeted list of homeowners in your service area: older roofs, post-storm zip codes, properties without recent permit activity. You start with a list that is already pre-filtered for intent.</div>
         </div>
       </div>
       <div class="step">
         <div class="step__num">2</div>
         <div class="step__body">
-          <div class="step__t">Our callers make contact</div>
-          <div class="step__d">Native English speakers have natural conversations — not scripts. They introduce a free roof inspection and gauge real interest.</div>
+          <div class="step__t">The Outreach Engine</div>
+          <div class="step__d">We set up and launch your SMS campaign to the homeowner list. Replies flow directly into your system, not a lead gen company's inbox. No middleman. No markup. Your homeowners, your conversations, your pipeline.</div>
         </div>
       </div>
       <div class="step">
         <div class="step__num">3</div>
         <div class="step__body">
-          <div class="step__t">We qualify before it reaches you</div>
-          <div class="step__d">We confirm the homeowner is the decision-maker, they're aware of the call, and they genuinely want a roofing contractor to follow up. No tire-kickers.</div>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step__num">4</div>
-        <div class="step__body">
-          <div class="step__t">Lead is delivered to your CRM</div>
-          <div class="step__d">You get name, number, address, roof notes, and availability window — everything your sales team needs to book the inspection.</div>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step__num">5</div>
-        <div class="step__body">
-          <div class="step__t">You close the job</div>
-          <div class="step__d">Run your standard inspection-to-contract process. We handle the top of funnel; you own the relationship from first visit forward.</div>
+          <div class="step__t">Your Trained Assistant</div>
+          <div class="step__d">We place a trained overseas assistant in your business to manage every reply. They handle the back-and-forth, screen out unqualified responses, and only get you on the phone when a homeowner is ready to book an estimate. You stay in the field. The pipeline keeps moving.</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PROOF -->
+<!-- ECONOMICS -->
 <section class="section">
   <div class="wrap">
-    <p class="eyebrow">Real Wins</p>
-    <h2 class="h2">What roofers report after their first 30 days</h2>
+    <p class="eyebrow">Run the Numbers</p>
+    <h2 class="h2">The math that should make you switch today</h2>
+    <p class="lead">Same homeowners. Same conversations. The only difference is who owns the system generating them.</p>
 
-    <div class="proof-grid">
-      <div class="card">
-        <div class="card__result">$28,400 job</div>
-        <div class="card__quote">
-          <strong>First full replacement from a cold lead in week two.</strong> Homeowner didn't even know his roof was at end-of-life until the call. By the time I arrived, he was already asking about colors.
-        </div>
-        <div class="card__meta">
-          <div class="card__av">MR</div>
+    <div class="compare">
+      <div class="compare__col compare__col--old">
+        <div class="compare__label">The Old Way</div>
+        <div class="compare__rows">
           <div>
-            <div class="card__name">Marcus R.</div>
-            <div class="card__co">Ridge Pro Roofing · Dallas, TX</div>
+            <div class="compare__row-lbl">Cost per lead</div>
+            <div class="compare__row-val">$100 to $200</div>
+          </div>
+          <div>
+            <div class="compare__row-lbl">Who controls volume</div>
+            <div class="compare__row-val">The lead gen company</div>
+          </div>
+          <div>
+            <div class="compare__row-lbl">What you own</div>
+            <div class="compare__row-val">Nothing. Cancel and it's gone.</div>
+          </div>
+          <div>
+            <div class="compare__row-lbl">Ongoing cost</div>
+            <div class="compare__row-val">Every month, forever</div>
+          </div>
+          <div>
+            <div class="compare__row-lbl">Lead quality control</div>
+            <div class="compare__row-val">None. You take what they send.</div>
           </div>
         </div>
       </div>
-
-      <div class="card">
-        <div class="card__result">11 leads, week 1</div>
-        <div class="card__quote">
-          I was skeptical about cold call leads. These were <strong>warmer than most of my referrals</strong> — homeowner already knew why I was calling and had questions ready.
-        </div>
-        <div class="card__meta">
-          <div class="card__av">SH</div>
+      <div class="compare__col compare__col--new">
+        <div class="compare__label">Your Internal System</div>
+        <div class="compare__rows">
           <div>
-            <div class="card__name">Stephanie H.</div>
-            <div class="card__co">Summit Shield Roofing · Denver, CO</div>
+            <div class="compare__row-lbl">Cost per lead</div>
+            <div class="compare__row-val">$10 to $20</div>
           </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card__result">4 contracts in 3 weeks</div>
-        <div class="card__quote">
-          <strong>Storm season is unpredictable.</strong> This fills the gap. We ran the program during a quiet stretch and closed four jobs — two insurance claims, two cash replacements.
-        </div>
-        <div class="card__meta">
-          <div class="card__av">JD</div>
           <div>
-            <div class="card__name">James D.</div>
-            <div class="card__co">Keystone Exterior · Columbus, OH</div>
+            <div class="compare__row-lbl">Who controls volume</div>
+            <div class="compare__row-val">You</div>
           </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card__result">$0 wasted</div>
-        <div class="card__quote">
-          I turned off an $1,800/mo lead service and switched to this. <strong>Same volume, half the price</strong>, and I can pause any week without penalty. Should've done it sooner.
-        </div>
-        <div class="card__meta">
-          <div class="card__av">TW</div>
           <div>
-            <div class="card__name">Troy W.</div>
-            <div class="card__co">True North Roofing · Minneapolis, MN</div>
+            <div class="compare__row-lbl">What you own</div>
+            <div class="compare__row-val">The entire system and the data</div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- QUALIFIER -->
-<section class="section section--alt">
-  <div class="wrap">
-    <p class="eyebrow">What You're Getting</p>
-    <h2 class="h2">Every lead has been through four filters before it reaches you</h2>
-
-    <div class="qual-grid">
-      <div class="qual-item">
-        <div class="qual-item__dot"></div>
-        <div>
-          <div class="qual-item__t">Homeowner confirmed</div>
-          <div class="qual-item__d">Renter calls are screened out. You talk to the person who can sign the contract.</div>
-        </div>
-      </div>
-      <div class="qual-item">
-        <div class="qual-item__dot"></div>
-        <div>
-          <div class="qual-item__t">Roof age or damage flagged</div>
-          <div class="qual-item__d">Homes with roofs under 8 years old and no storm history are excluded from the list.</div>
-        </div>
-      </div>
-      <div class="qual-item">
-        <div class="qual-item__dot"></div>
-        <div>
-          <div class="qual-item__t">Expressed interest in a quote</div>
-          <div class="qual-item__d">The homeowner verbally agreed to have a roofer come out. Not just "maybe." An actual yes.</div>
-        </div>
-      </div>
-      <div class="qual-item">
-        <div class="qual-item__dot"></div>
-        <div>
-          <div class="qual-item__t">In your service area</div>
-          <div class="qual-item__d">Every lead is within the zip codes you give us. No hour-long drives for a 15-minute inspection.</div>
-        </div>
-      </div>
-      <div class="qual-item">
-        <div class="qual-item__dot"></div>
-        <div>
-          <div class="qual-item__t">Not recently contacted</div>
-          <div class="qual-item__d">We suppress homeowners who've already been pitched in the last 60 days to protect call quality.</div>
-        </div>
-      </div>
-      <div class="qual-item">
-        <div class="qual-item__dot"></div>
-        <div>
-          <div class="qual-item__t">Contact info verified</div>
-          <div class="qual-item__d">Dead numbers and disconnected lines are never delivered. You get a working number with every lead.</div>
+          <div>
+            <div class="compare__row-lbl">Ongoing cost</div>
+            <div class="compare__row-val">Your assistant and SMS platform only</div>
+          </div>
+          <div>
+            <div class="compare__row-lbl">Lead quality control</div>
+            <div class="compare__row-val">Your assistant filters every reply</div>
+          </div>
         </div>
       </div>
     </div>
@@ -668,15 +632,15 @@ a{color:inherit;text-decoration:none}
 <section class="section" id="schedule">
   <div class="wrap">
     <div class="cta-block">
-      <h2 class="cta-block__hl">Ready for a consistent pipeline<br>that doesn't cost you monthly?</h2>
-      <p class="cta-block__body">Schedule a 15-minute call. We'll confirm your service area, walk through pricing, and get your first batch of leads moving.</p>
+      <h2 class="cta-block__hl">You are one system away from never buying a lead again</h2>
+      <p class="cta-block__body">Every week you spend paying $150 per lead is another week funding a company running a system you could own yourself. Book a free strategy call. We will walk you through the full build, what it costs, and how fast you can have leads flowing.</p>
       <div class="cta-block__items">
-        <span class="cta-check">No retainer</span>
-        <span class="cta-check">Pause any week</span>
-        <span class="cta-check">Pay per lead only</span>
-        <span class="cta-check">Results in week one</span>
+        <span class="cta-check">Done for you</span>
+        <span class="cta-check">No tech experience needed</span>
+        <span class="cta-check">No monthly contract</span>
+        <span class="cta-check">Leads within weeks</span>
       </div>
-      <button onclick="openCalModal()" class="btn btn--lg">Schedule a Call &rarr;</button>
+      <button onclick="openCalModal()" class="btn btn--lg">Book a Free Strategy Call &rarr;</button>
     </div>
   </div>
 </section>
@@ -724,6 +688,6 @@ a{color:inherit;text-decoration:none}
 <!-- FOOTER -->
 <footer class="footer">
   <div class="wrap">
-    <p class="footer__txt">&copy; 2026 No Accent Callers &nbsp;·&nbsp; Pay-Per-Lead Outbound for Roofing Contractors &nbsp;·&nbsp; team@noaccentcallers.com</p>
+    <p class="footer__txt">&copy; 2026 No Accent Callers &nbsp;·&nbsp; Internal Lead Systems for Roofing Contractors &nbsp;·&nbsp; team@noaccentcallers.com</p>
   </div>
 </footer>
