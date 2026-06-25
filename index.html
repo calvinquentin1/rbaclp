@@ -314,8 +314,46 @@ a{color:inherit;text-decoration:none}
   .section{padding:52px 0}
 }
 
+@media(max-width:580px){
+  .modal__box{width:95vw;height:85vh;padding:0}
+  .modal__close{top:8px;right:10px}
+}
+
 @media(prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}
+}
+
+/* ── MODAL ── */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,.75);
+  align-items:center;justify-content:center;
+  padding:16px;
+}
+.modal-overlay.open{display:flex}
+.modal__box{
+  position:relative;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  width:min(780px,100%);
+  height:min(680px,90vh);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.modal__close{
+  position:absolute;top:12px;right:14px;z-index:10;
+  background:var(--surface-hi);border:1px solid var(--border);
+  color:var(--text-2);border-radius:var(--r);
+  width:32px;height:32px;font-size:18px;line-height:1;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background .15s,color .15s;
+}
+.modal__close:hover{background:var(--border);color:var(--text)}
+.modal__close:focus-visible{outline:2px solid var(--accent-lit);outline-offset:2px}
+.modal__iframe{
+  flex:1;border:none;width:100%;height:100%;
+  background:var(--bg);
 }
 </style>
 
@@ -341,7 +379,7 @@ a{color:inherit;text-decoration:none}
     <p class="hero__sub">
       We cold call homeowners in your service area, qualify their roofing need, and hand you a live conversation — or a CRM-ready lead. <strong>You close, we dial.</strong>
     </p>
-    <a href="#schedule" class="btn btn--lg">Schedule a Call &rarr;</a>
+    <button onclick="openCalModal()" class="btn btn--lg">Schedule a Call &rarr;</button>
     <p class="hero__note">No obligation · 15-minute intro call</p>
   </div>
 </section>
@@ -573,10 +611,48 @@ a{color:inherit;text-decoration:none}
         <span class="cta-check">Pay per lead only</span>
         <span class="cta-check">Results in week one</span>
       </div>
-      <a href="https://calendly.com/noaccentcallers" class="btn btn--lg">Schedule a Call &rarr;</a>
+      <button onclick="openCalModal()" class="btn btn--lg">Schedule a Call &rarr;</button>
     </div>
   </div>
 </section>
+
+<!-- CALENDAR MODAL -->
+<div class="modal-overlay" id="calModal" role="dialog" aria-modal="true" aria-label="Schedule a Call">
+  <div class="modal__box">
+    <button class="modal__close" onclick="closeCalModal()" aria-label="Close">&times;</button>
+    <iframe
+      class="modal__iframe"
+      id="calFrame"
+      src=""
+      title="Schedule a Call"
+      loading="lazy"
+    ></iframe>
+  </div>
+</div>
+
+<script>
+  var CAL_URL = "https://calendly.com/noaccentcallers";
+
+  function openCalModal() {
+    var frame = document.getElementById("calFrame");
+    if (!frame.src || frame.src === window.location.href) frame.src = CAL_URL;
+    document.getElementById("calModal").classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeCalModal() {
+    document.getElementById("calModal").classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
+  document.getElementById("calModal").addEventListener("click", function(e) {
+    if (e.target === this) closeCalModal();
+  });
+
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") closeCalModal();
+  });
+</script>
 
 <!-- FOOTER -->
 <footer class="footer">
