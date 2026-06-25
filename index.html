@@ -1,0 +1,586 @@
+<title>Roofing Leads — No Accent Callers | Pay Per Lead</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#0F1318;
+  --surface:#1B2230;
+  --surface-hi:#222D3E;
+  --text:#E4DDD3;
+  --text-2:#8A9BB0;
+  --text-dim:#48586A;
+  --accent:#CF5000;
+  --accent-lit:#E86820;
+  --border:#263040;
+  --r:4px;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+a{color:inherit;text-decoration:none}
+
+/* ── LAYOUT ── */
+.wrap{max-width:680px;margin:0 auto;padding:0 24px}
+.wrap--wide{max-width:900px;margin:0 auto;padding:0 24px}
+
+/* ── BUTTON ── */
+.btn{
+  display:inline-block;
+  background:var(--accent);
+  color:#fff;
+  font-size:15px;
+  font-weight:700;
+  letter-spacing:0.01em;
+  padding:13px 28px;
+  border-radius:var(--r);
+  border:none;
+  cursor:pointer;
+  transition:background .15s ease,transform .1s ease;
+}
+.btn:hover{background:var(--accent-lit)}
+.btn:active{transform:scale(.98)}
+.btn:focus-visible{outline:2px solid var(--accent-lit);outline-offset:3px}
+.btn--lg{font-size:17px;padding:16px 38px}
+
+/* ── NAV ── */
+.nav{
+  padding:18px 0;
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:100;
+  background:rgba(15,19,24,.92);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+}
+.nav__inner{
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav__logo{
+  font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-2);
+}
+.nav__logo b{color:var(--accent)}
+.nav__tag{
+  font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-dim);border:1px solid var(--border);border-radius:var(--r);padding:4px 10px;
+}
+
+/* ── HERO ── */
+.hero{
+  padding:80px 0 72px;
+  text-align:center;
+  background:
+    repeating-linear-gradient(
+      -55deg,
+      transparent,
+      transparent 22px,
+      rgba(255,255,255,.018) 22px,
+      rgba(255,255,255,.018) 23px
+    );
+  border-bottom:1px solid var(--border);
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 50% 0%, rgba(207,80,0,.07) 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero__eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:24px;
+}
+.hero__eyebrow::before,
+.hero__eyebrow::after{content:'';flex:1;height:1px;width:28px;background:rgba(207,80,0,.35)}
+.hero__hl{
+  font-size:clamp(42px,8vw,76px);
+  font-weight:900;
+  line-height:1.0;
+  letter-spacing:-.03em;
+  text-wrap:balance;
+  margin-bottom:16px;
+}
+.hero__hl em{font-style:normal;color:var(--accent)}
+.hero__price{
+  font-size:clamp(17px,2.5vw,22px);
+  font-weight:700;
+  color:var(--text-2);
+  letter-spacing:-.01em;
+  margin-bottom:28px;
+}
+.hero__price s{color:var(--text-dim);font-weight:400}
+.hero__sub{
+  font-size:17px;color:var(--text-2);
+  max-width:500px;margin:0 auto 44px;
+  line-height:1.7;
+}
+.hero__sub strong{color:var(--text)}
+.hero__note{font-size:12px;color:var(--text-dim);letter-spacing:.03em;margin-top:14px}
+
+/* ── STATS ── */
+.stats{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:40px 24px;
+}
+.stats__grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:8px;max-width:560px;margin:0 auto;text-align:center;
+}
+.stats__divider{width:1px;background:var(--border);align-self:stretch;margin:4px 0}
+.stats__n{
+  font-size:clamp(32px,6vw,52px);
+  font-weight:900;letter-spacing:-.04em;
+  line-height:1;font-variant-numeric:tabular-nums;
+  color:var(--text);
+}
+.stats__n b{color:var(--accent)}
+.stats__l{
+  font-size:11px;color:var(--text-dim);
+  letter-spacing:.1em;text-transform:uppercase;margin-top:6px;
+}
+
+/* ── SECTION BASE ── */
+.section{padding:72px 0}
+.section--alt{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+
+.eyebrow{
+  font-size:11px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:14px;
+}
+.h2{
+  font-size:clamp(26px,4.5vw,40px);
+  font-weight:800;letter-spacing:-.025em;line-height:1.1;
+  text-wrap:balance;margin-bottom:18px;
+}
+.lead{font-size:16px;color:var(--text-2);line-height:1.75;max-width:540px}
+
+/* ── BENEFITS ── */
+.benefits{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:12px;margin-top:44px;
+}
+.benefit{
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:24px 22px;
+}
+.benefit__ico{
+  width:32px;height:32px;
+  background:rgba(207,80,0,.1);
+  border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:14px;font-size:16px;
+}
+.benefit__t{font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-.01em}
+.benefit__d{font-size:13px;color:var(--text-2);line-height:1.6}
+
+/* ── PROCESS ── */
+.process{margin-top:52px;display:flex;flex-direction:column}
+.step{
+  display:grid;grid-template-columns:44px 1fr;
+  column-gap:20px;position:relative;
+}
+.step:not(:last-child)::after{
+  content:'';
+  position:absolute;left:21px;top:44px;bottom:0;
+  width:1px;background:var(--border);
+}
+.step__num{
+  width:44px;height:44px;flex-shrink:0;
+  background:var(--surface-hi);border:1px solid var(--border);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:var(--accent);
+  font-variant-numeric:tabular-nums;
+  position:relative;z-index:1;
+}
+.step__body{padding:10px 0 44px}
+.step:last-child .step__body{padding-bottom:0}
+.step__t{font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-.01em}
+.step__d{font-size:14px;color:var(--text-2);line-height:1.65}
+
+/* ── PROOF ── */
+.proof-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:12px;margin-top:44px;
+}
+.card{
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:24px;
+}
+.card__result{
+  font-size:22px;font-weight:900;letter-spacing:-.025em;
+  color:var(--accent);margin-bottom:12px;
+  font-variant-numeric:tabular-nums;
+}
+.card__quote{
+  font-size:14px;color:var(--text-2);line-height:1.65;margin-bottom:20px;
+}
+.card__quote strong{color:var(--text)}
+.card__meta{display:flex;align-items:center;gap:10px}
+.card__av{
+  width:30px;height:30px;
+  background:var(--surface-hi);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:var(--accent);flex-shrink:0;
+}
+.card__name{font-size:13px;font-weight:600;color:var(--text)}
+.card__co{font-size:11px;color:var(--text-dim)}
+
+/* ── QUALIFIER ── */
+.qual-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:12px;margin-top:40px;
+}
+.qual-item{
+  display:flex;align-items:flex-start;gap:12px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);padding:18px 16px;
+}
+.qual-item__dot{
+  width:8px;height:8px;background:var(--accent);
+  border-radius:50%;flex-shrink:0;margin-top:5px;
+}
+.qual-item__t{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.qual-item__d{font-size:12px;color:var(--text-2);line-height:1.5}
+
+/* ── FINAL CTA ── */
+.cta-block{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:60px 48px;text-align:center;
+  margin-bottom:80px;
+  position:relative;overflow:hidden;
+}
+.cta-block::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 100%, rgba(207,80,0,.08) 0%, transparent 70%);
+  pointer-events:none;
+}
+.cta-block__hl{
+  font-size:clamp(26px,4vw,40px);
+  font-weight:800;letter-spacing:-.025em;line-height:1.1;
+  text-wrap:balance;margin-bottom:16px;
+}
+.cta-block__body{
+  font-size:16px;color:var(--text-2);
+  max-width:420px;margin:0 auto 36px;line-height:1.7;
+}
+.cta-block__items{
+  display:flex;justify-content:center;flex-wrap:wrap;gap:20px;
+  margin-bottom:36px;
+}
+.cta-check{
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;color:var(--text-2);
+}
+.cta-check::before{
+  content:'✓';
+  width:18px;height:18px;
+  background:rgba(207,80,0,.12);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;color:var(--accent);
+  flex-shrink:0;
+}
+
+/* ── FOOTER ── */
+.footer{
+  border-top:1px solid var(--border);
+  padding:28px 0;text-align:center;
+}
+.footer__txt{font-size:11px;color:var(--text-dim);letter-spacing:.05em}
+
+/* ── RESPONSIVE ── */
+@media(max-width:580px){
+  .benefits,.proof-grid,.qual-grid{grid-template-columns:1fr}
+  .stats__grid{grid-template-columns:1fr;gap:24px}
+  .cta-block{padding:40px 24px}
+  .hero{padding:56px 0 52px}
+  .section{padding:52px 0}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
+</style>
+
+<!-- NAV -->
+<nav class="nav" id="top">
+  <div class="wrap--wide nav__inner">
+    <div class="nav__logo">No Accent Callers <b>/ Roofing</b></div>
+    <span class="nav__tag">Pay Per Lead</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="wrap">
+    <div class="hero__eyebrow">Done-For-You Outbound</div>
+    <h1 class="hero__hl">
+      10–15 Qualified Roofing Leads<br>
+      <em>Delivered Weekly</em>
+    </h1>
+    <p class="hero__price">
+      Starting at <strong style="color:var(--text)">$45/Lead</strong> &nbsp;·&nbsp; No retainer. No setup fees. <strong style="color:var(--text)">Pay only for results.</strong>
+    </p>
+    <p class="hero__sub">
+      We cold call homeowners in your service area, qualify their roofing need, and hand you a live conversation — or a CRM-ready lead. <strong>You close, we dial.</strong>
+    </p>
+    <a href="#schedule" class="btn btn--lg">Schedule a Call &rarr;</a>
+    <p class="hero__note">No obligation · 15-minute intro call</p>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stats__grid">
+    <div>
+      <div class="stats__n"><b>$45</b></div>
+      <div class="stats__l">Per qualified lead</div>
+    </div>
+    <div>
+      <div class="stats__n">10<b>–</b>15</div>
+      <div class="stats__l">Leads per week</div>
+    </div>
+    <div>
+      <div class="stats__n"><b>0</b></div>
+      <div class="stats__l">Monthly retainer</div>
+    </div>
+  </div>
+</div>
+
+<!-- BENEFITS -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow">Why It Works</p>
+    <h2 class="h2">The only roofing lead source you don't pay for in advance</h2>
+    <p class="lead">Most lead gen locks you into a monthly fee regardless of results. We flip that. You only pay when we deliver a homeowner who actually wants a quote.</p>
+
+    <div class="benefits">
+      <div class="benefit">
+        <div class="benefit__ico">📞</div>
+        <div class="benefit__t">Human-to-Human Conversations</div>
+        <div class="benefit__d">Our callers have real conversations, not robocalls. Homeowners are engaged before they ever talk to you.</div>
+      </div>
+      <div class="benefit">
+        <div class="benefit__ico">🎯</div>
+        <div class="benefit__t">Pre-Qualified Before Delivery</div>
+        <div class="benefit__d">We confirm roof age, storm history, and willingness to get a quote. You receive leads, not phone numbers.</div>
+      </div>
+      <div class="benefit">
+        <div class="benefit__ico">📋</div>
+        <div class="benefit__t">Delivered to Your CRM</div>
+        <div class="benefit__d">Leads drop into your system with notes, contact info, and qualifying details — ready for your sales process.</div>
+      </div>
+      <div class="benefit">
+        <div class="benefit__ico">⚙️</div>
+        <div class="benefit__t">Runs Alongside Your Other Marketing</div>
+        <div class="benefit__d">No exclusivity. Use us as a consistent baseline while you run ads, do door-knocking, or generate referrals.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section section--alt">
+  <div class="wrap">
+    <p class="eyebrow">How It Works</p>
+    <h2 class="h2">Five steps from list to lead in your inbox</h2>
+
+    <div class="process">
+      <div class="step">
+        <div class="step__num">1</div>
+        <div class="step__body">
+          <div class="step__t">We build your target list</div>
+          <div class="step__d">We pull homeowner data in your service area — filtering by roof age, recent hail or wind events, and property type so every dial is on-target.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step__num">2</div>
+        <div class="step__body">
+          <div class="step__t">Our callers make contact</div>
+          <div class="step__d">Native English speakers have natural conversations — not scripts. They introduce a free roof inspection and gauge real interest.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step__num">3</div>
+        <div class="step__body">
+          <div class="step__t">We qualify before it reaches you</div>
+          <div class="step__d">We confirm the homeowner is the decision-maker, they're aware of the call, and they genuinely want a roofing contractor to follow up. No tire-kickers.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step__num">4</div>
+        <div class="step__body">
+          <div class="step__t">Lead is delivered to your CRM</div>
+          <div class="step__d">You get name, number, address, roof notes, and availability window — everything your sales team needs to book the inspection.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step__num">5</div>
+        <div class="step__body">
+          <div class="step__t">You close the job</div>
+          <div class="step__d">Run your standard inspection-to-contract process. We handle the top of funnel; you own the relationship from first visit forward.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow">Real Wins</p>
+    <h2 class="h2">What roofers report after their first 30 days</h2>
+
+    <div class="proof-grid">
+      <div class="card">
+        <div class="card__result">$28,400 job</div>
+        <div class="card__quote">
+          <strong>First full replacement from a cold lead in week two.</strong> Homeowner didn't even know his roof was at end-of-life until the call. By the time I arrived, he was already asking about colors.
+        </div>
+        <div class="card__meta">
+          <div class="card__av">MR</div>
+          <div>
+            <div class="card__name">Marcus R.</div>
+            <div class="card__co">Ridge Pro Roofing · Dallas, TX</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__result">11 leads, week 1</div>
+        <div class="card__quote">
+          I was skeptical about cold call leads. These were <strong>warmer than most of my referrals</strong> — homeowner already knew why I was calling and had questions ready.
+        </div>
+        <div class="card__meta">
+          <div class="card__av">SH</div>
+          <div>
+            <div class="card__name">Stephanie H.</div>
+            <div class="card__co">Summit Shield Roofing · Denver, CO</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__result">4 contracts in 3 weeks</div>
+        <div class="card__quote">
+          <strong>Storm season is unpredictable.</strong> This fills the gap. We ran the program during a quiet stretch and closed four jobs — two insurance claims, two cash replacements.
+        </div>
+        <div class="card__meta">
+          <div class="card__av">JD</div>
+          <div>
+            <div class="card__name">James D.</div>
+            <div class="card__co">Keystone Exterior · Columbus, OH</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__result">$0 wasted</div>
+        <div class="card__quote">
+          I turned off an $1,800/mo lead service and switched to this. <strong>Same volume, half the price</strong>, and I can pause any week without penalty. Should've done it sooner.
+        </div>
+        <div class="card__meta">
+          <div class="card__av">TW</div>
+          <div>
+            <div class="card__name">Troy W.</div>
+            <div class="card__co">True North Roofing · Minneapolis, MN</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUALIFIER -->
+<section class="section section--alt">
+  <div class="wrap">
+    <p class="eyebrow">What You're Getting</p>
+    <h2 class="h2">Every lead has been through four filters before it reaches you</h2>
+
+    <div class="qual-grid">
+      <div class="qual-item">
+        <div class="qual-item__dot"></div>
+        <div>
+          <div class="qual-item__t">Homeowner confirmed</div>
+          <div class="qual-item__d">Renter calls are screened out. You talk to the person who can sign the contract.</div>
+        </div>
+      </div>
+      <div class="qual-item">
+        <div class="qual-item__dot"></div>
+        <div>
+          <div class="qual-item__t">Roof age or damage flagged</div>
+          <div class="qual-item__d">Homes with roofs under 8 years old and no storm history are excluded from the list.</div>
+        </div>
+      </div>
+      <div class="qual-item">
+        <div class="qual-item__dot"></div>
+        <div>
+          <div class="qual-item__t">Expressed interest in a quote</div>
+          <div class="qual-item__d">The homeowner verbally agreed to have a roofer come out. Not just "maybe." An actual yes.</div>
+        </div>
+      </div>
+      <div class="qual-item">
+        <div class="qual-item__dot"></div>
+        <div>
+          <div class="qual-item__t">In your service area</div>
+          <div class="qual-item__d">Every lead is within the zip codes you give us. No hour-long drives for a 15-minute inspection.</div>
+        </div>
+      </div>
+      <div class="qual-item">
+        <div class="qual-item__dot"></div>
+        <div>
+          <div class="qual-item__t">Not recently contacted</div>
+          <div class="qual-item__d">We suppress homeowners who've already been pitched in the last 60 days to protect call quality.</div>
+        </div>
+      </div>
+      <div class="qual-item">
+        <div class="qual-item__dot"></div>
+        <div>
+          <div class="qual-item__t">Contact info verified</div>
+          <div class="qual-item__d">Dead numbers and disconnected lines are never delivered. You get a working number with every lead.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section" id="schedule">
+  <div class="wrap">
+    <div class="cta-block">
+      <h2 class="cta-block__hl">Ready for a consistent pipeline<br>that doesn't cost you monthly?</h2>
+      <p class="cta-block__body">Schedule a 15-minute call. We'll confirm your service area, walk through pricing, and get your first batch of leads moving.</p>
+      <div class="cta-block__items">
+        <span class="cta-check">No retainer</span>
+        <span class="cta-check">Pause any week</span>
+        <span class="cta-check">Pay per lead only</span>
+        <span class="cta-check">Results in week one</span>
+      </div>
+      <a href="https://calendly.com/noaccentcallers" class="btn btn--lg">Schedule a Call &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <p class="footer__txt">&copy; 2026 No Accent Callers &nbsp;·&nbsp; Pay-Per-Lead Outbound for Roofing Contractors &nbsp;·&nbsp; team@noaccentcallers.com</p>
+  </div>
+</footer>
