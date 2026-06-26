@@ -1,0 +1,199 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Call Is Booked</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#0F1318;
+  --surface:#1B2230;
+  --surface-hi:#222D3E;
+  --text:#E4DDD3;
+  --text-2:#8A9BB0;
+  --text-dim:#48586A;
+  --accent:#CF5000;
+  --accent-lit:#E86820;
+  --border:#263040;
+  --r:4px;
+}
+
+html,body{
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+
+body{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:40px 24px;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(207,80,0,.06) 0%, transparent 60%),
+    var(--bg);
+}
+
+.card{
+  width:100%;
+  max-width:520px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:52px 44px;
+  text-align:center;
+}
+
+/* Check icon */
+.check{
+  width:64px;height:64px;
+  background:rgba(207,80,0,.1);
+  border:2px solid rgba(207,80,0,.3);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 28px;
+}
+.check svg{
+  width:28px;height:28px;
+  stroke:var(--accent);
+  stroke-width:2.5;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  fill:none;
+}
+
+.eyebrow{
+  font-size:11px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:14px;
+}
+
+.headline{
+  font-size:clamp(26px,5vw,38px);
+  font-weight:900;
+  letter-spacing:-.025em;
+  line-height:1.1;
+  text-wrap:balance;
+  margin-bottom:14px;
+}
+
+.subline{
+  font-size:16px;
+  color:var(--text-2);
+  line-height:1.65;
+  margin-bottom:36px;
+}
+
+.divider{
+  height:1px;
+  background:var(--border);
+  margin-bottom:32px;
+}
+
+/* Steps */
+.steps{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  text-align:left;
+  margin-bottom:36px;
+}
+
+.step{
+  display:grid;
+  grid-template-columns:32px 1fr;
+  gap:14px;
+  align-items:flex-start;
+}
+
+.step__num{
+  width:32px;height:32px;
+  background:var(--surface-hi);
+  border:1px solid var(--border);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;
+  color:var(--accent);
+  flex-shrink:0;
+}
+
+.step__t{
+  font-size:14px;font-weight:700;
+  color:var(--text);
+  margin-bottom:3px;
+  letter-spacing:-.01em;
+}
+
+.step__d{
+  font-size:13px;
+  color:var(--text-2);
+  line-height:1.55;
+}
+
+.note{
+  font-size:12px;
+  color:var(--text-dim);
+  line-height:1.6;
+}
+
+.footer{
+  margin-top:32px;
+  font-size:11px;
+  color:var(--text-dim);
+  letter-spacing:.04em;
+  text-align:center;
+}
+
+@media(max-width:560px){
+  .card{padding:36px 24px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
+</style>
+
+<div class="card">
+  <div class="check">
+    <svg viewBox="0 0 24 24">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+  </div>
+
+  <p class="eyebrow">Booking Confirmed</p>
+  <h1 class="headline">Your call is booked.</h1>
+  <p class="subline">
+    A confirmation has been sent to your email with the date, time, and call-in details. Check your inbox now and add it to your calendar.
+  </p>
+
+  <div class="divider"></div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step__num">1</div>
+      <div>
+        <div class="step__t">Check your email</div>
+        <div class="step__d">Your confirmation and calendar invite are on their way. Check your spam folder if you do not see it within a few minutes.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step__num">2</div>
+      <div>
+        <div class="step__t">Accept the calendar invite</div>
+        <div class="step__d">Click accept so the call is locked into your schedule. We will send a reminder the day before.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step__num">3</div>
+      <div>
+        <div class="step__t">Show up ready to move fast</div>
+        <div class="step__d">We will walk through your service area, your current lead cost, and exactly what the build looks like for your business. The call is 20 minutes.</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="note">Questions before the call? Reach us at team@noaccentcallers.com</p>
+</div>
+
+<p class="footer">&copy; 2026 Internal Lead Systems for Roofing Contractors</p>
