@@ -439,6 +439,29 @@ a{color:inherit;text-decoration:none}
   .compare__col{padding:22px 18px}
   .compare__row-val{font-size:14px}
 }
+
+/* ── AD MOCKUPS ── */
+.ad-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:32px 0 28px}
+.ad-mock{border-radius:3px;overflow:hidden;text-align:center}
+.ad-mock--a{background:#0a1f7a;border:3px solid #c0000a}
+.ad-mock--a .am-header{background:#c0000a;color:#fff;font-size:11px;font-weight:900;padding:7px 8px;letter-spacing:.06em;text-transform:uppercase}
+.ad-mock--a .am-price{font-size:clamp(34px,5vw,52px);font-weight:900;color:#fff;padding:10px 0 0;line-height:1}
+.ad-mock--a .am-sub{font-size:11px;font-weight:900;color:#fff;padding:2px 8px 10px;letter-spacing:.04em;text-transform:uppercase}
+.ad-mock--a .am-list{background:#c0000a;list-style:none;text-align:left;padding:8px 12px;font-size:10px;font-weight:800;color:#fff;letter-spacing:.05em;text-transform:uppercase}
+.ad-mock--a .am-list li{padding:2px 0}
+.ad-mock--a .am-list li::before{content:'• '}
+.ad-mock--b,.ad-mock--c{background:#0c1a3d;border:2px solid #1e2d5a}
+.ad-mock--b .am-eyebrow,.ad-mock--c .am-eyebrow{color:#e03030;font-size:14px;font-weight:900;padding:14px 8px 3px;letter-spacing:.1em;text-transform:uppercase}
+.ad-mock--b .am-tag,.ad-mock--c .am-tag{font-size:10px;color:#99aacc;padding:0 8px 6px}
+.ad-mock--b .am-price,.ad-mock--c .am-price{font-size:clamp(34px,5vw,52px);font-weight:900;color:#fff;line-height:1;padding:4px 0 0}
+.ad-mock--b .am-sub,.ad-mock--c .am-sub{font-size:12px;color:#99aacc;padding:0 0 6px}
+.ad-mock--b .am-caption,.ad-mock--c .am-caption{font-size:9px;font-weight:800;color:#fff;text-transform:uppercase;background:#1a2d6e;padding:8px;letter-spacing:.06em}
+.callout{background:rgba(207,80,0,.07);border-left:3px solid var(--accent);border-radius:0 var(--r) var(--r) 0;padding:20px 24px;font-size:15px;color:var(--text-2);line-height:1.75}
+.callout strong{color:var(--accent)}
+@media(max-width:640px){
+  .ad-grid{grid-template-columns:1fr;gap:10px}
+  .callout{font-size:14px;padding:16px 18px}
+}
 </style>
 
 <!-- HERO -->
@@ -469,6 +492,47 @@ a{color:inherit;text-decoration:none}
     </div>
   </div>
 </div>
+
+<!-- EXPOSE -->
+<section class="section section--alt">
+  <div class="wrap">
+    <p class="eyebrow">What They Are Selling You</p>
+    <h2 class="h2">You have probably seen these all over the internet.</h2>
+    <p class="lead">These are the ads HVAC lead vendors run. $75 a lead. $175 a lead. $300 per appointment. Here is what they are actually doing behind the scenes: they are running the exact same SMS outreach system we build for you, marking up the leads 10x, and selling the same homeowner to multiple HVAC contractors at once.</p>
+
+    <div class="ad-grid">
+      <div class="ad-mock ad-mock--a">
+        <div class="am-header">HVAC Company Owners</div>
+        <div class="am-price">$75</div>
+        <div class="am-sub">Per HVAC Lead</div>
+        <ul class="am-list">
+          <li>No Upfront Fees</li>
+          <li>No Ad Spend</li>
+          <li>Exclusive Leads</li>
+          <li>Pay-Per-Lead</li>
+        </ul>
+      </div>
+      <div class="ad-mock ad-mock--b">
+        <div class="am-eyebrow">HVAC Contractors</div>
+        <div class="am-tag">Get Exclusive HVAC Leads For</div>
+        <div class="am-price">$175</div>
+        <div class="am-sub">/lead</div>
+        <div class="am-caption">Exclusive. Qualified. Ready.</div>
+      </div>
+      <div class="ad-mock ad-mock--c">
+        <div class="am-eyebrow">Attention HVAC Pros</div>
+        <div class="am-tag">Booked Appointments for Just</div>
+        <div class="am-price">$300</div>
+        <div class="am-sub">/appt</div>
+        <div class="am-caption">Per Qualified Exclusive Appointment</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      Every one of these vendors is using the same outbound SMS system we build for you. The difference is they keep the leads and charge you $75 to $300 each. We hand you the system so you generate them yourself at <strong>$13 to $25 per lead</strong> and every lead is exclusively yours.
+    </div>
+  </div>
+</section>
 
 <!-- PROBLEM -->
 <section class="section">
