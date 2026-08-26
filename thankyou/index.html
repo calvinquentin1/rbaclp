@@ -1,18 +1,20 @@
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Your Call Is Booked</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 :root{
-  --bg:#0F1318;
-  --surface:#1B2230;
-  --surface-hi:#222D3E;
-  --text:#E4DDD3;
-  --text-2:#8A9BB0;
-  --text-dim:#48586A;
+  --bg:#FFFFFF;
+  --surface:#F8F6F3;
+  --surface-hi:#F1EDE6;
+  --text:#1C1C1C;
+  --text-2:#555555;
+  --text-dim:#8A8A8A;
   --accent:#CF5000;
-  --accent-lit:#E86820;
-  --border:#263040;
+  --accent-ink:#A63F00;
+  --accent-dk:#A63F00;
+  --border:#E9E5DF;
   --r:4px;
 }
 
@@ -49,7 +51,7 @@ body{
 .check{
   width:64px;height:64px;
   background:rgba(207,80,0,.1);
-  border:2px solid rgba(207,80,0,.3);
+  border:2px solid rgba(207,80,0,.35);
   border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   margin:0 auto 28px;
@@ -65,7 +67,7 @@ body{
 
 .eyebrow{
   font-size:11px;font-weight:700;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--accent);
+  text-transform:uppercase;color:var(--accent-ink);
   margin-bottom:14px;
 }
 
@@ -114,7 +116,7 @@ body{
   border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   font-size:12px;font-weight:700;
-  color:var(--accent);
+  color:var(--accent-ink);
   flex-shrink:0;
 }
 
