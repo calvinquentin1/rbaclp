@@ -16,6 +16,7 @@
   --accent-dk:#A63F00;
   --border:#E9E5DF;
   --r:4px;
+  --reserve:340px;   /* space above+below the video in the first screen */
 }
 
 html,body{
@@ -27,7 +28,7 @@ html,body{
 }
 
 body{
-  padding:48px 24px 40px;
+  padding:32px 24px 40px;
   background:
     radial-gradient(ellipse 80% 50% at 50% 0%, rgba(207,80,0,.06) 0%, transparent 60%),
     var(--bg);
@@ -36,18 +37,18 @@ body{
 .wrap{width:100%;max-width:860px;margin:0 auto}
 
 /* ── CONFIRM HEAD ── */
-.head{text-align:center;margin-bottom:36px}
+.head{text-align:center;margin-bottom:22px}
 
 .check{
-  width:56px;height:56px;
+  width:44px;height:44px;
   background:rgba(207,80,0,.1);
   border:2px solid rgba(207,80,0,.35);
   border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  margin:0 auto 22px;
+  margin:0 auto 12px;
 }
 .check svg{
-  width:25px;height:25px;
+  width:20px;height:20px;
   stroke:var(--accent);
   stroke-width:2.5;
   stroke-linecap:round;
@@ -84,8 +85,12 @@ body{
   background:var(--surface);
   border:1px solid var(--border);
   border-radius:8px;
-  padding:14px;
-  margin-bottom:14px;
+  padding:10px;
+  margin:0 auto 12px;
+  /* keep the whole player inside the first screen: cap by viewport
+     height, let width follow the 1.963 aspect ratio */
+  max-width:calc((100vh - var(--reserve)) * 1.963 + 20px);
+  max-width:calc((100dvh - var(--reserve)) * 1.963 + 20px);
 }
 .video__frame{
   position:relative;
@@ -121,12 +126,14 @@ body{
   padding:2px 6px;border-radius:3px;
 }
 
+.subline strong{color:var(--accent-ink);font-weight:800}
+
 .video__cap{
   font-size:12px;
   color:var(--text-dim);
   text-align:center;
   letter-spacing:.03em;
-  margin-bottom:44px;
+  margin-bottom:20px;
 }
 
 /* ── PANELS ── */
@@ -216,7 +223,8 @@ body{
 }
 
 @media(max-width:700px){
-  body{padding:36px 18px 32px}
+  :root{--reserve:300px}
+  body{padding:24px 16px 32px}
   .grid{grid-template-columns:1fr;gap:18px}
   .panel{padding:28px 22px}
   .video{padding:10px}
@@ -236,7 +244,7 @@ body{
     <p class="eyebrow">Booking Confirmed</p>
     <h1 class="headline">Your call is booked. <em>Watch this first.</em></h1>
     <p class="subline">
-      This short walkthrough shows you exactly what the system is and how it gets built, so we can skip the explaining on the call and spend the time on your market.
+      You are about to watch a real client's CRM &mdash; <strong>5,913 texts sent, 43 leads</strong>. It shows what the system is and how it gets built, so we can skip the explaining on the call and spend the time on your market.
     </p>
   </div>
 
@@ -253,6 +261,7 @@ body{
     </div>
   </div>
   <p class="video__cap">3 minutes 52 seconds &nbsp;·&nbsp; Best watched before your call</p>
+
 
   <div class="panel">
     <p class="panel__t">What you are actually getting</p>

@@ -1,0 +1,387 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>See The System Running | Roofing Lead System</title>
+<meta name="description" content="A short walkthrough of the outbound SMS lead system built inside your own CRM.">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#FFFFFF;
+  --surface:#F8F6F3;
+  --surface-hi:#F1EDE6;
+  --text:#1C1C1C;
+  --text-2:#555555;
+  --text-dim:#8A8A8A;
+  --accent:#CF5000;
+  --accent-ink:#A63F00;
+  --accent-dk:#A63F00;
+  --border:#E9E5DF;
+  --r:4px;
+  --reserve:340px;   /* space above+below the video in the first screen */
+}
+
+html,body{
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+
+body{
+  padding:32px 24px 40px;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(207,80,0,.06) 0%, transparent 60%),
+    var(--bg);
+}
+
+a{color:inherit;text-decoration:none}
+.wrap{width:100%;max-width:860px;margin:0 auto}
+
+/* ── BUTTON ── */
+.btn{
+  display:inline-block;
+  background:var(--accent);
+  color:#fff;
+  font-size:15px;font-weight:700;
+  letter-spacing:.01em;
+  padding:13px 28px;
+  border-radius:var(--r);
+  border:none;cursor:pointer;
+  transition:background .15s ease,transform .1s ease;
+}
+.btn:hover{background:var(--accent-dk)}
+.btn:active{transform:scale(.98)}
+.btn:focus-visible{outline:2px solid var(--accent-dk);outline-offset:3px}
+.btn--lg{font-size:17px;padding:16px 38px}
+
+/* ── HEAD ── */
+.head{text-align:center;margin-bottom:22px}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent-ink);
+  margin-bottom:18px;
+}
+.eyebrow::before,.eyebrow::after{
+  content:'';height:1px;width:28px;background:rgba(207,80,0,.45);
+}
+
+.headline{
+  font-size:clamp(30px,6vw,50px);
+  font-weight:900;
+  letter-spacing:-.03em;
+  line-height:1.05;
+  text-wrap:balance;
+  margin-bottom:16px;
+}
+.headline em{font-style:normal;color:var(--accent-ink)}
+
+.subline{
+  font-size:17px;
+  color:var(--text-2);
+  line-height:1.6;
+  max-width:580px;
+  margin:0 auto;
+}
+
+/* ── VIDEO ── */
+.video{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:10px;
+  margin:0 auto 12px;
+  /* keep the whole player inside the first screen: cap by viewport
+     height, let width follow the 1.963 aspect ratio */
+  max-width:calc((100vh - var(--reserve)) * 1.963 + 20px);
+  max-width:calc((100dvh - var(--reserve)) * 1.963 + 20px);
+}
+.video__frame{
+  position:relative;
+  width:100%;
+  aspect-ratio:2120/1080;  /* matches the source video */
+  background:var(--surface-hi);
+  border-radius:5px;
+  overflow:hidden;
+}
+.video__frame iframe,
+.video__frame video{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  border:0;display:block;
+}
+.video__ph{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:10px;text-align:center;padding:24px;
+  color:var(--text-dim);font-size:13px;line-height:1.6;
+}
+.video__ph strong{display:block;font-size:14px;font-weight:700;color:var(--text-2)}
+.video__ph code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:12px;color:var(--accent-ink);
+  background:rgba(207,80,0,.08);
+  padding:2px 6px;border-radius:3px;
+}
+
+.subline strong{color:var(--accent-ink);font-weight:800}
+
+.video__cap{
+  font-size:12px;color:var(--text-dim);
+  text-align:center;letter-spacing:.03em;
+  margin-bottom:20px;
+}
+
+/* ── PANEL ── */
+.panel{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:36px 34px;
+  margin-bottom:28px;
+}
+
+.panel__t{
+  font-size:13px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent-ink);
+  margin-bottom:22px;text-align:center;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:20px 28px;
+}
+
+.item__t{font-size:14px;font-weight:700;letter-spacing:-.01em;margin-bottom:4px}
+.item__d{font-size:13px;color:var(--text-2);line-height:1.55}
+
+/* ── CTA ── */
+.cta{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:44px 34px;
+  text-align:center;
+  margin-bottom:28px;
+}
+.cta__hl{
+  font-size:clamp(22px,4vw,30px);
+  font-weight:900;letter-spacing:-.025em;
+  line-height:1.15;text-wrap:balance;
+  margin-bottom:12px;
+}
+.cta__body{
+  font-size:15px;color:var(--text-2);
+  line-height:1.6;max-width:520px;
+  margin:0 auto 26px;
+}
+.cta__items{
+  display:flex;flex-wrap:wrap;gap:10px 20px;
+  justify-content:center;margin-bottom:28px;
+}
+.cta-check{
+  font-size:12.5px;color:var(--text-2);
+  display:inline-flex;align-items:center;gap:7px;
+}
+.cta-check::before{
+  content:'';width:14px;height:14px;flex-shrink:0;
+  border-radius:50%;
+  background:rgba(207,80,0,.12);
+  border:1px solid rgba(207,80,0,.4);
+}
+
+.note{font-size:12px;color:var(--text-dim);line-height:1.6;text-align:center}
+
+.footer{
+  margin-top:30px;font-size:11px;color:var(--text-dim);
+  letter-spacing:.04em;text-align:center;
+}
+
+/* ── MODAL ── */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,.75);
+  align-items:center;justify-content:center;
+  padding:16px;
+}
+.modal-overlay.open{display:flex}
+.modal__box{
+  position:relative;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  width:min(780px,100%);
+  height:min(680px,90vh);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.modal__close{
+  position:absolute;top:12px;right:14px;z-index:10;
+  background:var(--surface-hi);border:1px solid var(--border);
+  color:var(--text-2);border-radius:var(--r);
+  width:32px;height:32px;font-size:18px;line-height:1;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background .15s,color .15s;
+}
+.modal__close:hover{background:var(--border);color:var(--text)}
+.modal__close:focus-visible{outline:2px solid var(--accent-dk);outline-offset:2px}
+.modal__iframe{
+  flex:1;border:none;width:100%;height:100%;
+  background:var(--bg);
+}
+
+@media(max-width:700px){
+  :root{--reserve:300px}
+  body{padding:24px 16px 32px}
+  .grid{grid-template-columns:1fr;gap:18px}
+  .panel,.cta{padding:28px 22px}
+  .video{padding:10px}
+  .modal-overlay{align-items:flex-end;padding:0}
+  .modal__close{top:10px;right:12px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
+</style>
+
+<div class="wrap">
+
+  <div class="head">
+    <p class="eyebrow">Roofing Lead System</p>
+    <h1 class="headline">See the system <em>actually running</em>.</h1>
+    <p class="subline">
+      A real roofing contractor's CRM, on screen &mdash; <strong>5,913 texts sent, 43 leads</strong>. Here is how the system is built, what it costs to run, and what happens once it is live.
+    </p>
+  </div>
+
+  <!-- ── VIDEO ──
+       Same source as the thank-you page. Set by VIDEO_SRC at the bottom
+       of this file: a video file (.mp4) or an embed URL. -->
+  <div class="video">
+    <div class="video__frame" id="videoFrame">
+      <div class="video__ph" id="videoPlaceholder">
+        <strong>Video goes here</strong>
+        <span>Set <code>VIDEO_SRC</code> at the bottom of this file.</span>
+      </div>
+    </div>
+  </div>
+  <p class="video__cap">3 minutes 52 seconds</p>
+
+
+  <!-- ── OPTIONAL PROOF BLOCK ──
+       Intentionally left out. If you want real client results on this page,
+       give Calvin's verified numbers and drop them in as a panel here.
+       Do not add invented figures, screenshots, or testimonials. -->
+
+  <div class="panel">
+    <p class="panel__t">What the system is</p>
+    <div class="grid">
+      <div class="item">
+        <div class="item__t">A CRM we provide and build in</div>
+        <div class="item__d">You get your own CRM account with the outbound texting system built inside it. Nothing to connect, nothing to migrate.</div>
+      </div>
+      <div class="item">
+        <div class="item__t">20,000 homeowner records</div>
+        <div class="item__d">Pulled on the house for your target zips and cities, loaded into your CRM ready to work.</div>
+      </div>
+      <div class="item">
+        <div class="item__t">Carrier registration handled</div>
+        <div class="item__d">A2P registration and carrier approval are done for you. Texting is 1&cent; per segment with no volume cap.</div>
+      </div>
+      <div class="item">
+        <div class="item__t">An AI bot works the replies</div>
+        <div class="item__d">It handles the back and forth so interested homeowners land in your pipeline. Your team calls them and books their own appointments.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta">
+    <h2 class="cta__hl">Want this built for your service area?</h2>
+    <p class="cta__body">
+      Book a strategy call and we will walk through your zips, what you currently pay per lead, and exactly what the build looks like for your business.
+    </p>
+    <div class="cta__items">
+      <span class="cta-check">Done for you</span>
+      <span class="cta-check">No tech experience needed</span>
+      <span class="cta-check">Leads within weeks</span>
+    </div>
+    <button onclick="openCalModal()" class="btn btn--lg">Book a Strategy Call &rarr;</button>
+  </div>
+
+  <p class="note">Questions? Reach us at team@noaccentcallers.com</p>
+  <p class="footer">&copy; 2026 Internal Lead Systems for Roofing Contractors</p>
+
+</div>
+
+<!-- CALENDAR MODAL -->
+<div class="modal-overlay" id="calModal" role="dialog" aria-modal="true" aria-label="Book a Strategy Call">
+  <div class="modal__box">
+    <button class="modal__close" onclick="closeCalModal()" aria-label="Close">&times;</button>
+    <iframe class="modal__iframe" id="calFrame" src="" title="Book a Strategy Call" loading="lazy" scrolling="yes"></iframe>
+  </div>
+</div>
+
+<script>
+  /* ─────────────────────────────────────────────────────────────
+     VIDEO — same file as /thankyou. Keep the two in sync.
+     A path ending .mp4/.webm/.mov plays in the browser's own player;
+     anything else is treated as an iframe embed URL.
+     ───────────────────────────────────────────────────────────── */
+  var VIDEO_SRC = "https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6aa6f9529be8d98201e72d8e.mp4";
+  var VIDEO_POSTER = "";
+
+  (function () {
+    if (!VIDEO_SRC) return;
+    var frame = document.getElementById("videoFrame");
+    var isFile = /\.(mp4|webm|mov|m4v)(\?.*)?$/i.test(VIDEO_SRC);
+    var el;
+
+    if (isFile) {
+      el = document.createElement("video");
+      el.src = VIDEO_SRC;
+      el.controls = true;
+      el.preload = "metadata";
+      el.playsInline = true;
+      if (VIDEO_POSTER) el.poster = VIDEO_POSTER;
+    } else {
+      el = document.createElement("iframe");
+      el.src = VIDEO_SRC;
+      el.title = "System walkthrough";
+      el.loading = "lazy";
+      el.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen";
+      el.allowFullscreen = true;
+    }
+
+    frame.innerHTML = "";
+    frame.appendChild(el);
+  })();
+
+  /* ── Booking calendar (same calendar as the roofing landing page) ── */
+  var CAL_URL = "https://api.leadconnectorhq.com/widget/booking/qGwFPBZK6x7c1td9IDiY";
+
+  function openCalModal() {
+    var frame = document.getElementById("calFrame");
+    if (!frame.src || frame.src === window.location.href) frame.src = CAL_URL;
+    document.getElementById("calModal").classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeCalModal() {
+    document.getElementById("calModal").classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
+  document.getElementById("calModal").addEventListener("click", function (e) {
+    if (e.target === this) closeCalModal();
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeCalModal();
+  });
+</script>
+<script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
