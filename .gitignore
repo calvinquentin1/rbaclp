@@ -1,0 +1,5 @@
+# Local preview only - never commit video files to this repo.
+# Video is hosted externally; see VIDEO_SRC in thankyou/index.html
+*.mp4
+*.mov
+*.webm

@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Your Call Is Booked</title>
+<title>Your Call Is Booked | Watch This First</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
@@ -27,37 +27,27 @@ html,body{
 }
 
 body{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  padding:40px 24px;
+  padding:48px 24px 40px;
   background:
     radial-gradient(ellipse 80% 50% at 50% 0%, rgba(207,80,0,.06) 0%, transparent 60%),
     var(--bg);
 }
 
-.card{
-  width:100%;
-  max-width:520px;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:52px 44px;
-  text-align:center;
-}
+.wrap{width:100%;max-width:860px;margin:0 auto}
 
-/* Check icon */
+/* ── CONFIRM HEAD ── */
+.head{text-align:center;margin-bottom:36px}
+
 .check{
-  width:64px;height:64px;
+  width:56px;height:56px;
   background:rgba(207,80,0,.1);
   border:2px solid rgba(207,80,0,.35);
   border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  margin:0 auto 28px;
+  margin:0 auto 22px;
 }
 .check svg{
-  width:28px;height:28px;
+  width:25px;height:25px;
   stroke:var(--accent);
   stroke-width:2.5;
   stroke-linecap:round;
@@ -72,34 +62,111 @@ body{
 }
 
 .headline{
-  font-size:clamp(26px,5vw,38px);
+  font-size:clamp(28px,5.5vw,44px);
   font-weight:900;
-  letter-spacing:-.025em;
-  line-height:1.1;
+  letter-spacing:-.028em;
+  line-height:1.06;
   text-wrap:balance;
   margin-bottom:14px;
 }
+.headline em{font-style:normal;color:var(--accent-ink)}
 
 .subline{
   font-size:16px;
   color:var(--text-2);
   line-height:1.65;
-  margin-bottom:36px;
+  max-width:560px;
+  margin:0 auto;
 }
 
-.divider{
-  height:1px;
-  background:var(--border);
-  margin-bottom:32px;
+/* ── VIDEO ── */
+.video{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:14px;
+  margin-bottom:14px;
+}
+.video__frame{
+  position:relative;
+  width:100%;
+  aspect-ratio:2120/1080;  /* matches the source video */
+  background:var(--surface-hi);
+  border-radius:5px;
+  overflow:hidden;
+}
+.video__frame iframe,
+.video__frame video{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  border:0;
+  display:block;
+}
+/* Shown only until a real embed URL is dropped in */
+.video__ph{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:10px;text-align:center;padding:24px;
+  color:var(--text-dim);
+  font-size:13px;line-height:1.6;
+}
+.video__ph strong{
+  display:block;font-size:14px;font-weight:700;color:var(--text-2);
+}
+.video__ph code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:12px;color:var(--accent-ink);
+  background:rgba(207,80,0,.08);
+  padding:2px 6px;border-radius:3px;
 }
 
-/* Steps */
+.video__cap{
+  font-size:12px;
+  color:var(--text-dim);
+  text-align:center;
+  letter-spacing:.03em;
+  margin-bottom:44px;
+}
+
+/* ── PANELS ── */
+.panel{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:36px 34px;
+  margin-bottom:28px;
+}
+
+.panel__t{
+  font-size:13px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent-ink);
+  margin-bottom:22px;
+  text-align:center;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:20px 28px;
+}
+
+.item__t{
+  font-size:14px;font-weight:700;
+  letter-spacing:-.01em;
+  margin-bottom:4px;
+}
+.item__d{
+  font-size:13px;
+  color:var(--text-2);
+  line-height:1.55;
+}
+
+/* ── STEPS ── */
 .steps{
   display:flex;
   flex-direction:column;
   gap:20px;
-  text-align:left;
-  margin-bottom:36px;
 }
 
 .step{
@@ -137,18 +204,22 @@ body{
   font-size:12px;
   color:var(--text-dim);
   line-height:1.6;
+  text-align:center;
 }
 
 .footer{
-  margin-top:32px;
+  margin-top:30px;
   font-size:11px;
   color:var(--text-dim);
   letter-spacing:.04em;
   text-align:center;
 }
 
-@media(max-width:560px){
-  .card{padding:36px 24px}
+@media(max-width:700px){
+  body{padding:36px 18px 32px}
+  .grid{grid-template-columns:1fr;gap:18px}
+  .panel{padding:28px 22px}
+  .video{padding:10px}
 }
 
 @media(prefers-reduced-motion:reduce){
@@ -156,46 +227,135 @@ body{
 }
 </style>
 
-<div class="card">
-  <div class="check">
-    <svg viewBox="0 0 24 24">
-      <polyline points="20 6 9 17 4 12"/>
-    </svg>
+<div class="wrap">
+
+  <div class="head">
+    <div class="check">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <p class="eyebrow">Booking Confirmed</p>
+    <h1 class="headline">Your call is booked. <em>Watch this first.</em></h1>
+    <p class="subline">
+      This short walkthrough shows you exactly what the system is and how it gets built, so we can skip the explaining on the call and spend the time on your market.
+    </p>
   </div>
 
-  <p class="eyebrow">Booking Confirmed</p>
-  <h1 class="headline">Your call is booked.</h1>
-  <p class="subline">
-    A confirmation has been sent to your email with the date, time, and call-in details. Check your inbox now and add it to your calendar.
-  </p>
-
-  <div class="divider"></div>
-
-  <div class="steps">
-    <div class="step">
-      <div class="step__num">1</div>
-      <div>
-        <div class="step__t">Check your email</div>
-        <div class="step__d">Your confirmation and calendar invite are on their way. Check your spam folder if you do not see it within a few minutes.</div>
+  <!-- ── PRE-CALL VIDEO ──
+       Source is set by VIDEO_SRC in the script at the bottom of this file.
+       It takes either a video file (.mp4) or an embed URL (YouTube, Vimeo,
+       Loom, GoHighLevel). Leave it empty and the placeholder below shows. -->
+  <div class="video">
+    <div class="video__frame" id="videoFrame">
+      <div class="video__ph" id="videoPlaceholder">
+        <strong>Video goes here</strong>
+        <span>Set <code>VIDEO_SRC</code> at the bottom of this file.</span>
       </div>
     </div>
-    <div class="step">
-      <div class="step__num">2</div>
-      <div>
-        <div class="step__t">Accept the calendar invite</div>
-        <div class="step__d">Click accept so the call is locked into your schedule. We will send a reminder the day before.</div>
+  </div>
+  <p class="video__cap">3 minutes 52 seconds &nbsp;·&nbsp; Best watched before your call</p>
+
+  <div class="panel">
+    <p class="panel__t">What you are actually getting</p>
+    <div class="grid">
+      <div class="item">
+        <div class="item__t">A CRM we provide and build in</div>
+        <div class="item__d">You get your own CRM account with the outbound texting system built inside it. Nothing to connect, nothing to migrate.</div>
+      </div>
+      <div class="item">
+        <div class="item__t">20,000 homeowner records</div>
+        <div class="item__d">Pulled on the house for your target zips and cities, loaded into your CRM ready to work.</div>
+      </div>
+      <div class="item">
+        <div class="item__t">Carrier registration handled</div>
+        <div class="item__d">A2P registration and carrier approval are done for you. Texting is 1&cent; per segment with no volume cap.</div>
+      </div>
+      <div class="item">
+        <div class="item__t">An AI bot works the replies</div>
+        <div class="item__d">It handles the back and forth so interested homeowners land in your pipeline. Your team calls them and books their own appointments.</div>
       </div>
     </div>
-    <div class="step">
-      <div class="step__num">3</div>
-      <div>
-        <div class="step__t">Show up ready to move fast</div>
-        <div class="step__d">We will walk through your service area, your current lead cost, and exactly what the build looks like for your business. The call is 20 minutes.</div>
+  </div>
+
+  <div class="panel">
+    <p class="panel__t">Before we talk</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step__num">1</div>
+        <div>
+          <div class="step__t">Watch the video above</div>
+          <div class="step__d">It covers the build, the timeline, and what your team is responsible for once leads start coming in.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step__num">2</div>
+        <div>
+          <div class="step__t">Accept the calendar invite</div>
+          <div class="step__d">Your confirmation and invite are in your email now. Click accept so the call is locked into your schedule. Check spam if you do not see it within a few minutes.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step__num">3</div>
+        <div>
+          <div class="step__t">Bring two numbers</div>
+          <div class="step__d">What you currently pay per lead, and the zips or cities you want to work. That is all we need to map the build to your business.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step__num">4</div>
+        <div>
+          <div class="step__t">Show up ready to move</div>
+          <div class="step__d">The call is 20 minutes. If it is a fit, we can start the build the same week.</div>
+        </div>
       </div>
     </div>
   </div>
 
   <p class="note">Questions before the call? Reach us at team@noaccentcallers.com</p>
+  <p class="footer">&copy; 2026 Internal Lead Systems for Roofing Contractors</p>
+
 </div>
 
-<p class="footer">&copy; 2026 Internal Lead Systems for Roofing Contractors</p>
+<script>
+  /* ─────────────────────────────────────────────────────────────
+     PRE-CALL VIDEO
+     Set VIDEO_SRC to ONE of:
+       a video file  "vsl.mp4"                                  (self-hosted)
+       YouTube       "https://www.youtube-nocookie.com/embed/ID"
+       Vimeo         "https://player.vimeo.com/video/ID"
+       Loom          "https://www.loom.com/embed/ID"
+     A path ending in .mp4/.webm/.mov plays with the browser's own
+     player; anything else is treated as an iframe embed URL.
+     Leave it as "" to keep showing the placeholder.
+
+     VIDEO_POSTER is the still image shown before play (optional,
+     file-mode only). Leave "" to let the browser pick a frame.
+     ───────────────────────────────────────────────────────────── */
+  var VIDEO_SRC = "https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6aa6f9529be8d98201e72d8e.mp4";
+  var VIDEO_POSTER = "";
+
+  (function () {
+    if (!VIDEO_SRC) return;
+    var frame = document.getElementById("videoFrame");
+    var isFile = /\.(mp4|webm|mov|m4v)(\?.*)?$/i.test(VIDEO_SRC);
+    var el;
+
+    if (isFile) {
+      el = document.createElement("video");
+      el.src = VIDEO_SRC;
+      el.controls = true;
+      el.preload = "metadata";
+      el.playsInline = true;
+      if (VIDEO_POSTER) el.poster = VIDEO_POSTER;
+    } else {
+      el = document.createElement("iframe");
+      el.src = VIDEO_SRC;
+      el.title = "Pre-call walkthrough";
+      el.loading = "lazy";
+      el.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen";
+      el.allowFullscreen = true;
+    }
+
+    frame.innerHTML = "";
+    frame.appendChild(el);
+  })();
+</script>
