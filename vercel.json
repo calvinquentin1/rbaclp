@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    {
+      "source": "/roofing",
+      "destination": "/roofing-ai",
+      "permanent": false
+    },
+    {
+      "source": "/roofing/",
+      "destination": "/roofing-ai",
+      "permanent": false
+    }
+  ]
+}
