@@ -191,6 +191,56 @@ a{color:inherit;text-decoration:none}
   letter-spacing:.01em;
 }
 
+/* ── HERO CONVERSATION — the product, as a text thread ── */
+.hconvo{
+  width:100%;
+  max-width:318px;
+  margin:0 auto 16px;
+  background:#fff;
+  border-radius:22px;
+  padding:22px 12px 12px;
+  text-align:left;
+  box-shadow:0 0 0 8px #1C1C1C, 0 0 0 9px #3A3A3A, 0 14px 34px rgba(20,20,20,.26);
+  position:relative;
+}
+.hconvo::before{
+  content:'';position:absolute;top:7px;left:50%;transform:translateX(-50%);
+  width:76px;height:14px;border-radius:0 0 10px 10px;background:#1C1C1C;
+}
+.hc__hd{
+  font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-dim);text-align:center;
+  padding-bottom:8px;margin-bottom:10px;
+  border-bottom:1px solid var(--border);
+}
+.hc__row{display:flex;margin-bottom:7px}
+.hc__row--out{justify-content:flex-end}
+.hc__b{
+  max-width:86%;
+  padding:8px 11px;
+  border-radius:14px;
+  font-size:13.5px;
+  line-height:1.38;
+}
+.hc__row--in .hc__b{background:#EFEDE9;color:var(--text);border-bottom-left-radius:4px}
+.hc__row--out .hc__b{background:var(--accent);color:#fff;border-bottom-right-radius:4px}
+.hc__tag{
+  display:inline-block;
+  font-size:9px;font-weight:800;letter-spacing:.11em;
+  background:rgba(255,255,255,.26);
+  color:#fff;
+  padding:1.5px 5px;border-radius:3px;
+  margin-bottom:5px;
+}
+.hc__foot{
+  margin-top:10px;padding-top:9px;
+  border-top:1px solid var(--border);
+  font-size:11.5px;font-weight:700;
+  color:var(--ok);
+  text-align:center;
+  line-height:1.4;
+}
+
 /* ── SECTIONS ── */
 .sec{padding:52px 0;border-bottom:1px solid var(--border)}
 .sec--tint{background:var(--surface)}
@@ -420,7 +470,7 @@ a{color:inherit;text-decoration:none}
 @media(max-width:639px){
   .hero{padding:18px 0 26px}
   .hero__hl{margin-bottom:12px}
-  .hero__sub{margin-bottom:18px}
+  .hero__sub{margin-bottom:12px;font-size:16px}
   .shot{margin-bottom:12px}
   .shot__cap{font-size:12px;margin-bottom:14px}
   .band{padding:28px 0 26px}
@@ -428,6 +478,10 @@ a{color:inherit;text-decoration:none}
 }
 
 /* very short handsets: the caption is the first thing to go */
+@media(max-width:639px) and (max-height:545px){
+  .hconvo .hc__row:nth-of-type(3){display:none}
+}
+
 @media(max-width:639px) and (max-height:600px){
   .shot__cap{display:none}
   .hero{padding-top:14px}
@@ -457,18 +511,13 @@ a{color:inherit;text-decoration:none}
     <h1 class="hero__hl">Never buy another roofing lead. <em>Let AI generate them.</em></h1>
     <p class="hero__sub"><strong>5,913 homeowners</strong> reached, <strong>674 wrote back</strong> &mdash; in six days of sending.</p>
 
-    <div class="shot">
-      <div class="shot__bar">
-        <span class="shot__dot"></span><span class="shot__dot"></span><span class="shot__dot"></span>
-        <span class="shot__url">your-company.crm &mdash; opportunities</span>
-      </div>
-      <div class="shot__media">
-        <video id="heroShot" src="https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6aa6f9529be8d98201e72d8e.mp4#t=0.6"
-               preload="metadata" controls playsinline
-               title="The system running inside a client's CRM"></video>
-      </div>
+    <div class="hconvo">
+      <div class="hc__row hc__row--out"><div class="hc__b"><span class="hc__tag">AI</span><br>Hi Mark &mdash; Dave with Apex Roofing. Any storm damage on your roof?</div></div>
+      <div class="hc__row hc__row--in"><div class="hc__b">shingles in the yard after last week</div></div>
+      <div class="hc__row hc__row--out"><div class="hc__b"><span class="hc__tag">AI</span><br>Sounds like lifted shingles. You own the home?</div></div>
+
+      <p class="hc__foot">In your pipeline before morning &mdash; 9:06 PM</p>
     </div>
-    <p class="shot__cap">Real leads, in a real contractor's pipeline. Press play.</p>
 
     <button onclick="openCal()" class="btn">Book a 20-Minute Call</button>
     <span class="btn__sub">No setup fee. Nothing to install.</span>
@@ -496,8 +545,30 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
-<!-- ══ 3. THE AI MOMENT ══ -->
+<!-- ══ 3. THE PIPELINE, RUNNING ══ -->
 <section class="sec sec--tint">
+  <div class="wrap">
+    <p class="eyebrow">Inside the CRM</p>
+    <h2 class="h2">And this is where they land.</h2>
+    <p class="lede">Every homeowner the AI qualifies drops straight into your pipeline. This is a real contractor's account, with real leads in it.</p>
+
+    <div class="shot" style="margin-top:26px">
+      <div class="shot__bar">
+        <span class="shot__dot"></span><span class="shot__dot"></span><span class="shot__dot"></span>
+        <span class="shot__url">your-company.crm &mdash; opportunities</span>
+      </div>
+      <div class="shot__media">
+        <video id="heroShot" src="https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6aa6f9529be8d98201e72d8e.mp4#t=0.6"
+               preload="metadata" controls playsinline
+               title="The system running inside a client's CRM"></video>
+      </div>
+    </div>
+    <p class="shot__cap" style="margin-top:14px">Press play &mdash; 3 min 52 sec.</p>
+  </div>
+</section>
+
+<!-- ══ 4. THE AI MOMENT ══ -->
+<section class="sec">
   <div class="wrap">
     <h2 class="h2">Four in ten roofing contractors are already running AI in their business. Last year it was under three.</h2>
     <p class="lede">Most operators your size haven't touched it yet — which is exactly why there's an opportunity in it.</p>
@@ -505,8 +576,8 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
-<!-- ══ 4. WHAT YOU'RE REALLY COMPARING ══ -->
-<section class="sec">
+<!-- ══ 5. WHAT YOU'RE REALLY COMPARING ══ -->
+<section class="sec sec--tint">
   <div class="wrap">
     <p class="eyebrow">What you're really comparing</p>
     <h2 class="h2">This is a job people hire for.</h2>
@@ -531,8 +602,8 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
-<!-- ══ 5. THE MECHANISM ══ -->
-<section class="sec sec--tint">
+<!-- ══ 6. THE MECHANISM ══ -->
+<section class="sec">
   <div class="wrap">
     <p class="eyebrow">Why they cost so little</p>
     <h2 class="h2">You're not paying a middleman, and you're not paying anybody to sit and answer messages.</h2>
@@ -542,8 +613,8 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
-<!-- ══ 6. SHOW IT ══ -->
-<section class="sec">
+<!-- ══ 7. SHOW IT ══ -->
+<section class="sec sec--tint">
   <div class="wrap">
     <p class="eyebrow">What actually happens</p>
     <h2 class="h2">A homeowner texts at 9pm. You're asleep.</h2>
@@ -589,8 +660,8 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
-<!-- ══ 7. WHAT YOU GET ══ -->
-<section class="sec sec--tint">
+<!-- ══ 8. WHAT YOU GET ══ -->
+<section class="sec">
   <div class="wrap">
     <p class="eyebrow">What you actually get</p>
     <h2 class="h2">Your system, your data, your numbers.</h2>
@@ -624,8 +695,8 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
-<!-- ══ 8. THE QUESTIONS ══ -->
-<section class="sec">
+<!-- ══ 9. THE QUESTIONS ══ -->
+<section class="sec sec--tint">
   <div class="wrap">
     <p class="eyebrow">Before you sign with anyone</p>
     <h2 class="h2">Six questions worth asking any company that wants to text for you.</h2>
@@ -642,8 +713,8 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
-<!-- ══ 9. PROOF ══ -->
-<section class="sec sec--tint">
+<!-- ══ 10. PROOF ══ -->
+<section class="sec">
   <div class="wrap">
     <p class="eyebrow">From a live client account</p>
     <h2 class="h2">Six days of sending, one roofing contractor.</h2>
@@ -695,8 +766,8 @@ a{color:inherit;text-decoration:none}
 
 
 
-<!-- ══ 10. WHAT WE DO WHILE YOU CARRY ON WORKING ══ -->
-<section class="sec">
+<!-- ══ 11. WHAT WE DO WHILE YOU CARRY ON WORKING ══ -->
+<section class="sec sec--tint">
   <div class="wrap">
     <p class="eyebrow">Getting it running</p>
     <h2 class="h2">You do nothing. We build the whole thing.</h2>
@@ -735,7 +806,7 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
-<!-- ══ 11. CLOSE ══ -->
+<!-- ══ 12. CLOSE ══ -->
 <section class="close">
   <div class="wrap">
     <h2 class="close__hl">Twenty minutes, and you'll know if it fits.</h2>
