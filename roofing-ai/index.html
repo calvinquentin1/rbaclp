@@ -1,6 +1,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Your Own Roofing Leads | Cosa Ventures</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <meta name="description" content="Generate your own roofing leads instead of buying them. An AI answers every homeowner, day or night.">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -25,7 +28,7 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{
   background:var(--bg);
   color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  font-family:'Archivo',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
   font-size:17px;
   line-height:1.6;
   -webkit-font-smoothing:antialiased;
@@ -141,6 +144,53 @@ a{color:inherit;text-decoration:none}
   .band__s{grid-template-columns:1fr;gap:6px;justify-items:center}
 }
 
+/* ── PRODUCT SHOT — the CRM, in a browser frame ── */
+.shot{
+  width:100%;
+  max-width:560px;
+  margin:0 auto 16px;
+  border-radius:10px;
+  overflow:hidden;
+  background:#1B1B1B;
+  border:1px solid rgba(0,0,0,.14);
+  box-shadow:0 12px 34px rgba(20,20,20,.16), 0 2px 6px rgba(20,20,20,.08);
+}
+.shot__bar{
+  display:flex;align-items:center;gap:6px;
+  padding:8px 11px;
+  background:#2A2A2A;
+}
+.shot__dot{width:9px;height:9px;border-radius:50%;background:#4A4A4A}
+.shot__url{
+  flex:1;margin-left:8px;
+  background:#1B1B1B;
+  border-radius:4px;
+  font-size:10px;
+  color:#8A8A8A;
+  padding:4px 9px;
+  text-align:left;
+  letter-spacing:.02em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.shot__media{
+  position:relative;
+  width:100%;
+  aspect-ratio:2120/1080;
+  background:#101010;
+}
+.shot__media video{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  display:block;border:0;
+}
+.shot__cap{
+  font-size:12.5px;
+  color:var(--text-dim);
+  text-align:center;
+  margin:0 auto 18px;
+  letter-spacing:.01em;
+}
+
 /* ── SECTIONS ── */
 .sec{padding:52px 0;border-bottom:1px solid var(--border)}
 .sec--tint{background:var(--surface)}
@@ -163,14 +213,27 @@ a{color:inherit;text-decoration:none}
 .lede strong{color:var(--text);font-weight:700}
 
 /* ── PHONE / CONVERSATION ── */
-.convo-grid{display:flex;flex-direction:column;gap:26px;margin-top:28px}
+.convo-grid{display:flex;flex-direction:column;gap:52px;margin-top:34px;padding:0 6px}
 
 .phone{
+  position:relative;
   background:#fff;
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:16px 14px 18px;
-  box-shadow:0 1px 3px rgba(0,0,0,.05);
+  border-radius:30px;
+  padding:26px 14px 22px;
+  max-width:340px;
+  margin:0 auto;
+  /* real handset: dark bezel, inner screen edge, drop shadow */
+  box-shadow:
+    0 0 0 9px #1C1C1C,
+    0 0 0 10px #333,
+    0 16px 38px rgba(20,20,20,.28);
+}
+/* notch */
+.phone::before{
+  content:'';
+  position:absolute;top:9px;left:50%;transform:translateX(-50%);
+  width:86px;height:16px;border-radius:0 0 11px 11px;
+  background:#1C1C1C;
 }
 .phone__hd{
   font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
@@ -346,7 +409,7 @@ a{color:inherit;text-decoration:none}
 .modal__iframe{flex:1;border:none;width:100%;height:100%;background:var(--bg)}
 
 @media(min-width:640px){
-  .convo-grid{flex-direction:row}
+  .convo-grid{flex-direction:row;gap:42px}
   .convo-grid > *{flex:1}
   .compare{grid-template-columns:1fr 1fr;align-items:start}
 }
@@ -355,11 +418,27 @@ a{color:inherit;text-decoration:none}
    iOS hides behind its toolbars, which left dead space under the CTA and
    pushed the band that answers "where do the leads come from" off screen. */
 @media(max-width:639px){
-  .hero{padding:26px 0 30px}
-  .hero__hl{margin-bottom:14px}
-  .hero__sub{margin-bottom:24px}
+  .hero{padding:18px 0 26px}
+  .hero__hl{margin-bottom:12px}
+  .hero__sub{margin-bottom:18px}
+  .shot{margin-bottom:12px}
+  .shot__cap{font-size:12px;margin-bottom:14px}
   .band{padding:28px 0 26px}
   .band__hl{margin-bottom:18px}
+}
+
+/* very short handsets: the caption is the first thing to go */
+@media(max-width:639px) and (max-height:600px){
+  .shot__cap{display:none}
+  .hero{padding-top:14px}
+}
+
+/* very short screens: shrink the shot so the CTA always clears */
+@media(max-width:639px) and (max-height:545px){
+  .shot{max-width:268px}
+  .hero__hl{font-size:29px}
+  .hero__sub{font-size:15.5px;margin-bottom:14px}
+  .hero{padding-top:12px}
 }
 
 @media(max-width:400px){
@@ -376,7 +455,21 @@ a{color:inherit;text-decoration:none}
 <section class="hero">
   <div class="wrap">
     <h1 class="hero__hl">Never buy another roofing lead. <em>Let AI generate them.</em></h1>
-    <p class="hero__sub">In six days of sending it reached <strong>5,913 homeowners</strong> for one contractor &mdash; <strong>674 wrote back</strong>, and the first lead hit his pipeline three days after the first text went out.</p>
+    <p class="hero__sub"><strong>5,913 homeowners</strong> reached, <strong>674 wrote back</strong> &mdash; in six days of sending.</p>
+
+    <div class="shot">
+      <div class="shot__bar">
+        <span class="shot__dot"></span><span class="shot__dot"></span><span class="shot__dot"></span>
+        <span class="shot__url">your-company.crm &mdash; opportunities</span>
+      </div>
+      <div class="shot__media">
+        <video id="heroShot" src="https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6aa6f9529be8d98201e72d8e.mp4#t=0.6"
+               preload="metadata" controls playsinline
+               title="The system running inside a client's CRM"></video>
+      </div>
+    </div>
+    <p class="shot__cap">Real leads, in a real contractor's pipeline. Press play.</p>
+
     <button onclick="openCal()" class="btn">Book a 20-Minute Call</button>
     <span class="btn__sub">No setup fee. Nothing to install.</span>
   </div>
