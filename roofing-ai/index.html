@@ -91,6 +91,56 @@ a{color:inherit;text-decoration:none}
   text-wrap:balance;
 }
 
+/* ── ORIGIN BAND — answers "where do the leads come from?" ── */
+.band{
+  background:var(--text);
+  color:#fff;
+  padding:34px 0 32px;
+  text-align:center;
+}
+.band__hl{
+  font-size:clamp(22px,5.2vw,30px);
+  font-weight:900;
+  letter-spacing:-.025em;
+  line-height:1.15;
+  text-wrap:balance;
+  margin-bottom:22px;
+}
+.band__hl em{font-style:normal;color:#FF7A2F}
+.band__steps{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  max-width:560px;
+  margin:0 auto;
+  text-align:left;
+}
+.band__s{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:12px;
+  align-items:baseline;
+  font-size:15.5px;
+  line-height:1.5;
+  color:rgba(255,255,255,.88);
+}
+.band__n{
+  font-size:12px;font-weight:800;
+  color:#FF7A2F;
+  letter-spacing:.06em;
+}
+.band__s strong{color:#fff;font-weight:700}
+
+@media(min-width:640px){
+  .band__steps{
+    flex-direction:row;
+    text-align:center;
+    gap:28px;
+    max-width:760px;
+  }
+  .band__s{grid-template-columns:1fr;gap:6px;justify-items:center}
+}
+
 /* ── SECTIONS ── */
 .sec{padding:52px 0;border-bottom:1px solid var(--border)}
 .sec--tint{background:var(--surface)}
@@ -333,7 +383,28 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
-<!-- ══ 2. THE AI MOMENT ══ -->
+<!-- ══ 2. WHERE THE LEADS COME FROM ══ -->
+<section class="band">
+  <div class="wrap">
+    <p class="band__hl">We send the text. <em>AI handles the rest.</em></p>
+    <div class="band__steps">
+      <div class="band__s">
+        <span class="band__n">01</span>
+        <span>We pull <strong>20,000 homeowners</strong> in your area and text them for you.</span>
+      </div>
+      <div class="band__s">
+        <span class="band__n">02</span>
+        <span><strong>AI works every reply</strong> and picks up every call, day or night.</span>
+      </div>
+      <div class="band__s">
+        <span class="band__n">03</span>
+        <span>The serious ones <strong>land in your pipeline</strong>. Your team calls them.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 3. THE AI MOMENT ══ -->
 <section class="sec sec--tint">
   <div class="wrap">
     <h2 class="h2">Four in ten roofing contractors are already running AI in their business. Last year it was under three.</h2>
@@ -342,7 +413,7 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
-<!-- ══ 3. WHAT YOU'RE REALLY COMPARING ══ -->
+<!-- ══ 4. WHAT YOU'RE REALLY COMPARING ══ -->
 <section class="sec">
   <div class="wrap">
     <p class="eyebrow">What you're really comparing</p>
@@ -368,7 +439,7 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
-<!-- ══ 4. THE MECHANISM ══ -->
+<!-- ══ 5. THE MECHANISM ══ -->
 <section class="sec sec--tint">
   <div class="wrap">
     <p class="eyebrow">Why they cost so little</p>
@@ -379,7 +450,7 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
-<!-- ══ 5. SHOW IT ══ -->
+<!-- ══ 6. SHOW IT ══ -->
 <section class="sec">
   <div class="wrap">
     <p class="eyebrow">What actually happens</p>
@@ -426,7 +497,7 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
-<!-- ══ 6. WHAT YOU GET ══ -->
+<!-- ══ 7. WHAT YOU GET ══ -->
 <section class="sec sec--tint">
   <div class="wrap">
     <p class="eyebrow">What you actually get</p>
@@ -461,7 +532,7 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
-<!-- ══ 7. THE QUESTIONS ══ -->
+<!-- ══ 8. THE QUESTIONS ══ -->
 <section class="sec">
   <div class="wrap">
     <p class="eyebrow">Before you sign with anyone</p>
@@ -479,7 +550,7 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
-<!-- ══ 8. PROOF ══ -->
+<!-- ══ 9. PROOF ══ -->
 <section class="sec sec--tint">
   <div class="wrap">
     <p class="eyebrow">From a live client account</p>
@@ -532,7 +603,7 @@ a{color:inherit;text-decoration:none}
 
 
 
-<!-- ══ 9. WHAT WE DO WHILE YOU CARRY ON WORKING ══ -->
+<!-- ══ 10. WHAT WE DO WHILE YOU CARRY ON WORKING ══ -->
 <section class="sec">
   <div class="wrap">
     <p class="eyebrow">Getting it running</p>
@@ -572,7 +643,7 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
-<!-- ══ 10. CLOSE ══ -->
+<!-- ══ 11. CLOSE ══ -->
 <section class="close">
   <div class="wrap">
     <h2 class="close__hl">Twenty minutes, and you'll know if it fits.</h2>
