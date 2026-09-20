@@ -10,5 +10,10 @@
       "destination": "/roofing-ai",
       "permanent": false
     }
-  ]
+  ],
+  "functions": {
+    "api/mcp/[secret].mjs": {
+      "maxDuration": 300
+    }
+  }
 }

@@ -3,3 +3,8 @@
 *.mp4
 *.mov
 *.webm
+
+# Never commit secrets.
+.env
+.env.*
+!.env.example
