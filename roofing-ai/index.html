@@ -351,16 +351,15 @@ a{color:inherit;text-decoration:none}
   .compare{grid-template-columns:1fr 1fr;align-items:start}
 }
 
-/* Phone: the hero owns the whole first screen. Headline, one line of
-   sub, CTA — nothing else visible above the fold. */
+/* Phone: size the hero to its content. Forcing 100dvh reserved height
+   iOS hides behind its toolbars, which left dead space under the CTA and
+   pushed the band that answers "where do the leads come from" off screen. */
 @media(max-width:639px){
-  .hero{
-    min-height:100vh;
-    min-height:100dvh;
-    display:flex;
-    align-items:center;
-    padding:32px 0;
-  }
+  .hero{padding:26px 0 30px}
+  .hero__hl{margin-bottom:14px}
+  .hero__sub{margin-bottom:24px}
+  .band{padding:28px 0 26px}
+  .band__hl{margin-bottom:18px}
 }
 
 @media(max-width:400px){
