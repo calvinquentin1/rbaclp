@@ -1,0 +1,634 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Own Roofing Leads | Cosa Ventures</title>
+<meta name="description" content="Generate your own roofing leads instead of buying them. An AI answers every homeowner, day or night.">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#FFFFFF;
+  --surface:#F8F6F3;
+  --surface-hi:#F1EDE6;
+  --text:#141414;
+  --text-2:#4A4A4A;
+  --text-dim:#7C7C7C;
+  --accent:#CF5000;
+  --accent-ink:#9E3C00;
+  --accent-dk:#A63F00;
+  --border:#E4DFD7;
+  --ok:#1F7A3D;
+  --r:5px;
+}
+
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+a{color:inherit;text-decoration:none}
+
+.wrap{width:100%;max-width:720px;margin:0 auto;padding:0 20px}
+
+/* ── BUTTON — one CTA, same wording everywhere ── */
+.btn{
+  display:inline-block;
+  background:var(--accent);
+  color:#fff;
+  font-size:18px;
+  font-weight:800;
+  letter-spacing:.01em;
+  padding:18px 32px;
+  border-radius:var(--r);
+  border:none;
+  cursor:pointer;
+  width:100%;
+  max-width:420px;
+  transition:background .15s ease,transform .1s ease;
+}
+.btn:hover{background:var(--accent-dk)}
+.btn:active{transform:scale(.99)}
+.btn:focus-visible{outline:3px solid var(--accent-dk);outline-offset:3px}
+.btn__sub{
+  display:block;
+  font-size:13px;font-weight:600;
+  color:var(--text-dim);
+  margin-top:10px;
+  letter-spacing:.01em;
+}
+
+/* ── HERO — phone fold: headline, one line of sub, CTA. Nothing else. ── */
+.hero{
+  padding:44px 0 40px;
+  text-align:center;
+  border-bottom:1px solid var(--border);
+  background:
+    radial-gradient(ellipse 90% 60% at 50% 0%, rgba(207,80,0,.07) 0%, transparent 65%),
+    var(--bg);
+}
+.hero__hl{
+  font-size:clamp(34px,8vw,52px);
+  font-weight:900;
+  line-height:1.03;
+  letter-spacing:-.03em;
+  text-wrap:balance;
+  margin-bottom:18px;
+}
+.hero__hl em{font-style:normal;color:var(--accent-ink)}
+.hero__sub strong{color:var(--accent-ink);font-weight:800}
+.hero__sub{
+  font-size:clamp(18px,4.2vw,21px);
+  color:var(--text-2);
+  font-weight:600;
+  line-height:1.45;
+  max-width:540px;
+  margin:0 auto 30px;
+  text-wrap:balance;
+}
+
+/* ── SECTIONS ── */
+.sec{padding:52px 0;border-bottom:1px solid var(--border)}
+.sec--tint{background:var(--surface)}
+
+.eyebrow{
+  font-size:12px;font-weight:800;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--accent-ink);
+  margin-bottom:14px;
+}
+.h2{
+  font-size:clamp(26px,5.6vw,36px);
+  font-weight:900;
+  letter-spacing:-.025em;
+  line-height:1.12;
+  text-wrap:balance;
+  margin-bottom:18px;
+}
+.lede{font-size:17px;color:var(--text-2);line-height:1.62;margin-bottom:16px}
+.lede:last-child{margin-bottom:0}
+.lede strong{color:var(--text);font-weight:700}
+
+/* ── PHONE / CONVERSATION ── */
+.convo-grid{display:flex;flex-direction:column;gap:26px;margin-top:28px}
+
+.phone{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:16px 14px 18px;
+  box-shadow:0 1px 3px rgba(0,0,0,.05);
+}
+.phone__hd{
+  font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-dim);
+  padding-bottom:12px;margin-bottom:14px;
+  border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;gap:10px;align-items:baseline;
+}
+.phone__hd--bad{color:#A31515}
+.phone__hd--good{color:var(--ok)}
+
+.msg{display:flex;margin-bottom:10px}
+.msg__b{
+  max-width:82%;
+  padding:11px 14px;
+  border-radius:16px;
+  font-size:15.5px;
+  line-height:1.45;
+}
+.msg--in{justify-content:flex-start}
+.msg--in .msg__b{background:var(--surface-hi);color:var(--text);border-bottom-left-radius:5px}
+.msg--out{justify-content:flex-end}
+.msg--out .msg__b{background:var(--accent);color:#fff;border-bottom-right-radius:5px}
+
+.stamp{
+  font-size:12px;color:var(--text-dim);
+  margin:2px 0 14px;
+}
+.msg--out + .stamp{text-align:right}
+
+.verdict{
+  margin-top:14px;padding-top:14px;
+  border-top:1px solid var(--border);
+  font-size:14px;font-weight:700;
+}
+.verdict--bad{color:#A31515}
+.verdict--good{color:var(--ok)}
+
+/* ── LIST ── */
+.items{display:flex;flex-direction:column;gap:22px;margin-top:26px}
+.item__t{font-size:18px;font-weight:800;letter-spacing:-.015em;margin-bottom:5px}
+.item__d{font-size:16px;color:var(--text-2);line-height:1.55}
+.item__d strong{color:var(--text);font-weight:700}
+
+/* ── QUESTIONS ── */
+.qs{display:flex;flex-direction:column;gap:14px;margin-top:26px}
+.q{
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-left:3px solid var(--accent);
+  border-radius:var(--r);
+  padding:16px 18px;
+  font-size:16.5px;
+  font-weight:600;
+  line-height:1.5;
+}
+
+/* ── STATS ── */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:26px 20px;
+  margin:28px 0 20px;
+}
+.stat__n{
+  font-size:clamp(32px,8vw,44px);
+  font-weight:900;letter-spacing:-.03em;line-height:1;
+  color:var(--accent-ink);margin-bottom:6px;
+}
+.stat__l{font-size:14px;color:var(--text-2);line-height:1.4;font-weight:600}
+.src{font-size:13px;color:var(--text-dim);line-height:1.5;margin-top:6px}
+
+.facts{display:flex;flex-direction:column;gap:18px;margin-top:26px}
+.fact__n{font-size:20px;font-weight:900;color:var(--accent-ink);letter-spacing:-.02em}
+.fact__t{font-size:16px;color:var(--text-2);line-height:1.5;margin-top:2px}
+.fact__s{font-size:12.5px;color:var(--text-dim);margin-top:4px}
+
+/* ── TIMELINE ── */
+.tl{display:flex;flex-direction:column;gap:0;margin-top:26px}
+.tl__row{
+  display:grid;grid-template-columns:auto 1fr;gap:16px;
+  padding-bottom:22px;position:relative;
+}
+.tl__row:not(:last-child)::before{
+  content:'';position:absolute;left:13px;top:30px;bottom:0;
+  width:2px;background:var(--border);
+}
+.tl__dot{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--surface-hi);border:2px solid var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:800;color:var(--accent-ink);
+  position:relative;z-index:1;flex-shrink:0;
+}
+.tl__t{font-size:16.5px;font-weight:800;margin-bottom:3px;letter-spacing:-.01em}
+.tl__d{font-size:15px;color:var(--text-2);line-height:1.5}
+
+/* ── PRICE ── */
+.price{
+  background:var(--bg);
+  border:2px solid var(--accent);
+  border-radius:8px;
+  padding:30px 24px;
+  text-align:center;
+  margin-top:26px;
+}
+.price__n{
+  font-size:clamp(34px,8vw,46px);
+  font-weight:900;letter-spacing:-.03em;line-height:1.05;
+  margin-bottom:8px;
+}
+.price__d{font-size:16px;color:var(--text-2);font-weight:600}
+
+.compare{
+  display:grid;grid-template-columns:1fr;
+  gap:14px;margin-top:26px;
+}
+.cmp{
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:18px 20px;
+  background:var(--bg);
+}
+.cmp__l{font-size:13px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px}
+.cmp__n{font-size:26px;font-weight:900;letter-spacing:-.025em;margin-bottom:4px}
+.cmp__d{font-size:14.5px;color:var(--text-2);line-height:1.5}
+.cmp--them .cmp__n{color:var(--text)}
+.cmp--us{border-color:var(--accent);border-width:2px}
+.cmp--us .cmp__n{color:var(--accent-ink)}
+
+/* ── CLOSE ── */
+.close{padding:56px 0 60px;text-align:center}
+.close__hl{
+  font-size:clamp(28px,6vw,38px);
+  font-weight:900;letter-spacing:-.025em;line-height:1.12;
+  text-wrap:balance;margin-bottom:16px;
+}
+.close__d{
+  font-size:17px;color:var(--text-2);line-height:1.6;
+  max-width:520px;margin:0 auto 28px;
+}
+
+.footer{
+  padding:26px 0 40px;
+  text-align:center;
+  font-size:13px;
+  color:var(--text-dim);
+  line-height:1.6;
+  border-top:1px solid var(--border);
+}
+
+/* ── MODAL ── */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,.75);
+  align-items:center;justify-content:center;padding:16px;
+}
+.modal-overlay.open{display:flex}
+.modal__box{
+  position:relative;background:var(--surface);
+  border:1px solid var(--border);border-radius:8px;
+  width:min(780px,100%);height:min(680px,92vh);
+  overflow:hidden;display:flex;flex-direction:column;
+}
+.modal__close{
+  position:absolute;top:12px;right:14px;z-index:10;
+  background:var(--surface-hi);border:1px solid var(--border);
+  color:var(--text-2);border-radius:var(--r);
+  width:36px;height:36px;font-size:20px;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.modal__close:hover{background:var(--border);color:var(--text)}
+.modal__iframe{flex:1;border:none;width:100%;height:100%;background:var(--bg)}
+
+@media(min-width:640px){
+  .convo-grid{flex-direction:row}
+  .convo-grid > *{flex:1}
+  .compare{grid-template-columns:1fr 1fr;align-items:start}
+}
+
+/* Phone: the hero owns the whole first screen. Headline, one line of
+   sub, CTA — nothing else visible above the fold. */
+@media(max-width:639px){
+  .hero{
+    min-height:100vh;
+    min-height:100dvh;
+    display:flex;
+    align-items:center;
+    padding:32px 0;
+  }
+}
+
+@media(max-width:400px){
+  body{font-size:16px}
+  .sec{padding:44px 0}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
+</style>
+
+<!-- ══ 1. HERO ══ -->
+<section class="hero">
+  <div class="wrap">
+    <h1 class="hero__hl">Your own roofing leads, <em>generated by AI</em> instead of bought from a broker.</h1>
+    <p class="hero__sub">In thirteen days it reached <strong>5,913 homeowners</strong> for one contractor &mdash; <strong>674 wrote back</strong>, and the first lead hit his pipeline three days after the first text went out.</p>
+    <button onclick="openCal()" class="btn">Book a 20-Minute Call</button>
+    <span class="btn__sub">No setup fee. Nothing to install.</span>
+  </div>
+</section>
+
+<!-- ══ 2. THE AI MOMENT ══ -->
+<section class="sec sec--tint">
+  <div class="wrap">
+    <h2 class="h2">Four in ten roofing contractors are already running AI in their business. Last year it was under three.</h2>
+    <p class="lede">Most operators your size haven't touched it yet — which is exactly why there's an opportunity in it.</p>
+    <p class="src">Roofing Contractor, 2026 State of the Roofing Industry Report.</p>
+  </div>
+</section>
+
+<!-- ══ 3. THE MECHANISM ══ -->
+<section class="sec">
+  <div class="wrap">
+    <p class="eyebrow">Why they cost so little</p>
+    <h2 class="h2">You're not paying a middleman, and you're not paying anybody to sit and answer messages.</h2>
+    <p class="lede">A broker charges you for a lead because someone had to generate it and work it. Here, the texting costs a penny a message, and the answering is done by AI.</p>
+    <p class="lede"><strong>It answers every homeowner who writes back &mdash; in seconds, at any hour &mdash; and picks up when they call.</strong> It asks what's going on with the roof and drops the ones who are actually interested into your pipeline.</p>
+    <p class="lede">That's the whole reason the numbers work. Nothing gets generated and then left sitting.</p>
+  </div>
+</section>
+
+<!-- ══ 4. SHOW IT ══ -->
+<section class="sec sec--tint">
+  <div class="wrap">
+    <p class="eyebrow">What actually happens</p>
+    <h2 class="h2">A homeowner texts at 9pm. You're asleep.</h2>
+    <p class="lede">This is the difference, and it's the whole product.</p>
+
+    <div class="convo-grid">
+
+      <!-- REAL, anonymized: from a client account before the AI was working -->
+      <div class="phone">
+        <div class="phone__hd phone__hd--bad"><span>Without it</span></div>
+
+        <div class="msg msg--in"><div class="msg__b">Can you give me an estimate of roof damage</div></div>
+        <div class="stamp">Homeowner &middot; 9:04 PM</div>
+
+        <div class="stamp" style="text-align:center;margin:18px 0;">· · ·</div>
+        <div class="stamp" style="text-align:center;">no reply</div>
+
+        <div class="verdict verdict--bad">
+          Unanswered for 12 hours. Already got to the next roofing contractor. An opportunity lost.
+        </div>
+      </div>
+
+      <!-- ⚠️ PLACEHOLDER — replace with a real anonymized transcript before ship -->
+      <div class="phone">
+        <div class="phone__hd phone__hd--good"><span>With it</span><span>Example</span></div>
+
+        <div class="msg msg--in"><div class="msg__b">Can you give me an estimate of roof damage</div></div>
+        <div class="stamp">Homeowner &middot; 9:04 PM</div>
+
+        <div class="msg msg--out"><div class="msg__b">Happy to help. Is it leaking right now, or is this from the storm?</div></div>
+        <div class="stamp">9:04 PM</div>
+
+        <div class="msg msg--in"><div class="msg__b">storm last week. theres shingles in the yard</div></div>
+        <div class="stamp">Homeowner &middot; 9:06 PM</div>
+
+        <div class="msg msg--out"><div class="msg__b">Got it. Are you the homeowner, and is the address still on Elm?</div></div>
+        <div class="stamp">9:06 PM</div>
+
+        <div class="verdict verdict--good">In your pipeline before you wake up. Your team calls her in the morning.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ 5. WHAT YOU GET ══ -->
+<section class="sec">
+  <div class="wrap">
+    <p class="eyebrow">What you actually get</p>
+    <h2 class="h2">Your system, your data, your numbers.</h2>
+
+    <div class="items">
+      <div>
+        <div class="item__t">A CRM that's yours</div>
+        <div class="item__d">Your own account — leads, notes, pipeline, history, all in one place. <strong>Not a connection to something you already own. You own this one.</strong> If you ever leave, you walk out with it.</div>
+      </div>
+      <div>
+        <div class="item__t">20,000 homeowner records, free in month one</div>
+        <div class="item__d">Pulled to your spec — your area, roof age, homeowner age — scrubbed and traced to <strong>mobile numbers</strong>. They're part of what you're paying for, not a separate bill.</div>
+      </div>
+      <div>
+        <div class="item__t">The texting built inside it</div>
+        <div class="item__d">Outbound to those homeowners at <strong>a penny a message</strong>, no cap on volume.</div>
+      </div>
+      <div>
+        <div class="item__t">An AI that answers every reply</div>
+        <div class="item__d">Instantly, any hour, on every one of them. It asks what's wrong with the roof and sorts the serious from the curious. <strong>Interested homeowners land in your pipeline and your team calls them and books their own appointments.</strong></div>
+      </div>
+      <div>
+        <div class="item__t">An AI that picks up the phone</div>
+        <div class="item__d">When a homeowner calls and you're up on a roof, it answers, finds out what's going on with the house, and confirms someone will call them straight back. <strong>It doesn't book the appointment &mdash; your team does that.</strong></div>
+      </div>
+      <div>
+        <div class="item__t">Carrier registration handled</div>
+        <div class="item__d">The paperwork that makes business texting legal and actually deliverable. Get it wrong and your messages fail silently. <strong>We do it for you.</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 6. THE QUESTIONS ══ -->
+<section class="sec sec--tint">
+  <div class="wrap">
+    <p class="eyebrow">Before you sign with anyone</p>
+    <h2 class="h2">Five questions worth asking any company that wants to text for you.</h2>
+    <p class="lede">Ask us the same ones. The answers are where the real difference sits.</p>
+
+    <div class="qs">
+      <div class="q">"Are the homeowner records included, or do I buy those separately?"</div>
+      <div class="q">"Who answers when a homeowner texts back at 9pm?"</div>
+      <div class="q">"When someone calls the number back &mdash; who picks up?"</div>
+      <div class="q">"Is the CRM mine or yours? If I leave in a year, what do I walk out with?"</div>
+      <div class="q">"Is anyone watching my opt-out rate? If it climbs, the carriers shut my number off."</div>
+      <div class="q">"Who handles carrier registration? Get it wrong and messages fail without telling you."</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 7. PROOF ══ -->
+<section class="sec">
+  <div class="wrap">
+    <p class="eyebrow">From a live client account</p>
+    <h2 class="h2">Thirteen days, one roofing contractor.</h2>
+
+    <div class="stats">
+      <div>
+        <div class="stat__n">5,913</div>
+        <div class="stat__l">homeowners reached</div>
+      </div>
+      <div>
+        <div class="stat__n">674</div>
+        <div class="stat__l">wrote back — 11.4%</div>
+      </div>
+      <div>
+        <div class="stat__n">50</div>
+        <div class="stat__l">opportunities created</div>
+      </div>
+      <div>
+        <div class="stat__n">3 days</div>
+        <div class="stat__l">from first text to first lead in the pipeline</div>
+      </div>
+    </div>
+    <p class="src">Measured in a live client account, 1&ndash;13 September 2026. Opt-out rate 1.4%.</p>
+
+    <div class="facts">
+      <div>
+        <div class="fact__n">Only 52%</div>
+        <div class="fact__t">of calls to home-service businesses are answered by a person.</div>
+        <div class="fact__s">Invoca, Home Services Lead Conversion Benchmarks 2026 — 70M+ calls.</div>
+      </div>
+      <div>
+        <div class="fact__n">55% expect an answer inside the hour. 20% get one.</div>
+        <div class="fact__t">More than half of customers expect a reply within an hour — only one in five contractors manages it.</div>
+        <div class="fact__s">Jobber, 2026 Home Service Trends — 1,050 home-service owners.</div>
+      </div>
+      <div>
+        <div class="fact__n">57%</div>
+        <div class="fact__t">of voicemails left for a business are never returned.</div>
+        <div class="fact__s">Clio, 2019 — 500 calls and 1,000 emails to US firms.</div>
+      </div>
+      <div>
+        <div class="fact__n">75% decide in under 30 minutes</div>
+        <div class="fact__t">and 72% only ever look at three businesses or fewer.</div>
+        <div class="fact__s">BrightLocal, Consumer Search Behavior 2026 — 1,227 consumers.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ 8. WHAT YOU'RE REALLY COMPARING ══ -->
+<section class="sec">
+  <div class="wrap">
+    <p class="eyebrow">What you're really comparing</p>
+    <h2 class="h2">This is a job people hire for.</h2>
+    <p class="lede">Answering every call and every text, qualifying the person, writing it down, keeping it organised in one place &mdash; that's somebody's whole job. Here's what that somebody costs.</p>
+
+    <div class="compare">
+      <div class="cmp cmp--them">
+        <div class="cmp__l">Hiring for it</div>
+        <div class="cmp__n">~$4,275/mo</div>
+        <div class="cmp__d">What a receptionist costs a small employer fully loaded &mdash; wages plus payroll taxes, workers' comp and benefits. Before you've trained anybody, and before a desk, a phone or software.</div>
+      </div>
+      <div class="cmp cmp--us">
+        <div class="cmp__l">The hours</div>
+        <div class="cmp__n">40 vs 168</div>
+        <div class="cmp__d">A person covers forty hours a week. This covers a hundred and sixty-eight. To match it you'd need four people &mdash; and nobody hires four people to answer a phone.</div>
+      </div>
+    </div>
+    <p class="src">Employer cost from US Bureau of Labor Statistics wage and compensation data, adjusted for small employers.</p>
+
+    <p class="lede" style="margin-top:26px"><strong>This isn't about letting anybody go.</strong> It doesn't do scheduling, invoicing, permits or collections &mdash; a person still does all of that. Most operators your size are about to hire someone just to keep up with the phone and the texts. This is instead of that hire.</p>
+
+    <p class="lede"><strong>No setup fee and no build fee.</strong> The records, the build and the CRM are all included. We'll go through the monthly on the call.</p>
+  </div>
+</section>
+
+<!-- ══ 9. WHAT MONTH ONE LOOKS LIKE ══ -->
+<section class="sec sec--tint">
+  <div class="wrap">
+    <p class="eyebrow">Being straight with you</p>
+    <h2 class="h2">What the first month actually looks like.</h2>
+    <p class="lede">Texting doesn't start the day you sign. Here's the real sequence, so nothing is a surprise.</p>
+
+    <div class="tl">
+      <div class="tl__row">
+        <div class="tl__dot">1</div>
+        <div>
+          <div class="tl__t">You sign up, we set up your CRM</div>
+          <div class="tl__d">We collect seven things — business name, EIN, address, phone, email, website, and the zips you want worked.</div>
+        </div>
+      </div>
+      <div class="tl__row">
+        <div class="tl__dot">2</div>
+        <div>
+          <div class="tl__t">Carrier registration — 3 to 10 days</div>
+          <div class="tl__d">This is the part nobody can speed up. It's what stops your messages landing in a void, and it has to clear before any texting starts.</div>
+        </div>
+      </div>
+      <div class="tl__row">
+        <div class="tl__dot">3</div>
+        <div>
+          <div class="tl__t">We pull your records and build it — 1 to 2 weeks</div>
+          <div class="tl__d">20,000 homeowners in your area, traced to mobile numbers, loaded and ready.</div>
+        </div>
+      </div>
+      <div class="tl__row">
+        <div class="tl__dot">4</div>
+        <div>
+          <div class="tl__t">Texting starts, and volume ramps</div>
+          <div class="tl__d">New numbers start at 500 a day and step up as they earn trust with the carriers. The first couple of weeks are limited on purpose — that's what keeps your number alive.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 10. CLOSE ══ -->
+<section class="close">
+  <div class="wrap">
+    <h2 class="close__hl">Twenty minutes, and you'll know if it fits.</h2>
+    <p class="close__d">We'll go through the zips you want worked, what you're paying for leads now, and what this would look like in your business. If it isn't a fit, we'll say so.</p>
+    <button onclick="openCal()" class="btn">Book a 20-Minute Call</button>
+    <span class="btn__sub">No obligation. Nothing to install.</span>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    Cosa Ventures &nbsp;&middot;&nbsp; admin@cosaventures.com
+  </div>
+</footer>
+
+<!-- CALENDAR MODAL -->
+<div class="modal-overlay" id="calModal" role="dialog" aria-modal="true" aria-label="Book a 20-minute call">
+  <div class="modal__box">
+    <button class="modal__close" onclick="closeCal()" aria-label="Close">&times;</button>
+    <iframe class="modal__iframe" id="calFrame" src="" title="Book a 20-minute call" loading="lazy" scrolling="yes"></iframe>
+  </div>
+</div>
+
+<script>
+  /* Booking calendar. Same one the current roofing page uses. */
+  var CAL_URL = "https://api.leadconnectorhq.com/widget/booking/qGwFPBZK6x7c1td9IDiY";
+
+  /* Carry UTM parameters through to the booking widget so GoHighLevel
+     can attribute the booking back to the ad and to this page. */
+  function calUrlWithUtms() {
+    var incoming = new URLSearchParams(window.location.search);
+    var keep = new URLSearchParams();
+    incoming.forEach(function (v, k) {
+      if (/^utm_/i.test(k) || k === "fbclid" || k === "gclid") keep.append(k, v);
+    });
+    var qs = keep.toString();
+    return qs ? CAL_URL + "?" + qs : CAL_URL;
+  }
+
+  function openCal() {
+    var frame = document.getElementById("calFrame");
+    if (!frame.src || frame.src === window.location.href) frame.src = calUrlWithUtms();
+    document.getElementById("calModal").classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeCal() {
+    document.getElementById("calModal").classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
+  document.getElementById("calModal").addEventListener("click", function (e) {
+    if (e.target === this) closeCal();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeCal();
+  });
+</script>
+<script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
