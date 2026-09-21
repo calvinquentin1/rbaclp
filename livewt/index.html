@@ -129,6 +129,30 @@ a{color:inherit;text-decoration:none}
 
 .subline strong{color:var(--accent-ink);font-weight:800}
 
+.vhead{
+  text-align:center;
+  max-width:520px;
+  margin:40px auto 0;
+  padding-top:30px;
+  border-top:1px solid var(--border);
+}
+.vhead__eyebrow{
+  font-size:11px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent-ink);
+  margin-bottom:10px;
+}
+.vhead__t{
+  font-size:clamp(20px,4.4vw,26px);
+  font-weight:900;letter-spacing:-.02em;
+  line-height:1.15;text-wrap:balance;
+  margin-bottom:10px;
+}
+.vhead__d{
+  font-size:14.5px;color:var(--text-2);
+  line-height:1.6;
+}
+.vhead__d strong{color:var(--text);font-weight:700}
+
 /* ── PHONE-FRAMED VIDEO (voice demo is 1080x1920) ── */
 .vphone{
   position:relative;background:#fff;
@@ -301,13 +325,19 @@ a{color:inherit;text-decoration:none}
        Do not add invented figures, screenshots, or testimonials. -->
 
 
+  <div class="vhead">
+    <p class="vhead__eyebrow">The AI on the phone</p>
+    <p class="vhead__t">A homeowner calls back. You're on a roof.</p>
+    <p class="vhead__d">This is the whole call. It picks up, works out what's going on with the house, and confirms someone will ring them back. <strong>Turn the sound on.</strong></p>
+  </div>
+
   <div class="vphone">
     <div class="vphone__vid">
       <video src="https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6ab150a6625a2e25f961da16.mp4#t=0.1" preload="metadata" controls playsinline
              title="The voice AI answering a call and confirming a callback"></video>
     </div>
   </div>
-  <p class="voicecap">1 min 36 sec &middot; <strong>Hear it answer the phone and confirm a callback.</strong> It doesn't book the appointment &mdash; your team does that.</p>
+  <p class="voicecap">1 min 36 sec &middot; <strong>It doesn't book the appointment &mdash; your team does that.</strong></p>
 
   <div class="panel">
     <p class="panel__t">What the system is</p>
