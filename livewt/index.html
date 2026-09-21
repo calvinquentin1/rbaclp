@@ -129,6 +129,28 @@ a{color:inherit;text-decoration:none}
 
 .subline strong{color:var(--accent-ink);font-weight:800}
 
+/* ── PHONE-FRAMED VIDEO (voice demo is 1080x1920) ── */
+.vphone{
+  position:relative;background:#fff;
+  border-radius:30px;padding:22px 9px 12px;
+  max-width:320px;margin:30px auto 0;
+  box-shadow:0 0 0 9px #1C1C1C, 0 0 0 10px #333, 0 16px 38px rgba(20,20,20,.28);
+}
+.vphone::before{
+  content:'';position:absolute;top:9px;left:50%;transform:translateX(-50%);
+  width:86px;height:16px;border-radius:0 0 11px 11px;background:#1C1C1C;
+}
+.vphone__vid{
+  position:relative;width:100%;aspect-ratio:1080/1920;
+  border-radius:16px;overflow:hidden;background:#000;
+}
+.vphone__vid video{position:absolute;inset:0;width:100%;height:100%;display:block;border:0}
+.voicecap{
+  font-size:13px;color:var(--text-dim);text-align:center;
+  line-height:1.5;max-width:380px;margin:18px auto 0;
+}
+.voicecap strong{color:var(--text-2);font-weight:700}
+
 .video__cap{
   font-size:12px;color:var(--text-dim);
   text-align:center;letter-spacing:.03em;
@@ -277,6 +299,15 @@ a{color:inherit;text-decoration:none}
        Intentionally left out. If you want real client results on this page,
        give Calvin's verified numbers and drop them in as a panel here.
        Do not add invented figures, screenshots, or testimonials. -->
+
+
+  <div class="vphone">
+    <div class="vphone__vid">
+      <video src="https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6ab150a6625a2e25f961da16.mp4#t=0.1" preload="metadata" controls playsinline
+             title="The voice AI answering a call and confirming a callback"></video>
+    </div>
+  </div>
+  <p class="voicecap">1 min 36 sec &middot; <strong>Hear it answer the phone and confirm a callback.</strong> It doesn't book the appointment &mdash; your team does that.</p>
 
   <div class="panel">
     <p class="panel__t">What the system is</p>
