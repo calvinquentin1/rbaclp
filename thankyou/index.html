@@ -95,11 +95,12 @@ body{
 .video__frame{
   position:relative;
   width:100%;
-  aspect-ratio:2120/1080;  /* matches the source video */
+  aspect-ratio:2120/1080;  /* matches the CRM walkthrough */
   background:var(--surface-hi);
   border-radius:5px;
   overflow:hidden;
 }
+.video__frame--wide{aspect-ratio:16/9}  /* the VSL is 1920x1080 */
 .video__frame iframe,
 .video__frame video{
   position:absolute;inset:0;
@@ -290,7 +291,7 @@ body{
     <p class="eyebrow">Booking Confirmed</p>
     <h1 class="headline">Your call is booked. <em>Watch this first.</em></h1>
     <p class="subline">
-      You are about to watch a real client's CRM &mdash; <strong>5,913 homeowners texted, 50 leads</strong>. It shows what the system is and how it gets built, so we can skip the explaining on the call and spend the time on your market.
+      Everything we would normally explain is in this video &mdash; what we build, how it works, and our money-back guarantee. <strong>Your call picks up where it ends</strong>, so it only takes 20 minutes.
     </p>
   </div>
 
@@ -299,37 +300,24 @@ body{
        It takes either a video file (.mp4) or an embed URL (YouTube, Vimeo,
        Loom, GoHighLevel). Leave it empty and the placeholder below shows. -->
   <div class="video">
-    <div class="video__frame" id="videoFrame">
+    <div class="video__frame video__frame--wide" id="videoFrame">
       <div class="video__ph" id="videoPlaceholder">
         <strong>Video goes here</strong>
         <span>Set <code>VIDEO_SRC</code> at the bottom of this file.</span>
       </div>
     </div>
   </div>
-  <p class="video__cap">3 minutes 52 seconds &nbsp;·&nbsp; Best watched before your call</p>
+  <p class="video__cap">2 minutes 28 seconds &nbsp;·&nbsp; Watch before your call</p>
 
 
 
-  <div class="vhead">
-    <p class="vhead__eyebrow">The AI on the phone</p>
-    <p class="vhead__t">A homeowner calls back. You're on a roof.</p>
-    <p class="vhead__d">This is the whole call. It picks up, works out what's going on with the house, and confirms someone will ring them back. <strong>Turn the sound on.</strong></p>
-  </div>
-
-  <div class="vphone">
-    <div class="vphone__vid">
-      <video src="https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6ab150a6625a2e25f961da16.mp4#t=0.1" preload="metadata" controls playsinline
-             title="The voice AI answering a call and confirming a callback"></video>
-    </div>
-  </div>
-  <p class="voicecap">1 min 36 sec &middot; <strong>It doesn't book the appointment &mdash; your team does that.</strong></p>
 
   <div class="panel">
     <p class="panel__t">What you are actually getting</p>
     <div class="grid">
       <div class="item">
-        <div class="item__t">A CRM we provide and build in</div>
-        <div class="item__d">You get your own CRM account with the outbound texting system built inside it. Nothing to connect, nothing to migrate.</div>
+        <div class="item__t">A CRM, set up and ready</div>
+        <div class="item__d">A CRM account with the outbound texting system built inside it. Nothing to connect, nothing to migrate.</div>
       </div>
       <div class="item">
         <div class="item__t">20,000 homeowner records</div>
@@ -352,8 +340,8 @@ body{
       <div class="step">
         <div class="step__num">1</div>
         <div>
-          <div class="step__t">Watch the video above</div>
-          <div class="step__d">It covers the build, the timeline, and what your team is responsible for once leads start coming in.</div>
+          <div class="step__t">Watch the video at the top</div>
+          <div class="step__d">The call doesn&rsquo;t re-explain the system. It starts from your market and whether this fits your shop, so the video is what gets you up to speed.</div>
         </div>
       </div>
       <div class="step">
@@ -366,8 +354,8 @@ body{
       <div class="step">
         <div class="step__num">3</div>
         <div>
-          <div class="step__t">Bring two numbers</div>
-          <div class="step__d">What you currently pay per lead, and the zips or cities you want to work. That is all we need to map the build to your business.</div>
+          <div class="step__t">Bring two answers</div>
+          <div class="step__d">How you get leads now &mdash; doors, referrals, buying them &mdash; and the zips or cities you want to work. That is all we need to map the build to your business.</div>
         </div>
       </div>
       <div class="step">
@@ -379,6 +367,34 @@ body{
       </div>
     </div>
   </div>
+
+  <div class="vhead">
+    <p class="vhead__eyebrow">Inside a real account</p>
+    <p class="vhead__t">One contractor's CRM: 5,913 homeowners texted, 50 leads.</p>
+    <p class="vhead__d">A walk through a real client's account &mdash; what the system is and how it gets built.</p>
+  </div>
+
+  <div class="video">
+    <div class="video__frame">
+      <video src="https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6aa6f9529be8d98201e72d8e.mp4#t=0.6" preload="metadata" controls playsinline
+             title="Walkthrough of a real client's CRM"></video>
+    </div>
+  </div>
+  <p class="video__cap">3 minutes 52 seconds</p>
+
+  <div class="vhead">
+    <p class="vhead__eyebrow">The AI on the phone</p>
+    <p class="vhead__t">A homeowner calls back. You're on a roof.</p>
+    <p class="vhead__d">This is the whole call. It picks up, works out what's going on with the house, and confirms someone will ring them back. <strong>Turn the sound on.</strong></p>
+  </div>
+
+  <div class="vphone">
+    <div class="vphone__vid">
+      <video src="https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6ab150a6625a2e25f961da16.mp4#t=0.1" preload="metadata" controls playsinline
+             title="The voice AI answering a call and confirming a callback"></video>
+    </div>
+  </div>
+  <p class="voicecap">1 min 36 sec &middot; <strong>It doesn't book the appointment &mdash; your team does that.</strong></p>
 
   <p class="note">Questions before the call? Reach us at admin@cosaventures.com</p>
   <p class="footer">&copy; 2026 Internal Lead Systems for Roofing Contractors</p>
@@ -400,7 +416,7 @@ body{
      VIDEO_POSTER is the still image shown before play (optional,
      file-mode only). Leave "" to let the browser pick a frame.
      ───────────────────────────────────────────────────────────── */
-  var VIDEO_SRC = "https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6aa6f9529be8d98201e72d8e.mp4";
+  var VIDEO_SRC = "https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6ab5365e1f3be2be1b8e8d6b.mp4";
   var VIDEO_POSTER = "";
 
   (function () {
