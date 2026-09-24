@@ -19,6 +19,7 @@
   --reserve:340px;   /* space above+below the video in the first screen */
 }
 
+@media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 html,body{
   min-height:100vh;
   background:var(--bg);
@@ -136,6 +137,21 @@ body{
   letter-spacing:.03em;
   margin-bottom:20px;
 }
+/* quiet pointer to the bottom videos - text, not a button, so it
+   doesn't pull people away from the VSL before they watch it */
+.video__cap:has(+ .more){margin-bottom:6px}
+.more{
+  display:block;
+  font-size:12.5px;
+  color:var(--text-dim);
+  text-align:center;
+  margin-bottom:22px;
+  text-decoration:underline;
+  text-underline-offset:3px;
+  text-decoration-color:var(--border);
+}
+.more:hover{color:var(--text-2)}
+#more-videos{scroll-margin-top:20px}
 
 /* ── PANELS ── */
 .panel{
@@ -308,6 +324,7 @@ body{
     </div>
   </div>
   <p class="video__cap">2 minutes 28 seconds &nbsp;·&nbsp; Watch before your call</p>
+  <a class="more" href="#more-videos">Also on this page: a live CRM walkthrough and a real AI call &darr;</a>
 
 
 
@@ -368,7 +385,7 @@ body{
     </div>
   </div>
 
-  <div class="vhead">
+  <div class="vhead" id="more-videos">
     <p class="vhead__eyebrow">Inside a real account</p>
     <p class="vhead__t">One contractor's CRM: 5,913 homeowners texted, 50 leads.</p>
     <p class="vhead__d">A walk through a real client's account &mdash; what the system is and how it gets built.</p>
