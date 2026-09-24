@@ -1,7 +1,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>See The System Running | Roofing Lead System</title>
-<meta name="description" content="A short walkthrough of the outbound SMS lead system built inside your own CRM.">
+<meta name="description" content="A short walkthrough of the outbound SMS lead system we build for roofing contractors.">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
@@ -20,6 +20,7 @@
   --reserve:340px;   /* space above+below the video in the first screen */
 }
 
+@media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 html,body{
   min-height:100vh;
   background:var(--bg);
@@ -106,6 +107,7 @@ a{color:inherit;text-decoration:none}
   border-radius:5px;
   overflow:hidden;
 }
+.video__frame--wide{aspect-ratio:16/9}  /* the VSL is 1920x1080 */
 .video__frame iframe,
 .video__frame video{
   position:absolute;inset:0;
@@ -180,6 +182,21 @@ a{color:inherit;text-decoration:none}
   text-align:center;letter-spacing:.03em;
   margin-bottom:20px;
 }
+.video__cap:has(+ .more){margin-bottom:6px}
+.more{
+  display:block;
+  font-size:12.5px;
+  color:var(--text-dim);
+  text-align:center;
+  margin-bottom:22px;
+  text-decoration:underline;
+  text-underline-offset:3px;
+  text-decoration-color:var(--border);
+}
+.more:hover{color:var(--text-2)}
+#more-videos{scroll-margin-top:20px}
+.book{text-align:center;margin:4px 0 14px}
+
 
 /* ── PANEL ── */
 .panel{
@@ -299,52 +316,38 @@ a{color:inherit;text-decoration:none}
 
   <div class="head">
     <p class="eyebrow">Roofing Lead System</p>
-    <h1 class="headline">See the system <em>actually running</em>.</h1>
+    <h1 class="headline">See exactly <em>how it works</em>.</h1>
     <p class="subline">
-      A real roofing contractor's CRM, on screen &mdash; <strong>5,913 homeowners texted, 50 leads</strong>. Here is how the system is built, what it costs to run, and what happens once it is live.
+      What we build, how it finds homeowners who need a roof, and <strong>our money-back guarantee</strong> &mdash; in under three minutes.
     </p>
   </div>
 
   <!-- ── VIDEO ──
-       Same source as the thank-you page. Set by VIDEO_SRC at the bottom
+       The pre-call VSL, same source as the thank-you page. Set by VIDEO_SRC at the bottom
        of this file: a video file (.mp4) or an embed URL. -->
   <div class="video">
-    <div class="video__frame" id="videoFrame">
+    <div class="video__frame video__frame--wide" id="videoFrame">
       <div class="video__ph" id="videoPlaceholder">
         <strong>Video goes here</strong>
         <span>Set <code>VIDEO_SRC</code> at the bottom of this file.</span>
       </div>
     </div>
   </div>
-  <p class="video__cap">3 minutes 52 seconds</p>
+  <p class="video__cap">2 minutes 28 seconds</p>
+  <a class="more" href="#more-videos">Also on this page: a live CRM walkthrough and a real AI call &darr;</a>
 
-
-  <!-- ── OPTIONAL PROOF BLOCK ──
-       Intentionally left out. If you want real client results on this page,
-       give Calvin's verified numbers and drop them in as a panel here.
-       Do not add invented figures, screenshots, or testimonials. -->
-
-
-  <div class="vhead">
-    <p class="vhead__eyebrow">The AI on the phone</p>
-    <p class="vhead__t">A homeowner calls back. You're on a roof.</p>
-    <p class="vhead__d">This is the whole call. It picks up, works out what's going on with the house, and confirms someone will ring them back. <strong>Turn the sound on.</strong></p>
+  <div class="book">
+    <button onclick="openCalModal()" class="btn btn--lg">Book a 20-Minute Call &rarr;</button>
   </div>
 
-  <div class="vphone">
-    <div class="vphone__vid">
-      <video src="https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6ab150a6625a2e25f961da16.mp4#t=0.1" preload="metadata" controls playsinline
-             title="The voice AI answering a call and confirming a callback"></video>
-    </div>
-  </div>
-  <p class="voicecap">1 min 36 sec &middot; <strong>It doesn't book the appointment &mdash; your team does that.</strong></p>
+
 
   <div class="panel">
     <p class="panel__t">What the system is</p>
     <div class="grid">
       <div class="item">
-        <div class="item__t">A CRM we provide and build in</div>
-        <div class="item__d">You get your own CRM account with the outbound texting system built inside it. Nothing to connect, nothing to migrate.</div>
+        <div class="item__t">A CRM, set up and ready</div>
+        <div class="item__d">A CRM account with the outbound texting system built inside it. Nothing to connect, nothing to migrate.</div>
       </div>
       <div class="item">
         <div class="item__t">20,000 homeowner records</div>
@@ -361,17 +364,45 @@ a{color:inherit;text-decoration:none}
     </div>
   </div>
 
+  <div class="vhead" id="more-videos">
+    <p class="vhead__eyebrow">Inside a real account</p>
+    <p class="vhead__t">One contractor&rsquo;s CRM: 5,913 homeowners texted, 50 leads.</p>
+    <p class="vhead__d">A walk through a real client&rsquo;s account &mdash; what the system is and how it gets built.</p>
+  </div>
+
+  <div class="video">
+    <div class="video__frame">
+      <video src="https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6aa6f9529be8d98201e72d8e.mp4#t=0.6" preload="metadata" controls playsinline
+             title="Walkthrough of a real client's CRM"></video>
+    </div>
+  </div>
+  <p class="video__cap">3 minutes 52 seconds</p>
+
+  <div class="vhead">
+    <p class="vhead__eyebrow">The AI on the phone</p>
+    <p class="vhead__t">A homeowner calls back. You're on a roof.</p>
+    <p class="vhead__d">This is the whole call. It picks up, works out what's going on with the house, and confirms someone will ring them back. <strong>Turn the sound on.</strong></p>
+  </div>
+
+  <div class="vphone">
+    <div class="vphone__vid">
+      <video src="https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6ab150a6625a2e25f961da16.mp4#t=0.1" preload="metadata" controls playsinline
+             title="The voice AI answering a call and confirming a callback"></video>
+    </div>
+  </div>
+  <p class="voicecap">1 min 36 sec &middot; <strong>It doesn't book the appointment &mdash; your team does that.</strong></p>
+
   <div class="cta">
     <h2 class="cta__hl">Want this built for your service area?</h2>
     <p class="cta__body">
-      Book a strategy call and we will walk through your zips, what you currently pay per lead, and exactly what the build looks like for your business.
+      Twenty minutes. We look at how you get leads now and the zips you want to work, and tell you honestly whether this makes sense for your shop.
     </p>
     <div class="cta__items">
       <span class="cta-check">Done for you</span>
       <span class="cta-check">No tech experience needed</span>
-      <span class="cta-check">Leads within weeks</span>
+      <span class="cta-check">Replies in week one or your money back</span>
     </div>
-    <button onclick="openCalModal()" class="btn btn--lg">Book a Strategy Call &rarr;</button>
+    <button onclick="openCalModal()" class="btn btn--lg">Book a 20-Minute Call &rarr;</button>
   </div>
 
   <p class="note">Questions? Reach us at admin@cosaventures.com</p>
@@ -393,7 +424,7 @@ a{color:inherit;text-decoration:none}
      A path ending .mp4/.webm/.mov plays in the browser's own player;
      anything else is treated as an iframe embed URL.
      ───────────────────────────────────────────────────────────── */
-  var VIDEO_SRC = "https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6aa6f9529be8d98201e72d8e.mp4";
+  var VIDEO_SRC = "https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6ab5365e1f3be2be1b8e8d6b.mp4";
   var VIDEO_POSTER = "";
 
   (function () {
