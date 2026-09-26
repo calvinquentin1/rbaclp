@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>See How Roofers Get Homeowner Leads | Cosa Marketing</title>
+<meta name="description" content="A 3-minute video on how roofers get homeowners in their area texting them about their roof. Grab a call with us on the same page.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="See How Roofers Get Homeowner Leads | Cosa Marketing">
+<meta property="og:description" content="A 3-minute video on how it works. Grab a call with us on the same page.">
+<meta property="og:image" content="/assets/vsl-poster.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<!-- No Meta Pixel on purpose: outbound bookings must not count as ad bookings. -->
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#FFFFFF;
+  --surface:#F8F6F3;
+  --surface-hi:#F1EDE6;
+  --text:#1C1C1C;
+  --text-2:#555555;
+  --text-dim:#8A8A8A;
+  --accent:#CF5000;
+  --accent-ink:#A63F00;
+  --accent-dk:#A63F00;
+  --border:#E9E5DF;
+  --r:4px;
+  --reserve:340px;   /* space above+below the video in the first screen */
+}
+
+@media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+html,body{
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+
+body{
+  padding:32px 24px 40px;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(207,80,0,.06) 0%, transparent 60%),
+    var(--bg);
+}
+
+a{color:inherit;text-decoration:none}
+.wrap{width:100%;max-width:860px;margin:0 auto}
+
+/* ── BUTTON ── */
+.btn{
+  display:inline-block;
+  background:var(--accent);
+  color:#fff;
+  font-size:15px;font-weight:700;
+  letter-spacing:.01em;
+  padding:13px 28px;
+  border-radius:var(--r);
+  border:none;cursor:pointer;
+  transition:background .15s ease,transform .1s ease;
+}
+.btn:hover{background:var(--accent-dk)}
+.btn:active{transform:scale(.98)}
+.btn:focus-visible{outline:2px solid var(--accent-dk);outline-offset:3px}
+.btn--lg{font-size:17px;padding:16px 38px}
+
+/* ── HEAD ── */
+.head{text-align:center;margin-bottom:22px}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent-ink);
+  margin-bottom:18px;
+}
+.eyebrow::before,.eyebrow::after{
+  content:'';height:1px;width:28px;background:rgba(207,80,0,.45);
+}
+
+.headline{
+  font-size:clamp(30px,6vw,50px);
+  font-weight:900;
+  letter-spacing:-.03em;
+  line-height:1.05;
+  text-wrap:balance;
+  margin-bottom:16px;
+}
+.headline em{font-style:normal;color:var(--accent-ink)}
+
+.subline{
+  font-size:17px;
+  color:var(--text-2);
+  line-height:1.6;
+  max-width:580px;
+  margin:0 auto;
+}
+
+/* ── VIDEO ── */
+.video{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:10px;
+  margin:0 auto 12px;
+  /* keep the whole player inside the first screen: cap by viewport
+     height, let width follow the 1.963 aspect ratio */
+  max-width:calc((100vh - var(--reserve)) * 1.963 + 20px);
+  max-width:calc((100dvh - var(--reserve)) * 1.963 + 20px);
+}
+.video__frame{
+  position:relative;
+  width:100%;
+  aspect-ratio:2120/1080;  /* matches the source video */
+  background:var(--surface-hi);
+  border-radius:5px;
+  overflow:hidden;
+}
+.video__frame--wide{aspect-ratio:16/9}  /* the VSL is 1920x1080 */
+.video__frame iframe,
+.video__frame video{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  border:0;display:block;
+}
+.video__ph{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:10px;text-align:center;padding:24px;
+  color:var(--text-dim);font-size:13px;line-height:1.6;
+}
+.video__ph strong{display:block;font-size:14px;font-weight:700;color:var(--text-2)}
+.video__ph code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:12px;color:var(--accent-ink);
+  background:rgba(207,80,0,.08);
+  padding:2px 6px;border-radius:3px;
+}
+
+.subline strong{color:var(--accent-ink);font-weight:800}
+
+.vhead{
+  text-align:center;
+  max-width:520px;
+  margin:40px auto 0;
+  padding-top:30px;
+  border-top:1px solid var(--border);
+}
+.vhead__eyebrow{
+  font-size:11px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent-ink);
+  margin-bottom:10px;
+}
+.vhead__t{
+  font-size:clamp(20px,4.4vw,26px);
+  font-weight:900;letter-spacing:-.02em;
+  line-height:1.15;text-wrap:balance;
+  margin-bottom:10px;
+}
+.vhead__d{
+  font-size:14.5px;color:var(--text-2);
+  line-height:1.6;
+}
+.vhead__d strong{color:var(--text);font-weight:700}
+
+/* ── PHONE-FRAMED VIDEO (voice demo is 1080x1920) ── */
+.vphone{
+  position:relative;background:#fff;
+  border-radius:30px;padding:22px 9px 12px;
+  max-width:320px;margin:30px auto 0;
+  box-shadow:0 0 0 9px #1C1C1C, 0 0 0 10px #333, 0 16px 38px rgba(20,20,20,.28);
+}
+.vphone::before{
+  content:'';position:absolute;top:9px;left:50%;transform:translateX(-50%);
+  width:86px;height:16px;border-radius:0 0 11px 11px;background:#1C1C1C;
+}
+.vphone__vid{
+  position:relative;width:100%;aspect-ratio:1080/1920;
+  border-radius:16px;overflow:hidden;background:#000;
+}
+.vphone__vid video{position:absolute;inset:0;width:100%;height:100%;display:block;border:0}
+.voicecap{
+  font-size:13px;color:var(--text-dim);text-align:center;
+  line-height:1.5;max-width:380px;margin:18px auto 0;
+}
+.voicecap strong{color:var(--text-2);font-weight:700}
+
+.video__cap{
+  font-size:12px;color:var(--text-dim);
+  text-align:center;letter-spacing:.03em;
+  margin-bottom:20px;
+}
+.video__cap:has(+ .more){margin-bottom:6px}
+.more{
+  display:block;
+  font-size:12.5px;
+  color:var(--text-dim);
+  text-align:center;
+  margin-bottom:22px;
+  text-decoration:underline;
+  text-underline-offset:3px;
+  text-decoration-color:var(--border);
+}
+.more:hover{color:var(--text-2)}
+#more-videos{scroll-margin-top:20px}
+.book{text-align:center;margin:4px 0 14px}
+
+
+/* ── PANEL ── */
+.panel{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:36px 34px;
+  margin-bottom:28px;
+}
+
+.panel__t{
+  font-size:13px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent-ink);
+  margin-bottom:22px;text-align:center;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:20px 28px;
+}
+
+.item__t{font-size:14px;font-weight:700;letter-spacing:-.01em;margin-bottom:4px}
+.item__d{font-size:13px;color:var(--text-2);line-height:1.55}
+
+/* ── CTA ── */
+.cta{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:44px 34px;
+  text-align:center;
+  margin-bottom:28px;
+}
+.cta__hl{
+  font-size:clamp(22px,4vw,30px);
+  font-weight:900;letter-spacing:-.025em;
+  line-height:1.15;text-wrap:balance;
+  margin-bottom:12px;
+}
+.cta__body{
+  font-size:15px;color:var(--text-2);
+  line-height:1.6;max-width:520px;
+  margin:0 auto 26px;
+}
+.cta__items{
+  display:flex;flex-wrap:wrap;gap:10px 20px;
+  justify-content:center;margin-bottom:28px;
+}
+.cta-check{
+  font-size:12.5px;color:var(--text-2);
+  display:inline-flex;align-items:center;gap:7px;
+}
+.cta-check::before{
+  content:'';width:14px;height:14px;flex-shrink:0;
+  border-radius:50%;
+  background:rgba(207,80,0,.12);
+  border:1px solid rgba(207,80,0,.4);
+}
+
+.note{font-size:12px;color:var(--text-dim);line-height:1.6;text-align:center}
+
+.footer{
+  margin-top:30px;font-size:11px;color:var(--text-dim);
+  letter-spacing:.04em;text-align:center;
+}
+
+@media(max-width:700px){
+  :root{--reserve:300px}
+  body{padding:24px 16px 32px}
+  .grid{grid-template-columns:1fr;gap:18px}
+  .panel,.cta{padding:28px 22px}
+  .video{padding:10px}
+  .modal-overlay{align-items:flex-end;padding:0}
+  .modal__close{top:10px;right:12px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
+
+/* ── PROOF ── */
+.proof{text-align:center;margin:8px 0 30px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.stat__n{font-size:clamp(26px,6vw,38px);font-weight:900;letter-spacing:-.03em;color:var(--accent-ink);line-height:1.05}
+.stat__l{font-size:12px;color:var(--text-2);margin-top:4px;line-height:1.35}
+.proof__s{font-size:12px;color:var(--text-dim)}
+
+/* ── CALENDAR ── */
+#book{scroll-margin-top:16px}
+.cal{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:34px 20px 20px;
+  margin-bottom:34px;
+  text-align:center;
+}
+.cal .cta__body{margin-bottom:18px}
+.cal__frame{
+  width:100%;min-height:560px;border:none;overflow:hidden;
+  background:var(--bg);border-radius:6px;display:block;
+}
+@media(max-width:600px){
+  .stats{grid-template-columns:repeat(2,1fr);gap:16px 10px}
+  .cal{padding:26px 10px 10px;margin-left:-8px;margin-right:-8px}
+}
+/* short phones: keep the book button on the first screen */
+@media(max-width:600px) and (max-height:720px){
+  body{padding-top:14px}
+  .head{margin-bottom:14px}
+  .video__cap{margin-bottom:10px}
+}
+@media(max-width:600px) and (max-height:580px){
+  .headline{font-size:26px;margin-bottom:10px}
+  .subline{font-size:15px;line-height:1.45}
+  .eyebrow{margin-bottom:8px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <p class="eyebrow">Cosa Marketing</p>
+    <h1 class="headline">Get homeowners in your area <em>texting you about their roof</em>.</h1>
+    <p class="subline">
+      We build you your own texting system. It reaches thousands of homeowners, an AI answers every reply, and <strong>the ones who need a roof land in your pipeline</strong>.
+    </p>
+  </div>
+
+  <!-- ── VIDEO ── the pre-call VSL, same file as /thankyou and /livewt -->
+  <div class="video">
+    <div class="video__frame video__frame--wide" id="videoFrame"></div>
+  </div>
+  <p class="video__cap">2 minutes 28 seconds</p>
+
+  <div class="book">
+    <a href="#book" class="btn btn--lg">Book a 20-Minute Call &darr;</a>
+  </div>
+  <a class="more" href="#more-videos">Also on this page: a real client&rsquo;s account and a real AI call &darr;</a>
+
+  <div class="panel">
+    <p class="panel__t">What you get</p>
+    <div class="grid">
+      <div class="item">
+        <div class="item__t">A CRM, set up and ready</div>
+        <div class="item__d">Your leads, notes and conversations in one place. Nothing to connect, nothing to migrate.</div>
+      </div>
+      <div class="item">
+        <div class="item__t">Homeowner records for your area</div>
+        <div class="item__d">Mobile numbers, pulled to the zips you want to work.</div>
+      </div>
+      <div class="item">
+        <div class="item__t">A texting number that&rsquo;s approved</div>
+        <div class="item__d">We handle the carrier registration so your texts land.</div>
+      </div>
+      <div class="item">
+        <div class="item__t">An AI that answers every reply</div>
+        <div class="item__d">Day or night. Your guys call the interested ones and book the estimate.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="proof">
+    <div class="stats">
+      <div><div class="stat__n">5,913</div><div class="stat__l">homeowners reached</div></div>
+      <div><div class="stat__n">674</div><div class="stat__l">texted back</div></div>
+      <div><div class="stat__n">50</div><div class="stat__l">became opportunities</div></div>
+      <div><div class="stat__n">Day 3</div><div class="stat__l">first one came in</div></div>
+    </div>
+    <p class="proof__s">One of our roofers. One real account, not a promise.</p>
+  </div>
+
+  <!-- ── BOOKING ── calendar embed supplied by Calvin, 26 Sep 2026 -->
+  <div class="cal" id="book">
+    <h2 class="cta__hl">Grab 20 minutes with us</h2>
+    <p class="cta__body">We&rsquo;ll look at your area and show you what it would look like for you. No pressure, no pitch deck.</p>
+    <iframe class="cal__frame" src="https://api.leadconnectorhq.com/widget/booking/TmX7OCUJnZgTpcbSbzRU" allow="payment"
+            scrolling="no" id="8j9veLKHexPLKWUcNX1r_1790451222512" title="Book a call"></iframe>
+  </div>
+
+  <div class="vhead" id="more-videos">
+    <p class="vhead__eyebrow">Inside a real account</p>
+    <p class="vhead__t">A real roofer&rsquo;s account.</p>
+    <p class="vhead__d">5,913 homeowners texted, 674 replied, 50 in his pipeline in under two weeks.</p>
+  </div>
+  <div class="video">
+    <div class="video__frame">
+      <video src="https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6aa6f9529be8d98201e72d8e.mp4#t=0.6" preload="metadata" controls playsinline
+             title="Walkthrough of a real client's CRM"></video>
+    </div>
+  </div>
+  <p class="video__cap">3 minutes 52 seconds</p>
+
+  <div class="vhead">
+    <p class="vhead__eyebrow">The AI on the phone</p>
+    <p class="vhead__t">A homeowner calls back. You can&rsquo;t pick up.</p>
+    <p class="vhead__d">The AI answers. <strong>It doesn&rsquo;t book the appointment. Your team does that.</strong> Turn the sound on.</p>
+  </div>
+  <div class="vphone">
+    <div class="vphone__vid">
+      <video src="https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6ab150a6625a2e25f961da16.mp4#t=0.1" preload="metadata" controls playsinline
+             title="The voice AI answering a call and confirming a callback"></video>
+    </div>
+  </div>
+  <p class="voicecap">1 min 36 sec</p>
+
+  <div class="book" style="margin:30px 0 26px">
+    <a href="#book" class="btn btn--lg">Book a 20-Minute Call &uarr;</a>
+  </div>
+
+  <p class="note">Questions? Reach us at admin@cosaventures.com</p>
+  <p class="footer">&copy; 2026 Cosa Marketing</p>
+
+</div>
+
+<script>
+  /* VIDEO — same file as /thankyou and /livewt. Keep them in sync. */
+  var VIDEO_SRC = "https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6ab5365e1f3be2be1b8e8d6b.mp4";
+  var VIDEO_POSTER = "/assets/vsl-poster.jpg";  /* iOS shows a blank frame without one */
+  (function () {
+    var el = document.createElement("video");
+    el.src = VIDEO_SRC;
+    el.controls = true;
+    el.preload = "metadata";
+    el.playsInline = true;
+    el.poster = VIDEO_POSTER;
+    el.title = "How the system works";
+    document.getElementById("videoFrame").appendChild(el);
+  })();
+</script>
+<script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
+</body>
+</html>
