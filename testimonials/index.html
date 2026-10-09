@@ -1,0 +1,326 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Client Results | Cosa Marketing</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#FFFFFF;
+  --surface:#F8F6F3;
+  --surface-hi:#F1EDE6;
+  --text:#1C1C1C;
+  --text-2:#555555;
+  --text-dim:#8A8A8A;
+  --accent:#CF5000;
+  --accent-ink:#A63F00;
+  --accent-dk:#A63F00;
+  --border:#E9E5DF;
+  --r:4px;
+  --reserve:340px;   /* space above+below the video in the first screen */
+}
+
+@media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+html,body{
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+
+body{
+  padding:32px 24px 40px;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(207,80,0,.06) 0%, transparent 60%),
+    var(--bg);
+}
+
+.wrap{width:100%;max-width:860px;margin:0 auto}
+
+/* ── CONFIRM HEAD ── */
+.head{text-align:center;margin-bottom:22px}
+
+.check{
+  width:44px;height:44px;
+  background:rgba(207,80,0,.1);
+  border:2px solid rgba(207,80,0,.35);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 12px;
+}
+.check svg{
+  width:20px;height:20px;
+  stroke:var(--accent);
+  stroke-width:2.5;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  fill:none;
+}
+
+.eyebrow{
+  font-size:11px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent-ink);
+  margin-bottom:14px;
+}
+
+.headline{
+  font-size:clamp(28px,5.5vw,44px);
+  font-weight:900;
+  letter-spacing:-.028em;
+  line-height:1.06;
+  text-wrap:balance;
+  margin-bottom:14px;
+}
+.headline em{font-style:normal;color:var(--accent-ink)}
+
+.subline{
+  font-size:16px;
+  color:var(--text-2);
+  line-height:1.65;
+  max-width:560px;
+  margin:0 auto;
+}
+
+/* ── VIDEO ── */
+.video{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:10px;
+  margin:0 auto 12px;
+  /* keep the whole player inside the first screen: cap by viewport
+     height, let width follow the 1.963 aspect ratio */
+  max-width:calc((100vh - var(--reserve)) * 1.963 + 20px);
+  max-width:calc((100dvh - var(--reserve)) * 1.963 + 20px);
+}
+.video__frame{
+  position:relative;
+  width:100%;
+  aspect-ratio:2120/1080;  /* matches the CRM walkthrough */
+  background:var(--surface-hi);
+  border-radius:5px;
+  overflow:hidden;
+}
+.video__frame--wide{aspect-ratio:16/9}  /* the VSL is 1920x1080 */
+.video__frame--testimonial{aspect-ratio:944/528}  /* testimonial is 944x528 */
+.video__frame iframe,
+.video__frame video{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  border:0;
+  display:block;
+}
+/* Shown only until a real embed URL is dropped in */
+.video__ph{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:10px;text-align:center;padding:24px;
+  color:var(--text-dim);
+  font-size:13px;line-height:1.6;
+}
+.video__ph strong{
+  display:block;font-size:14px;font-weight:700;color:var(--text-2);
+}
+.video__ph code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:12px;color:var(--accent-ink);
+  background:rgba(207,80,0,.08);
+  padding:2px 6px;border-radius:3px;
+}
+
+.subline strong{color:var(--accent-ink);font-weight:800}
+
+.video__cap{
+  font-size:12px;
+  color:var(--text-dim);
+  text-align:center;
+  letter-spacing:.03em;
+  margin-bottom:20px;
+}
+/* quiet pointer to the bottom videos - text, not a button, so it
+   doesn't pull people away from the VSL before they watch it */
+.video__cap:has(+ .more){margin-bottom:6px}
+.more{
+  display:block;
+  font-size:12.5px;
+  color:var(--text-dim);
+  text-align:center;
+  margin-bottom:22px;
+  text-decoration:underline;
+  text-underline-offset:3px;
+  text-decoration-color:var(--border);
+}
+.more:hover{color:var(--text-2)}
+#more-videos{scroll-margin-top:20px}
+
+/* ── PANELS ── */
+.panel{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:36px 34px;
+  margin-bottom:28px;
+}
+
+.panel__t{
+  font-size:13px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent-ink);
+  margin-bottom:22px;
+  text-align:center;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:20px 28px;
+}
+
+.item__t{
+  font-size:14px;font-weight:700;
+  letter-spacing:-.01em;
+  margin-bottom:4px;
+}
+.item__d{
+  font-size:13px;
+  color:var(--text-2);
+  line-height:1.55;
+}
+
+/* ── STEPS ── */
+.steps{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+
+.step{
+  display:grid;
+  grid-template-columns:32px 1fr;
+  gap:14px;
+  align-items:flex-start;
+}
+
+.step__num{
+  width:32px;height:32px;
+  background:var(--surface-hi);
+  border:1px solid var(--border);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;
+  color:var(--accent-ink);
+  flex-shrink:0;
+}
+
+.step__t{
+  font-size:14px;font-weight:700;
+  color:var(--text);
+  margin-bottom:3px;
+  letter-spacing:-.01em;
+}
+
+.step__d{
+  font-size:13px;
+  color:var(--text-2);
+  line-height:1.55;
+}
+
+.vhead{
+  text-align:center;
+  max-width:520px;
+  margin:40px auto 0;
+  padding-top:30px;
+  border-top:1px solid var(--border);
+}
+.vhead__eyebrow{
+  font-size:11px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent-ink);
+  margin-bottom:10px;
+}
+.vhead__t{
+  font-size:clamp(20px,4.4vw,26px);
+  font-weight:900;letter-spacing:-.02em;
+  line-height:1.15;text-wrap:balance;
+  margin-bottom:10px;
+}
+.vhead__d{
+  font-size:14.5px;color:var(--text-2);
+  line-height:1.6;
+}
+.vhead__d strong{color:var(--text);font-weight:700}
+
+/* ── PHONE-FRAMED VIDEO (voice demo is 1080x1920) ── */
+.vphone{
+  position:relative;background:#fff;
+  border-radius:30px;padding:22px 9px 12px;
+  max-width:320px;margin:30px auto 0;
+  box-shadow:0 0 0 9px #1C1C1C, 0 0 0 10px #333, 0 16px 38px rgba(20,20,20,.28);
+}
+.vphone::before{
+  content:'';position:absolute;top:9px;left:50%;transform:translateX(-50%);
+  width:86px;height:16px;border-radius:0 0 11px 11px;background:#1C1C1C;
+}
+.vphone__vid{
+  position:relative;width:100%;aspect-ratio:1080/1920;
+  border-radius:16px;overflow:hidden;background:#000;
+}
+.vphone__vid video{position:absolute;inset:0;width:100%;height:100%;display:block;border:0}
+.voicecap{
+  font-size:13px;color:var(--text-dim);text-align:center;
+  line-height:1.5;max-width:380px;margin:18px auto 34px;
+}
+.voicecap strong{color:var(--text-2);font-weight:700}
+
+.note{
+  font-size:12px;
+  color:var(--text-dim);
+  line-height:1.6;
+  text-align:center;
+}
+
+.footer{
+  margin-top:30px;
+  font-size:11px;
+  color:var(--text-dim);
+  letter-spacing:.04em;
+  text-align:center;
+}
+
+@media(max-width:700px){
+  :root{--reserve:300px}
+  body{padding:24px 16px 32px}
+  .grid{grid-template-columns:1fr;gap:18px}
+  .panel{padding:28px 22px}
+  .video{padding:10px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
+</style>
+
+<div class="wrap">
+
+  <div class="head">
+    <p class="eyebrow">Client results</p>
+    <h1 class="headline">Hear it from a contractor <em>running the system.</em></h1>
+    <p class="subline">
+      No script and no polish. This is a real client talking about what the outbound texting system did for their roofing business.
+    </p>
+  </div>
+
+  <div class="video">
+    <div class="video__frame video__frame--testimonial">
+      <video src="https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6ac9080f195f9172ed14cb2a.mp4#t=0.6" preload="metadata" controls playsinline
+             title="Client testimonial"></video>
+    </div>
+  </div>
+  <p class="video__cap">3 minutes 25 seconds</p>
+
+  <!-- To add another testimonial, copy the .video block above, its caption
+       and a .vhead heading, and paste them here. -->
+
+  <p class="note">Questions? Reach us at admin@cosaventures.com</p>
+  <p class="footer">&copy; 2026 Internal Lead Systems for Roofing Contractors</p>
+
+</div>
