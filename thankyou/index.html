@@ -102,6 +102,7 @@ body{
   overflow:hidden;
 }
 .video__frame--wide{aspect-ratio:16/9}  /* the VSL is 1920x1080 */
+.video__frame--testimonial{aspect-ratio:944/528}  /* testimonial is 944x528 */
 .video__frame iframe,
 .video__frame video{
   position:absolute;inset:0;
@@ -384,6 +385,20 @@ body{
       </div>
     </div>
   </div>
+
+  <div class="vhead" id="testimonial">
+    <p class="vhead__eyebrow">From a real client</p>
+    <p class="vhead__t">Hear it from a contractor who's running the system.</p>
+    <p class="vhead__d">Straight from a client &mdash; no script, no polish.</p>
+  </div>
+
+  <div class="video">
+    <div class="video__frame video__frame--testimonial">
+      <video src="https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6ac9080f195f9172ed14cb2a.mp4#t=0.6" preload="metadata" controls playsinline
+             title="Client testimonial"></video>
+    </div>
+  </div>
+  <p class="video__cap">3 minutes 25 seconds</p>
 
   <div class="vhead" id="more-videos">
     <p class="vhead__eyebrow">Inside a real account</p>
