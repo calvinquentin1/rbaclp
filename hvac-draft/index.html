@@ -1,0 +1,961 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>For HVAC Companies With a Team | Cosa Ventures</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1159853466994711');
+fbq('track', 'ViewContent');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1159853466994711&ev=ViewContent&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<meta name="description" content="Built for licensed HVAC companies with techs on the road. We text homeowners in your area and AI answers every reply and callback, day or night.">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#FFFFFF;
+  --surface:#F8F6F3;
+  --surface-hi:#F1EDE6;
+  --text:#141414;
+  --text-2:#4A4A4A;
+  --text-dim:#7C7C7C;
+  --accent:#CF5000;
+  --accent-ink:#9E3C00;
+  --accent-dk:#A63F00;
+  --border:#E4DFD7;
+  --ok:#1F7A3D;
+  --r:5px;
+}
+
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Archivo',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+a{color:inherit;text-decoration:none}
+
+.wrap{width:100%;max-width:720px;margin:0 auto;padding:0 20px}
+
+/* ── BUTTON — one CTA, same wording everywhere ── */
+.btn{
+  display:inline-block;
+  background:var(--accent);
+  color:#fff;
+  font-size:18px;
+  font-weight:800;
+  letter-spacing:.01em;
+  padding:18px 32px;
+  border-radius:var(--r);
+  border:none;
+  cursor:pointer;
+  width:100%;
+  max-width:420px;
+  transition:background .15s ease,transform .1s ease;
+}
+.btn:hover{background:var(--accent-dk)}
+.btn:active{transform:scale(.99)}
+.btn:focus-visible{outline:3px solid var(--accent-dk);outline-offset:3px}
+.btn__sub{
+  display:block;
+  font-size:13px;font-weight:600;
+  color:var(--text-dim);
+  margin-top:10px;
+  letter-spacing:.01em;
+}
+
+/* ── HERO — phone fold: headline, one line of sub, CTA. Nothing else. ── */
+.hero{
+  padding:44px 0 40px;
+  text-align:center;
+  border-bottom:1px solid var(--border);
+  background:
+    radial-gradient(ellipse 90% 60% at 50% 0%, rgba(207,80,0,.07) 0%, transparent 65%),
+    var(--bg);
+}
+.hero__hl{
+  font-size:clamp(34px,8vw,52px);
+  font-weight:900;
+  line-height:1.03;
+  letter-spacing:-.03em;
+  text-wrap:balance;
+  margin-bottom:18px;
+}
+.hero__hl em{font-style:normal;color:var(--accent-ink)}
+.hero__sub strong{color:var(--accent-ink);font-weight:800}
+.hero__sub{
+  font-size:clamp(18px,4.2vw,21px);
+  color:var(--text-2);
+  font-weight:600;
+  line-height:1.45;
+  max-width:540px;
+  margin:0 auto 30px;
+  text-wrap:balance;
+}
+
+.hero__fit{
+  font-size:14px;font-weight:700;
+  color:var(--accent-ink);
+  max-width:460px;margin:-14px auto 24px;
+  line-height:1.4;text-wrap:balance;
+}
+
+/* ── WHO THIS IS FOR ── */
+.fit{display:flex;flex-direction:column;gap:12px;margin-top:26px}
+.fit__row{
+  display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:baseline;
+  font-size:16.5px;line-height:1.5;color:var(--text);
+}
+.fit__m{
+  width:24px;height:24px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:900;flex-shrink:0;
+  transform:translateY(3px);
+}
+.fit__row--yes .fit__m{background:rgba(31,122,61,.12);color:var(--ok)}
+.fit__row--no{color:var(--text-2)}
+.fit__row--no .fit__m{background:rgba(163,21,21,.1);color:#A31515}
+
+/* ── ORIGIN BAND — answers "where do the leads come from?" ── */
+.band{
+  background:var(--text);
+  color:#fff;
+  padding:34px 0 32px;
+  text-align:center;
+}
+.band__hl{
+  font-size:clamp(22px,5.2vw,30px);
+  font-weight:900;
+  letter-spacing:-.025em;
+  line-height:1.15;
+  text-wrap:balance;
+  margin-bottom:22px;
+}
+.band__hl em{font-style:normal;color:#FF7A2F}
+.band__steps{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  max-width:560px;
+  margin:0 auto;
+  text-align:left;
+}
+.band__s{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:12px;
+  align-items:baseline;
+  font-size:15.5px;
+  line-height:1.5;
+  color:rgba(255,255,255,.88);
+}
+.band__n{
+  font-size:12px;font-weight:800;
+  color:#FF7A2F;
+  letter-spacing:.06em;
+}
+.band__s strong{color:#fff;font-weight:700}
+
+@media(min-width:640px){
+  .band__steps{
+    flex-direction:row;
+    text-align:center;
+    gap:28px;
+    max-width:760px;
+  }
+  .band__s{grid-template-columns:1fr;gap:6px;justify-items:center}
+}
+
+/* ── PRODUCT SHOT — the CRM, in a browser frame ── */
+.shot{
+  width:100%;
+  max-width:560px;
+  margin:0 auto 16px;
+  border-radius:10px;
+  overflow:hidden;
+  background:#1B1B1B;
+  border:1px solid rgba(0,0,0,.14);
+  box-shadow:0 12px 34px rgba(20,20,20,.16), 0 2px 6px rgba(20,20,20,.08);
+}
+.shot__bar{
+  display:flex;align-items:center;gap:6px;
+  padding:8px 11px;
+  background:#2A2A2A;
+}
+.shot__dot{width:9px;height:9px;border-radius:50%;background:#4A4A4A}
+.shot__url{
+  flex:1;margin-left:8px;
+  background:#1B1B1B;
+  border-radius:4px;
+  font-size:10px;
+  color:#8A8A8A;
+  padding:4px 9px;
+  text-align:left;
+  letter-spacing:.02em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.shot__media{
+  position:relative;
+  width:100%;
+  aspect-ratio:2120/1080;
+  background:#101010;
+}
+.shot__media video{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  display:block;border:0;
+}
+.shot__cap{
+  font-size:12.5px;
+  color:var(--text-dim);
+  text-align:center;
+  margin:0 auto 18px;
+  letter-spacing:.01em;
+}
+
+/* ── HERO CONVERSATION — the product, as a text thread ── */
+.hconvo{
+  width:100%;
+  max-width:318px;
+  margin:0 auto 16px;
+  background:#fff;
+  border-radius:22px;
+  padding:24px 11px 14px;
+  text-align:left;
+  box-shadow:0 0 0 8px #1C1C1C, 0 0 0 9px #3A3A3A, 0 14px 34px rgba(20,20,20,.26);
+  position:relative;
+}
+.hconvo::before{
+  content:'';position:absolute;top:7px;left:50%;transform:translateX(-50%);
+  width:76px;height:14px;border-radius:0 0 10px 10px;background:#1C1C1C;
+}
+.hc__hd{
+  font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-dim);text-align:center;
+  padding-bottom:8px;margin-bottom:10px;
+  border-bottom:1px solid var(--border);
+}
+.hc__ctx{
+  font-size:11px;color:#8A8A8A;
+  text-align:center;line-height:1.4;
+  margin:0 6px 10px;
+}
+.hc__row{display:flex;margin-bottom:7px}
+.hc__row--out{justify-content:flex-end}
+.hc__b{
+  max-width:86%;
+  padding:8px 12px;
+  border-radius:18px;
+  font-size:14px;
+  line-height:1.35;
+  -webkit-font-smoothing:antialiased;
+}
+.hc__row--in .hc__b{background:#E9E9EB;color:#000;border-bottom-left-radius:5px}
+.hc__row--out .hc__b{background:#007AFF;color:#fff;border-bottom-right-radius:5px}
+.hc__tag{
+  display:inline-block;
+  font-size:9px;font-weight:800;letter-spacing:.11em;
+  background:rgba(255,255,255,.25);
+  color:#fff;
+  padding:1.5px 5px;border-radius:3px;
+  margin-bottom:4px;
+}
+
+.hc__note{
+  font-size:12px;
+  color:var(--text-dim);
+  text-align:center;
+  line-height:1.45;
+  margin:0 auto 13px;
+  max-width:330px;
+}
+.hc__note strong{color:var(--text-2);font-weight:700}
+
+/* ── SECTIONS ── */
+.sec{padding:52px 0;border-bottom:1px solid var(--border)}
+.sec--tint{background:var(--surface)}
+
+.eyebrow{
+  font-size:12px;font-weight:800;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--accent-ink);
+  margin-bottom:14px;
+}
+.h2{
+  font-size:clamp(26px,5.6vw,36px);
+  font-weight:900;
+  letter-spacing:-.025em;
+  line-height:1.12;
+  text-wrap:balance;
+  margin-bottom:18px;
+}
+.lede{font-size:17px;color:var(--text-2);line-height:1.62;margin-bottom:16px}
+.lede:last-child{margin-bottom:0}
+.lede strong{color:var(--text);font-weight:700}
+
+/* ── PHONE / CONVERSATION ── */
+.convo-grid{display:flex;flex-direction:column;gap:52px;margin-top:34px;padding:0 6px}
+
+.phone{
+  position:relative;
+  background:#fff;
+  border-radius:30px;
+  padding:26px 14px 22px;
+  max-width:340px;
+  margin:0 auto;
+  /* real handset: dark bezel, inner screen edge, drop shadow */
+  box-shadow:
+    0 0 0 9px #1C1C1C,
+    0 0 0 10px #333,
+    0 16px 38px rgba(20,20,20,.28);
+}
+/* notch */
+.phone::before{
+  content:'';
+  position:absolute;top:9px;left:50%;transform:translateX(-50%);
+  width:86px;height:16px;border-radius:0 0 11px 11px;
+  background:#1C1C1C;
+}
+.phone__hd{
+  font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-dim);
+  padding-bottom:12px;margin-bottom:14px;
+  border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;gap:10px;align-items:baseline;
+}
+.phone__hd--bad{color:#A31515}
+.phone__hd--good{color:var(--ok)}
+
+.msg{display:flex;margin-bottom:10px}
+.msg__b{
+  max-width:82%;
+  padding:11px 14px;
+  border-radius:16px;
+  font-size:15.5px;
+  line-height:1.45;
+}
+.msg--in{justify-content:flex-start}
+.msg--in .msg__b{background:var(--surface-hi);color:var(--text);border-bottom-left-radius:5px}
+.msg--out{justify-content:flex-end}
+.msg--out .msg__b{background:var(--accent);color:#fff;border-bottom-right-radius:5px}
+
+.stamp{
+  font-size:12px;color:var(--text-dim);
+  margin:2px 0 14px;
+}
+.msg--out + .stamp{text-align:right}
+
+.verdict{
+  margin-top:14px;padding-top:14px;
+  border-top:1px solid var(--border);
+  font-size:14px;font-weight:700;
+}
+.verdict--bad{color:#A31515}
+.verdict--good{color:var(--ok)}
+
+/* ── LIST ── */
+.items{display:flex;flex-direction:column;gap:22px;margin-top:26px}
+.item__t{font-size:18px;font-weight:800;letter-spacing:-.015em;margin-bottom:5px}
+.item__d{font-size:16px;color:var(--text-2);line-height:1.55}
+.item__d strong{color:var(--text);font-weight:700}
+
+/* ── QUESTIONS ── */
+.qs{display:flex;flex-direction:column;gap:14px;margin-top:26px}
+.q{
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-left:3px solid var(--accent);
+  border-radius:var(--r);
+  padding:16px 18px;
+  font-size:16.5px;
+  font-weight:600;
+  line-height:1.5;
+}
+
+/* ── STATS ── */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:26px 20px;
+  margin:28px 0 20px;
+}
+.stat__n{
+  font-size:clamp(32px,8vw,44px);
+  font-weight:900;letter-spacing:-.03em;line-height:1;
+  color:var(--accent-ink);margin-bottom:6px;
+}
+.stat__l{font-size:14px;color:var(--text-2);line-height:1.4;font-weight:600}
+.src{font-size:13px;color:var(--text-dim);line-height:1.5;margin-top:6px}
+
+.facts{display:flex;flex-direction:column;gap:18px;margin-top:26px}
+.fact__n{font-size:20px;font-weight:900;color:var(--accent-ink);letter-spacing:-.02em}
+.fact__t{font-size:16px;color:var(--text-2);line-height:1.5;margin-top:2px}
+.fact__s{font-size:12.5px;color:var(--text-dim);margin-top:4px}
+
+/* ── TIMELINE ── */
+.tl{display:flex;flex-direction:column;gap:0;margin-top:26px}
+.tl__row{
+  display:grid;grid-template-columns:auto 1fr;gap:16px;
+  padding-bottom:22px;position:relative;
+}
+.tl__row:not(:last-child)::before{
+  content:'';position:absolute;left:13px;top:30px;bottom:0;
+  width:2px;background:var(--border);
+}
+.tl__dot{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--surface-hi);border:2px solid var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:800;color:var(--accent-ink);
+  position:relative;z-index:1;flex-shrink:0;
+}
+.tl__t{font-size:16.5px;font-weight:800;margin-bottom:3px;letter-spacing:-.01em}
+.tl__d{font-size:15px;color:var(--text-2);line-height:1.5}
+
+/* ── PRICE ── */
+.price{
+  background:var(--bg);
+  border:2px solid var(--accent);
+  border-radius:8px;
+  padding:30px 24px;
+  text-align:center;
+  margin-top:26px;
+}
+.price__n{
+  font-size:clamp(34px,8vw,46px);
+  font-weight:900;letter-spacing:-.03em;line-height:1.05;
+  margin-bottom:8px;
+}
+.price__d{font-size:16px;color:var(--text-2);font-weight:600}
+
+.compare{
+  display:grid;grid-template-columns:1fr;
+  gap:14px;margin-top:26px;
+}
+.cmp{
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:18px 20px;
+  background:var(--bg);
+}
+.cmp__l{font-size:13px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px}
+.cmp__n{font-size:26px;font-weight:900;letter-spacing:-.025em;margin-bottom:4px}
+.cmp__d{font-size:14.5px;color:var(--text-2);line-height:1.5}
+.cmp--them .cmp__n{color:var(--text)}
+.cmp--us{border-color:var(--accent);border-width:2px}
+.cmp--us .cmp__n{color:var(--accent-ink)}
+
+/* ── CLOSE ── */
+.close{padding:56px 0 60px;text-align:center}
+.close__hl{
+  font-size:clamp(28px,6vw,38px);
+  font-weight:900;letter-spacing:-.025em;line-height:1.12;
+  text-wrap:balance;margin-bottom:16px;
+}
+.close__d{
+  font-size:17px;color:var(--text-2);line-height:1.6;
+  max-width:520px;margin:0 auto 28px;
+}
+
+.footer{
+  padding:26px 0 40px;
+  text-align:center;
+  font-size:13px;
+  color:var(--text-dim);
+  line-height:1.6;
+  border-top:1px solid var(--border);
+}
+
+/* ── MODAL ── */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,.75);
+  align-items:center;justify-content:center;padding:16px;
+}
+.modal-overlay.open{display:flex}
+.modal__box{
+  position:relative;background:var(--surface);
+  border:1px solid var(--border);border-radius:8px;
+  width:min(780px,100%);height:min(680px,92vh);
+  overflow:hidden;display:flex;flex-direction:column;
+}
+.modal__close{
+  position:absolute;top:12px;right:14px;z-index:10;
+  background:var(--surface-hi);border:1px solid var(--border);
+  color:var(--text-2);border-radius:var(--r);
+  width:36px;height:36px;font-size:20px;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.modal__close:hover{background:var(--border);color:var(--text)}
+.modal__iframe{flex:1;border:none;width:100%;height:100%;background:var(--bg)}
+
+@media(min-width:640px){
+  .convo-grid{flex-direction:row;gap:42px}
+  .convo-grid > *{flex:1}
+  .compare{grid-template-columns:1fr 1fr;align-items:start}
+}
+
+/* Phone: size the hero to its content. Forcing 100dvh reserved height
+   iOS hides behind its toolbars, which left dead space under the CTA and
+   pushed the band that answers "where do the leads come from" off screen. */
+@media(max-width:639px){
+  .hero{padding:12px 0 20px}
+  .hero__hl{margin-bottom:12px}
+  .hero__sub{margin-bottom:10px;font-size:16px}
+  .hero__fit{margin:0 auto 12px;font-size:13px}
+  /* the real transcript runs longer than the sample it replaced, so the
+     handset tightens on phones to keep the CTA above the fold */
+  .hconvo{padding:20px 11px 10px}
+  .hc__ctx{margin-bottom:8px}
+  .hc__row{margin-bottom:5px}
+  .hc__b{font-size:13px;padding:7px 11px;line-height:1.34}
+  .hc__note{margin-bottom:7px;font-size:11.5px}
+  .shot{margin-bottom:12px}
+  .shot__cap{font-size:12px;margin-bottom:14px}
+  .band{padding:28px 0 26px}
+  .band__hl{margin-bottom:18px}
+}
+
+/* very short handsets: the caption is the first thing to go */
+@media(max-width:639px) and (max-height:640px){
+  /* the opening question is restated in the line above it, so it goes
+     first - the reply and the hand-off to the team are the payoff */
+  .hconvo .hc__row:nth-of-type(1){display:none}
+}
+
+@media(max-width:639px) and (max-height:545px){
+}
+
+@media(max-width:639px) and (max-height:600px){
+  .shot__cap{display:none}
+  .hero{padding-top:14px}
+  /* the thread reads on its own; the proof caption under it stays */
+  .hc__ctx{display:none}
+}
+
+/* very short screens: shrink the shot so the CTA always clears */
+@media(max-width:639px) and (max-height:545px){
+  .hconvo{max-width:272px}
+  .hc__note{display:none}
+  .shot{max-width:268px}
+  .hero__hl{font-size:29px}
+  .hero__sub{font-size:15.5px;margin-bottom:14px}
+  .hero{padding-top:12px}
+}
+
+@media(max-width:400px){
+  body{font-size:16px}
+  /* the 34px floor wraps the headline to four lines below 390px wide,
+     which pushes the CTA under the fold on SE-sized phones */
+  .hero__hl{font-size:8.6vw}
+  .sec{padding:44px 0}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
+</style>
+
+<!-- ══ 1. HERO ══ -->
+<section class="hero">
+  <div class="wrap">
+    <h1 class="hero__hl">We build the system. <em>You get HVAC replacement leads every week.</em></h1>
+    <p class="hero__sub">We text homeowners in your area under your company's name. AI answers every reply and every callback, day or night, and the interested ones land in your pipeline for your office to call.</p>
+    <p class="hero__fit">Built for licensed HVAC companies with techs on the road. Not pay-per-lead.</p>
+
+    <!-- EXAMPLE conversation, not a real one. Do not label it real unless a real HVAC transcript is supplied. -->
+    <div class="hconvo">
+      <p class="hc__ctx">Example: she said her furnace is 18 years old and keeps shutting off.</p>
+      <div class="hc__row hc__row--out"><div class="hc__b"><span class="hc__tag">AI</span><br>That sounds like it's short-cycling. Is the furnace still heating the house at all?</div></div>
+      <div class="hc__row hc__row--in"><div class="hc__b">It runs a few minutes, shuts off, then starts again. The house is barely warm</div></div>
+      <div class="hc__row hc__row--out"><div class="hc__b"><span class="hc__tag">AI</span><br>Got it. I'll have the office call you today to talk through replacing it.</div></div>
+    </div>
+    <p class="hc__note"><strong>Example conversation.</strong> Your office makes the call from here.</p>
+
+    <button onclick="openCal()" class="btn">Book a 20-Minute Call</button>
+    <!-- PRICE LINE: recommended wording, Calvin to confirm before publish. Never "No setup fee". -->
+    <span class="btn__sub">$2,500 to start, then month to month. No long-term contract.</span>
+  </div>
+</section>
+
+<!-- ══ 2. HOW IT WORKS ══ -->
+<section class="band">
+  <div class="wrap">
+    <p class="band__hl">We send the text. <em>AI handles the rest.</em></p>
+    <div class="band__steps">
+      <div class="band__s">
+        <span class="band__n">01</span>
+        <span>We pull <strong>homeowners in your area</strong> and text them under your company's name.</span>
+      </div>
+      <div class="band__s">
+        <span class="band__n">02</span>
+        <span><strong>AI works every reply</strong> and picks up callbacks, day or night.</span>
+      </div>
+      <div class="band__s">
+        <span class="band__n">03</span>
+        <span>The serious ones <strong>land in your pipeline</strong>. Your team calls and quotes them.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 3. WHO THIS IS FOR (the qualifier) ══ -->
+<section class="sec">
+  <div class="wrap">
+    <p class="eyebrow">Who this is for</p>
+    <h2 class="h2">Check this before you book.</h2>
+    <p class="lede">This is built for a real HVAC shop. If it isn't you, we'd rather you know now than on the call.</p>
+
+    <div class="fit">
+      <div class="fit__row fit__row--yes"><span class="fit__m" aria-hidden="true">&#10003;</span><span>You're a licensed HVAC company: state or mechanical license where required, and EPA 608-certified techs.</span></div>
+      <div class="fit__row fit__row--yes"><span class="fit__m" aria-hidden="true">&#10003;</span><span>You have at least 2 techs or trucks, or an office person who calls back new leads the same day.</span></div>
+      <div class="fit__row fit__row--yes"><span class="fit__m" aria-hidden="true">&#10003;</span><span>You do replacements and installs, not only service calls.</span></div>
+      <div class="fit__row fit__row--yes"><span class="fit__m" aria-hidden="true">&#10003;</span><span>You want to own your lead flow instead of renting it.</span></div>
+      <div class="fit__row fit__row--no"><span class="fit__m" aria-hidden="true">&#10005;</span><span>You're shopping for pay-per-lead or a free trial.</span></div>
+      <div class="fit__row fit__row--no"><span class="fit__m" aria-hidden="true">&#10005;</span><span>You work solo, with no one to call leads back.</span></div>
+      <div class="fit__row fit__row--no"><span class="fit__m" aria-hidden="true">&#10005;</span><span>You're not ready to invest $2,500 to start.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 4. WHERE YOUR INSTALLS COME FROM NOW ══ -->
+<section class="sec sec--tint">
+  <div class="wrap">
+    <p class="eyebrow">Where your installs come from now</p>
+    <h2 class="h2">Most HVAC leads are rented, and shared.</h2>
+    <p class="lede">Here is how the usual sources compare with a system of your own.</p>
+
+    <!-- The BDR "$70-$150 per search lead" figure from the brief is left out until Calvin approves citing it. -->
+    <div class="compare">
+      <div class="cmp cmp--them">
+        <div class="cmp__l">Google and Local Services</div>
+        <div class="cmp__n">Expensive, and shared</div>
+        <div class="cmp__d">You pay for the click or the lead, and the same homeowner is often calling other companies too.</div>
+      </div>
+      <div class="cmp cmp--them">
+        <div class="cmp__l">Lead vendors</div>
+        <div class="cmp__n">Sold to several companies</div>
+        <div class="cmp__d">The lead is sold more than once, so you're racing the other shops to the phone.</div>
+      </div>
+      <div class="cmp cmp--them">
+        <div class="cmp__l">Referrals and maintenance plans</div>
+        <div class="cmp__n">Great, but slow</div>
+        <div class="cmp__d">The best customers you have. They don't scale when you need more installs on demand.</div>
+      </div>
+      <div class="cmp cmp--us">
+        <div class="cmp__l">Your own system</div>
+        <div class="cmp__n">$2,500 to start</div>
+        <div class="cmp__d">Then month to month, no long-term contract. The homeowners are yours to text, and nobody else gets the reply.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 5. THE MECHANISM ══ -->
+<section class="sec">
+  <div class="wrap">
+    <p class="eyebrow">Why it costs so little to run</p>
+    <h2 class="h2">You're not paying a middleman, and you're not paying anybody to sit and answer messages.</h2>
+    <p class="lede">A lead company charges you for a lead because someone had to generate it and work it. Here, the texting costs a penny a message, and the answering is done by AI.</p>
+    <p class="lede"><strong>It answers every homeowner who writes back, in seconds, at any hour, and picks up when they call.</strong> It asks what's going on with the system and drops the ones who are actually interested into your pipeline.</p>
+    <p class="lede">Nothing gets generated and then left sitting.</p>
+  </div>
+</section>
+
+<!-- ══ 6. WHAT HAPPENS AT 9 PM ══ -->
+<section class="sec sec--tint">
+  <div class="wrap">
+    <p class="eyebrow">What happens at 9 PM</p>
+    <h2 class="h2">A homeowner texts at 9pm. Your office is closed.</h2>
+    <p class="lede">This is the difference, and it's the whole product. Both threads below are examples.</p>
+
+    <div class="convo-grid">
+
+      <div class="phone">
+        <div class="phone__hd phone__hd--bad"><span>Without it</span><span>Example</span></div>
+
+        <div class="msg msg--in"><div class="msg__b">Our AC quit and it's 90 in the house. Can someone come look at it?</div></div>
+        <div class="stamp">Homeowner &middot; 9:04 PM</div>
+
+        <div class="stamp" style="text-align:center;margin:18px 0;">· · ·</div>
+        <div class="stamp" style="text-align:center;">no reply</div>
+
+        <div class="verdict verdict--bad">
+          Unanswered overnight. Likely already called the next company.
+        </div>
+      </div>
+
+      <div class="phone">
+        <div class="phone__hd phone__hd--good"><span>With it</span><span>Example</span></div>
+
+        <div class="msg msg--in"><div class="msg__b">Our AC quit and it's 90 in the house. Can someone come look at it?</div></div>
+        <div class="stamp">Homeowner &middot; 9:04 PM</div>
+
+        <div class="msg msg--out"><div class="msg__b">Sorry about that. Is the fan still running, or has the whole unit shut off?</div></div>
+        <div class="stamp">9:04 PM</div>
+
+        <div class="msg msg--in"><div class="msg__b">fan runs but the air is warm</div></div>
+        <div class="stamp">Homeowner &middot; 9:06 PM</div>
+
+        <div class="msg msg--out"><div class="msg__b">Got it. Are you the homeowner, and what's the address?</div></div>
+        <div class="stamp">9:06 PM</div>
+
+        <div class="verdict verdict--good">In your pipeline before you wake up. Your office calls them in the morning.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ 7. WHAT YOU GET ══ -->
+<section class="sec">
+  <div class="wrap">
+    <p class="eyebrow">What you actually get</p>
+    <h2 class="h2">The whole machine, built and run for you.</h2>
+
+    <div class="items">
+      <div>
+        <div class="item__t">A CRM, set up and ready</div>
+        <div class="item__d">Leads, notes, pipeline and conversation history in one place. <strong>We set it up for you, so there's nothing to migrate.</strong></div>
+        <!-- Do not claim a ServiceTitan or Housecall Pro integration. Wording about dispatch software is pending Calvin. -->
+      </div>
+      <div>
+        <div class="item__t">Homeowner records for your area</div>
+        <!-- PENDING CALVIN: record count and whether we can filter by home age for HVAC. No number is shown until then. -->
+        <div class="item__d">Pulled for your service area, scrubbed and traced to <strong>mobile numbers</strong>, and loaded into your CRM ready to work.</div>
+      </div>
+      <div>
+        <div class="item__t">Texting under your business name</div>
+        <div class="item__d">Outbound to those homeowners at <strong>a penny a message</strong>.</div>
+      </div>
+      <div>
+        <div class="item__t">An AI that answers every text reply</div>
+        <div class="item__d">Instantly, any hour, on every one of them. It asks what's going on with the system and sorts the serious from the curious. <strong>Interested homeowners land in your pipeline, and your team calls them and books their own appointments.</strong></div>
+      </div>
+      <div>
+        <div class="item__t">An AI that answers inbound calls</div>
+        <div class="item__d">When a homeowner calls and your techs are out on a job, it answers, finds out what's going on, and confirms someone will call them straight back. <strong>It doesn't book the appointment. Your team does that.</strong></div>
+      </div>
+      <div>
+        <div class="item__t">Carrier registration handled</div>
+        <div class="item__d">The paperwork that makes business texting deliverable. <strong>We do it for you.</strong> Texts go out under your company's name, lists are scrubbed against Do Not Call and litigator lists, and STOP is always honored.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 8. THE QUESTIONS ══ -->
+<section class="sec sec--tint">
+  <div class="wrap">
+    <p class="eyebrow">Before you sign with anyone</p>
+    <h2 class="h2">Six questions worth asking any company that wants to text for you.</h2>
+    <p class="lede">Ask us the same ones. The answers are where the real difference sits.</p>
+
+    <div class="qs">
+      <div class="q">"Are the homeowner records included, or do I buy those separately?"</div>
+      <div class="q">"Who answers when a homeowner texts back at 9pm?"</div>
+      <div class="q">"When someone calls the number back, who picks up?"</div>
+      <div class="q">"Am I the only HVAC company getting these leads, or are they sold to other people too?"</div>
+      <div class="q">"Is anyone watching my opt-out rate? If it climbs, the carriers shut my number off."</div>
+      <div class="q">"Who handles carrier registration? Get it wrong and messages fail without telling you."</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 9. PROOF ══
+     PENDING CALVIN: we have no HVAC clients or results yet. Everything here is labeled as a real client's
+     home-service business, never as HVAC. If Calvin chooses "no results", delete this whole section. -->
+<section class="sec">
+  <div class="wrap">
+    <p class="eyebrow">From a live client account</p>
+    <h2 class="h2">Six days of sending, one real client's home service business.</h2>
+
+    <div class="stats">
+      <div>
+        <div class="stat__n">5,913</div>
+        <div class="stat__l">homeowners reached</div>
+      </div>
+      <div>
+        <div class="stat__n">674</div>
+        <div class="stat__l">wrote back, 11.4%</div>
+      </div>
+      <div>
+        <div class="stat__n">50</div>
+        <div class="stat__l">opportunities created</div>
+      </div>
+      <div>
+        <div class="stat__n">3 days</div>
+        <div class="stat__l">from first text to first lead in the pipeline</div>
+      </div>
+    </div>
+    <p class="src">Measured in a live client account over six days of sending, September 2026. Opt-out rate 1.4%.</p>
+
+    <p class="eyebrow" style="margin-top:38px">Inside a real client's account</p>
+    <div class="shot" style="margin-top:10px">
+      <div class="shot__bar">
+        <span class="shot__dot"></span><span class="shot__dot"></span><span class="shot__dot"></span>
+        <span class="shot__url">your-company.crm &mdash; opportunities</span>
+      </div>
+      <div class="shot__media">
+        <video src="https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6aa6f9529be8d98201e72d8e.mp4#t=0.6"
+               preload="metadata" controls playsinline
+               title="The system running inside a client's CRM"></video>
+      </div>
+    </div>
+    <p class="shot__cap" style="margin-top:14px">A real client's home service business. Press play &mdash; 3 min 52 sec.</p>
+
+    <p class="eyebrow" style="margin-top:38px">Hear it from a client</p>
+    <div class="shot" style="margin-top:10px">
+      <div class="shot__media" style="aspect-ratio:944/528">
+        <video src="https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6ac9080f195f9172ed14cb2a.mp4#t=0.5"
+               preload="metadata" controls playsinline
+               title="Client testimonial"></video>
+      </div>
+    </div>
+    <p class="shot__cap" style="margin-top:12px">A real client's home service business. Press play &mdash; 3 min 24 sec.</p>
+  </div>
+</section>
+
+<!-- ══ 10. HOME-SERVICE STATS (sourced only) ══ -->
+<section class="sec sec--tint">
+  <div class="wrap">
+    <p class="eyebrow">Why speed matters</p>
+    <h2 class="h2">Homeowners don't wait.</h2>
+
+    <div class="facts">
+      <div>
+        <div class="fact__n">Only 52%</div>
+        <div class="fact__t">of calls to home-service businesses are answered by a person.</div>
+        <div class="fact__s">Invoca, Home Services Lead Conversion Benchmarks 2026 — 70M+ calls.</div>
+      </div>
+      <div>
+        <div class="fact__n">55% expect an answer inside the hour. 20% get one.</div>
+        <div class="fact__t">More than half of customers expect a reply within an hour. Only one in five contractors manages it.</div>
+        <div class="fact__s">Jobber, 2026 Home Service Trends — 1,050 home-service owners.</div>
+      </div>
+      <div>
+        <div class="fact__n">75% decide in under 30 minutes</div>
+        <div class="fact__t">and 72% only ever look at three businesses or fewer.</div>
+        <div class="fact__s">BrightLocal, Consumer Search Behavior 2026 — 1,227 consumers.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 11. GETTING IT RUNNING ══ -->
+<section class="sec">
+  <div class="wrap">
+    <p class="eyebrow">Getting it running</p>
+    <h2 class="h2">You do nothing. We build the whole thing.</h2>
+    <p class="lede">There's no software to learn and nothing to install. You carry on running your jobs while we build it.</p>
+
+    <div class="tl">
+      <div class="tl__row">
+        <div class="tl__dot">1</div>
+        <div>
+          <div class="tl__t">We build your CRM</div>
+          <div class="tl__d">Set up and ready before you've had to think about it. All we need from you is your business details and the zips you want worked.</div>
+        </div>
+      </div>
+      <div class="tl__row">
+        <div class="tl__dot">2</div>
+        <div>
+          <div class="tl__t">We get you registered with the carriers</div>
+          <div class="tl__d">The paperwork that makes your texts land instead of silently failing. It takes the carriers 3 to 10 days, and we handle all of it.</div>
+        </div>
+      </div>
+      <div class="tl__row">
+        <div class="tl__dot">3</div>
+        <div>
+          <div class="tl__t">We pull and clean your homeowner records</div>
+          <div class="tl__d">Your area, scrubbed and traced to mobile numbers, loaded and ready to work.</div>
+        </div>
+      </div>
+      <div class="tl__row">
+        <div class="tl__dot">4</div>
+        <div>
+          <div class="tl__t">Texting starts, and the AI takes it from there</div>
+          <div class="tl__d">It works every reply and every inbound call from that point on. Volume opens up as your number earns trust with the carriers, which is what keeps it alive long-term.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 12. CLOSE ══ -->
+<section class="close">
+  <div class="wrap">
+    <h2 class="close__hl">Twenty minutes, and you'll know if it fits your shop.</h2>
+    <p class="close__d">We'll go through the zips you want worked, what you're paying for leads now, and what this would look like in your business. If it isn't a fit, we'll say so.</p>
+    <button onclick="openCal()" class="btn">Book a 20-Minute Call</button>
+    <span class="btn__sub">$2,500 to start, then month to month. No long-term contract.</span>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    Cosa Ventures &nbsp;&middot;&nbsp; admin@cosaventures.com
+  </div>
+</footer>
+
+<!-- CALENDAR MODAL -->
+<div class="modal-overlay" id="calModal" role="dialog" aria-modal="true" aria-label="Book a 20-minute call">
+  <div class="modal__box">
+    <button class="modal__close" onclick="closeCal()" aria-label="Close">&times;</button>
+    <iframe class="modal__iframe" id="calFrame" src="" title="Book a 20-minute call" loading="lazy" scrolling="yes"></iframe>
+  </div>
+</div>
+
+<script>
+  /* Booking calendar. The HVAC Lead Gen System calendar. */
+  var CAL_URL = "https://api.leadconnectorhq.com/widget/booking/xif35Cij0FrgjTPONoFL";
+
+  /* Carry UTM parameters through to the booking widget so GoHighLevel
+     can attribute the booking back to the ad and to this page. */
+  function calUrlWithUtms() {
+    var incoming = new URLSearchParams(window.location.search);
+    var keep = new URLSearchParams();
+    incoming.forEach(function (v, k) {
+      if (/^utm_/i.test(k) || k === "fbclid" || k === "gclid") keep.append(k, v);
+    });
+    var qs = keep.toString();
+    return qs ? CAL_URL + "?" + qs : CAL_URL;
+  }
+
+  function openCal() {
+    var frame = document.getElementById("calFrame");
+    if (!frame.src || frame.src === window.location.href) frame.src = calUrlWithUtms();
+    document.getElementById("calModal").classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeCal() {
+    document.getElementById("calModal").classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
+  document.getElementById("calModal").addEventListener("click", function (e) {
+    if (e.target === this) closeCal();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeCal();
+  });
+</script>
+<script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
