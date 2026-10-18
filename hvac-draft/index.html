@@ -4,23 +4,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1625103811908671');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1625103811908671&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
 <meta name="description" content="Built for licensed HVAC companies with techs on the road. We text homeowners in your area and AI answers every reply and callback, day or night.">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -133,6 +116,22 @@ a{color:inherit;text-decoration:none}
 .fit__row--yes .fit__m{background:rgba(31,122,61,.12);color:var(--ok)}
 .fit__row--no{color:var(--text-2)}
 .fit__row--no .fit__m{background:rgba(163,21,21,.1);color:#A31515}
+
+/* ── VIDEO LINKS ── */
+.vlinks{display:flex;flex-direction:column;gap:12px;margin-top:34px}
+.vlink{
+  display:block;
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-left:3px solid var(--accent);
+  border-radius:var(--r);
+  padding:16px 18px;
+  transition:background .15s ease;
+}
+.vlink:hover{background:var(--surface)}
+.vlink:focus-visible{outline:3px solid var(--accent-dk);outline-offset:3px}
+.vlink__t{display:block;font-size:17px;font-weight:800;color:var(--accent-ink);text-decoration:underline;text-underline-offset:3px}
+.vlink__d{display:block;font-size:14.5px;color:var(--text-2);margin-top:3px;line-height:1.45}
 
 /* ── ORIGIN BAND — answers "where do the leads come from?" ── */
 .band{
@@ -780,13 +779,12 @@ a{color:inherit;text-decoration:none}
 </section>
 
 <!-- ══ 9. PROOF ══
-     PENDING CALVIN: we have no HVAC clients or results yet. Everything below is labeled as a roofing
-     account. If Calvin chooses "no results", delete the stats, the CRM video in section 10 and the testimonial. -->
+     PENDING CALVIN: we have no HVAC clients or results yet. Everything here is labeled as a real client's
+     home-service business, never as HVAC. If Calvin chooses "no results", delete this whole section. -->
 <section class="sec">
   <div class="wrap">
-    <p class="eyebrow">From a live roofing client account</p>
-    <h2 class="h2">Six days of sending, one roofing contractor.</h2>
-    <p class="lede">The same system, running for a roofing company. These are roofing numbers, not HVAC numbers.</p>
+    <p class="eyebrow">From a live client account</p>
+    <h2 class="h2">Six days of sending, one real client's home service business.</h2>
 
     <div class="stats">
       <div>
@@ -806,31 +804,18 @@ a{color:inherit;text-decoration:none}
         <div class="stat__l">from first text to first lead in the pipeline</div>
       </div>
     </div>
-    <p class="src">Measured in a live roofing client account over six days of sending, September 2026. Opt-out rate 1.4%.</p>
+    <p class="src">Measured in a live client account over six days of sending, September 2026. Opt-out rate 1.4%.</p>
 
-    <p class="eyebrow" style="margin-top:38px">Inside that roofing account</p>
-    <div class="shot" style="margin-top:10px">
-      <div class="shot__bar">
-        <span class="shot__dot"></span><span class="shot__dot"></span><span class="shot__dot"></span>
-        <span class="shot__url">your-company.crm &mdash; opportunities</span>
-      </div>
-      <div class="shot__media">
-        <video id="heroShot" src="https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6aa6f9529be8d98201e72d8e.mp4#t=0.6"
-               preload="metadata" controls playsinline
-               title="The system running inside a roofing client's CRM"></video>
-      </div>
+    <div class="vlinks">
+      <a class="vlink" href="https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6aa6f9529be8d98201e72d8e.mp4" target="_blank" rel="noopener">
+        <span class="vlink__t">Watch the CRM walkthrough</span>
+        <span class="vlink__d">Inside a real client's home service business. 3 min 52 sec.</span>
+      </a>
+      <a class="vlink" href="https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6ac9080f195f9172ed14cb2a.mp4" target="_blank" rel="noopener">
+        <span class="vlink__t">Watch the client testimonial</span>
+        <span class="vlink__d">Hear it from a real client's home service business. 3 min 24 sec.</span>
+      </a>
     </div>
-    <p class="shot__cap" style="margin-top:14px">A real roofing client's CRM. Press play, 3 min 52 sec.</p>
-
-    <p class="eyebrow" style="margin-top:38px">Hear it from a roofing client</p>
-    <div class="shot" style="margin-top:10px">
-      <div class="shot__media" style="aspect-ratio:944/528">
-        <video src="https://assets.cdn.filesafe.space/w4F7l11d2nZEqJ21Itzl/media/6ac9080f195f9172ed14cb2a.mp4#t=0.5"
-               preload="metadata" controls playsinline
-               title="Roofing client testimonial"></video>
-      </div>
-    </div>
-    <p class="shot__cap" style="margin-top:12px">Press play, 3 min 24 sec.</p>
   </div>
 </section>
 
