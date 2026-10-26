@@ -1,0 +1,406 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Client Results | Cosa Marketing</title>
+<meta name="description" content="What roofers texting homeowners with Cosa Marketing actually get: texts delivered, homeowner leads and cost per lead. Best, middle and worst accounts shown.">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#FFFFFF;
+  --surface:#F8F6F3;
+  --surface-hi:#F1EDE6;
+  --text:#1C1C1C;
+  --text-2:#555555;
+  --text-dim:#7A7A7A;
+  --accent:#CF5000;
+  --accent-ink:#A63F00;
+  --accent-dk:#A63F00;
+  --border:#E9E5DF;
+  --good:#1F7A3D;
+  --low:#8A5A10;
+  --r:5px;
+}
+
+html{-webkit-text-size-adjust:100%}
+@media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(207,80,0,.06) 0%, transparent 60%),
+    var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:44px 20px 48px;
+}
+
+.wrap{width:100%;max-width:960px;margin:0 auto;display:flex;flex-direction:column;gap:56px}
+.narrow{max-width:720px}
+
+.eyebrow{
+  font-size:11px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent-ink);
+}
+h1,h2,h3{text-wrap:balance;letter-spacing:-.025em}
+
+/* ── HERO ── */
+.hero{display:flex;flex-direction:column;gap:14px}
+.hero h1{font-size:clamp(32px,6vw,52px);font-weight:900;line-height:1.05}
+.hero h1 em{font-style:normal;color:var(--accent-ink)}
+.lede{font-size:18px;color:var(--text-2);line-height:1.6;max-width:640px}
+.stamp{font-size:12px;color:var(--text-dim);letter-spacing:.04em}
+
+/* ── STAT BAND ── */
+.stats{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  background:var(--surface);
+  border:1px solid var(--border);border-radius:8px;overflow:hidden;
+}
+.stat{padding:22px 20px 20px;min-width:0}
+.stat+.stat{border-left:1px solid var(--border)}
+.stat b{
+  display:block;
+  font-size:clamp(26px,4vw,38px);font-weight:900;letter-spacing:-.03em;line-height:1.1;
+  color:var(--accent-ink);font-variant-numeric:tabular-nums;
+}
+.stat span{display:block;font-size:13.5px;color:var(--text-2);line-height:1.4;margin-top:6px;font-weight:600}
+
+/* ── CALLOUT BOX ── */
+.box{
+  background:var(--surface);
+  border:1px solid var(--border);border-left:3px solid var(--accent);
+  border-radius:var(--r);padding:16px 20px;
+  font-size:15.5px;color:var(--text-2);line-height:1.6;
+}
+.box strong{color:var(--text);font-weight:700}
+
+/* ── SECTIONS ── */
+.sec{display:flex;flex-direction:column;gap:22px}
+.sec__head{display:flex;flex-direction:column;gap:10px;max-width:700px}
+.sec__head h2{font-size:clamp(25px,4.6vw,34px);font-weight:900;line-height:1.12}
+.sec__head p{font-size:16.5px;color:var(--text-2);line-height:1.6}
+
+/* ── BEST / MIDDLE / WORST ── */
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch}
+.tier{
+  background:var(--bg);
+  border:1px solid var(--border);border-radius:8px;
+  padding:22px 20px;display:flex;flex-direction:column;gap:16px;min-width:0;
+}
+.tier--mid{border:2px solid var(--accent);background:var(--surface);padding:21px 19px}
+.tag{
+  align-self:flex-start;
+  font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  padding:4px 9px;border-radius:3px;
+}
+.tier--best .tag{background:rgba(31,122,61,.1);color:var(--good)}
+.tier--mid .tag{background:var(--accent);color:#fff}
+.tier--worst .tag{background:rgba(138,90,16,.1);color:var(--low)}
+.who h3{font-size:21px;font-weight:800}
+.who span{display:block;font-size:14px;color:var(--text-2)}
+.big b{
+  display:block;font-size:52px;font-weight:900;letter-spacing:-.04em;line-height:1;
+  color:var(--accent-ink);font-variant-numeric:tabular-nums;
+}
+.big span{display:block;font-size:13.5px;color:var(--text-2);margin-top:6px;font-weight:600}
+.kv{
+  display:grid;grid-template-columns:1fr auto;gap:7px 14px;
+  font-size:14px;border-top:1px solid var(--border);padding-top:14px;margin-top:auto;
+}
+.tier--mid .kv{border-top-color:#DDD5CA}
+.kv dt{color:var(--text-2)}
+.kv dd{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.note{font-size:13.5px;color:var(--text-dim);line-height:1.55;max-width:700px}
+
+/* ── TABLE ── */
+.scroller{
+  overflow-x:auto;-webkit-overflow-scrolling:touch;
+  border:1px solid var(--border);border-radius:8px;background:var(--bg);
+}
+.scroller:focus-visible{outline:3px solid var(--accent-dk);outline-offset:2px}
+table{width:100%;min-width:740px;border-collapse:collapse;font-size:14.5px}
+thead th{
+  text-align:left;vertical-align:bottom;line-height:1.3;
+  font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--text-2);background:var(--surface);
+  padding:12px 12px;border-bottom:1px solid var(--border);
+}
+tbody th,tbody td{padding:13px 12px;border-bottom:1px solid var(--border);vertical-align:middle;text-align:left;font-weight:400}
+tbody tr:last-child>*{border-bottom:0}
+thead th.n,tbody td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.nm{display:block;font-weight:700}
+tbody th{white-space:nowrap}
+.city{display:block;font-size:13px;color:var(--text-2)}
+.pace{display:inline-flex;align-items:center;gap:8px}
+.pace b{min-width:2.4ch;text-align:right;font-weight:800}
+.track{display:block;width:80px;height:6px;border-radius:3px;background:var(--surface-hi);overflow:hidden}
+.fill{display:block;height:100%;background:var(--accent);border-radius:3px}
+.pill{
+  display:inline-block;vertical-align:1px;margin-left:6px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:2px 8px;border-radius:3px;background:var(--surface-hi);color:var(--text-2);
+}
+
+.swipe{display:none;font-size:12.5px;color:var(--text-dim);margin-top:-10px}
+@media(max-width:780px){.swipe{display:block}}
+
+/* ── OPENERS ── */
+.openers{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.msg{display:flex;flex-direction:column;gap:8px;align-items:flex-end;min-width:0}
+.msg__b{
+  max-width:92%;background:#007AFF;color:#fff;
+  padding:12px 16px;border-radius:20px 20px 5px 20px;
+  font-size:16px;line-height:1.45;
+}
+.msg__l{font-size:12.5px;color:var(--text-dim);font-weight:600}
+.lessons{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.lesson{border-top:2px solid var(--text);padding-top:14px}
+.lesson h3{font-size:17.5px;font-weight:800;margin-bottom:5px}
+.lesson p{font-size:15px;color:var(--text-2);line-height:1.55}
+
+/* ── FINE PRINT ── */
+.fine{
+  border-top:1px solid var(--border);padding-top:22px;
+  font-size:12.5px;color:var(--text-dim);line-height:1.65;max-width:80ch;
+  display:flex;flex-direction:column;gap:8px;
+}
+
+/* ── CLOSE ── */
+.close{text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px;padding:8px 0 0}
+.close h2{font-size:clamp(26px,5vw,36px);font-weight:900;line-height:1.12}
+.close p{font-size:16.5px;color:var(--text-2);max-width:480px}
+.btn{
+  display:inline-block;text-align:center;
+  background:var(--accent);color:#fff;text-decoration:none;
+  font-size:18px;font-weight:800;letter-spacing:.01em;
+  padding:18px 32px;border-radius:var(--r);
+  width:100%;max-width:420px;
+  transition:background .15s ease,transform .1s ease;
+}
+.btn:hover{background:var(--accent-dk)}
+.btn:active{transform:scale(.99)}
+.btn:focus-visible{outline:3px solid var(--accent-dk);outline-offset:3px}
+
+.footer{text-align:center;font-size:12px;color:var(--text-dim);letter-spacing:.04em}
+
+@media(max-width:820px){
+  .tiers,.lessons{grid-template-columns:1fr}
+}
+@media(max-width:720px){
+  body{padding:32px 16px 40px}
+  .wrap{gap:44px}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat:nth-child(3){border-left:0}
+  .stat:nth-child(n+3){border-top:1px solid var(--border)}
+  .openers{grid-template-columns:1fr;gap:26px}
+  .lede{font-size:17px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+
+  <header class="hero narrow">
+    <p class="eyebrow">Client results &middot; Cosa Marketing</p>
+    <h1>What our roofers actually get. <em>Best, middle and worst.</em></h1>
+    <p class="lede">Every roofer actively texting homeowners with us, pulled straight from their CRMs. We show the weak accounts too, so you can see the typical result before you decide.</p>
+    <p class="stamp">Data pulled 26 Oct 2026</p>
+  </header>
+
+  <section class="stats" aria-label="Totals across all accounts">
+    <div class="stat"><b>~290,900</b><span>texts delivered</span></div>
+    <div class="stat"><b>328</b><span>homeowner leads received</span></div>
+    <div class="stat"><b>~44</b><span>typical leads per 50,000 texts</span></div>
+    <div class="stat"><b>~$34</b><span>typical all-in cost per lead</span></div>
+  </section>
+
+  <p class="box"><strong>What we count as a lead:</strong> a homeowner who replied asking for an inspection, a quote, a price or a call, or who gave a time or an address. We don't count appointments or jobs. Each roofer works their own leads, so we only report what came in.</p>
+
+  <section class="sec">
+    <div class="sec__head">
+      <p class="eyebrow">Every account at the same 50,000 texts</p>
+      <h2>Best, middle and worst account</h2>
+      <p>Accounts send different amounts, so we show each one at the same volume: the leads it is on pace for per 50,000 texts at its real rate. The middle account is the typical result.</p>
+    </div>
+
+    <div class="tiers">
+      <article class="tier tier--best">
+        <span class="tag">Best</span>
+        <div class="who"><h3>Paul</h3><span>Roofer in Warren, OH</span></div>
+        <div class="big"><b>159</b><span>on pace per 50,000 texts</span></div>
+        <dl class="kv">
+          <dt>Leads received so far</dt><dd>185</dd>
+          <dt>All-in cost per lead</dt><dd>$9.42</dd>
+          <dt>Texts delivered so far</dt><dd>58,330</dd>
+          <dt>Texting since</dt><dd>Sep 1</dd>
+        </dl>
+      </article>
+      <article class="tier tier--mid">
+        <span class="tag">Middle &middot; typical</span>
+        <div class="who"><h3>Elizabeth</h3><span>Roofer in Oklahoma City, OK</span></div>
+        <div class="big"><b>45</b><span>on pace per 50,000 texts</span></div>
+        <dl class="kv">
+          <dt>Leads received so far</dt><dd>9</dd>
+          <dt>All-in cost per lead</dt><dd>$33.27</dd>
+          <dt>Texts delivered so far</dt><dd>10,069</dd>
+          <dt>Texting since</dt><dd>Sep 23</dd>
+        </dl>
+      </article>
+      <article class="tier tier--worst">
+        <span class="tag">Worst</span>
+        <div class="who"><h3>Jessie</h3><span>Roofer in Lancaster, CA</span></div>
+        <div class="big"><b>20</b><span>on pace per 50,000 texts</span></div>
+        <dl class="kv">
+          <dt>Leads received so far</dt><dd>7</dd>
+          <dt>All-in cost per lead</dt><dd>$74.85</dd>
+          <dt>Texts delivered so far</dt><dd>17,510</dd>
+          <dt>Texting since</dt><dd>Oct 15</dd>
+        </dl>
+      </article>
+    </div>
+
+    <p class="box"><strong>How the all-in cost is figured:</strong> one month on the $997/month plan, plus 1&cent; per text for 50,000 texts ($500). That's $1,497 a month, divided by the leads each account gets per 50,000 texts.</p>
+    <p class="note">&ldquo;Per 50,000 texts&rdquo; applies each account's real rate to the same volume so they can be compared side by side. It is not a count of leads already received.</p>
+  </section>
+
+  <section class="sec">
+    <div class="sec__head">
+      <h2>Every roofer texting with us</h2>
+      <p>The leads each account has actually received, and what its rate is on pace for at 50,000 texts. Accounts under two weeks old are marked early, since their rate can still move a lot. Accounts with under 5,000 texts are left out until they have enough data.</p>
+    </div>
+    <div class="scroller" role="region" aria-label="Every roofer texting with us. Scrolls sideways on small screens." tabindex="0">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Roofer</th>
+            <th scope="col">Texting since</th>
+            <th scope="col" class="n">Texts delivered so far</th>
+            <th scope="col" class="n">Leads received so far</th>
+            <th scope="col" class="n">On pace per 50,000 texts</th>
+            <th scope="col" class="n">All-in cost per lead</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row"><span class="nm">Paul</span><span class="city">Warren, OH</span></th>
+            <td>Sep 1</td>
+            <td class="n">58,330</td>
+            <td class="n">185</td>
+            <td class="n"><span class="pace"><span class="track" aria-hidden="true"><span class="fill" style="width:100.0%"></span></span><b>159</b></span></td>
+            <td class="n">$9.42</td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="nm">Chris <span class="pill">early</span></span><span class="city">Bedford Heights, OH</span></th>
+            <td>Oct 16</td>
+            <td class="n">7,551</td>
+            <td class="n">14</td>
+            <td class="n"><span class="pace"><span class="track" aria-hidden="true"><span class="fill" style="width:58.5%"></span></span><b>93</b></span></td>
+            <td class="n">$16.10</td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="nm">Jeremy</span><span class="city">Sarasota, FL</span></th>
+            <td>Sep 4</td>
+            <td class="n">~40,400</td>
+            <td class="n">38</td>
+            <td class="n"><span class="pace"><span class="track" aria-hidden="true"><span class="fill" style="width:29.6%"></span></span><b>47</b></span></td>
+            <td class="n">$31.85</td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="nm">Elizabeth</span><span class="city">Oklahoma City, OK</span></th>
+            <td>Sep 23</td>
+            <td class="n">10,069</td>
+            <td class="n">9</td>
+            <td class="n"><span class="pace"><span class="track" aria-hidden="true"><span class="fill" style="width:28.3%"></span></span><b>45</b></span></td>
+            <td class="n">$33.27</td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="nm">Justin</span><span class="city">Billings, MT</span></th>
+            <td>Sep 24</td>
+            <td class="n">5,933</td>
+            <td class="n">5</td>
+            <td class="n"><span class="pace"><span class="track" aria-hidden="true"><span class="fill" style="width:26.4%"></span></span><b>42</b></span></td>
+            <td class="n">$35.64</td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="nm">Scott</span><span class="city">Bradenton, FL</span></th>
+            <td>Sep 17</td>
+            <td class="n">~15,900</td>
+            <td class="n">11</td>
+            <td class="n"><span class="pace"><span class="track" aria-hidden="true"><span class="fill" style="width:22.0%"></span></span><b>35</b></span></td>
+            <td class="n">$42.77</td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="nm">Moshe</span><span class="city">Los Angeles area, CA</span></th>
+            <td>Aug 19</td>
+            <td class="n">~135,200</td>
+            <td class="n">59</td>
+            <td class="n"><span class="pace"><span class="track" aria-hidden="true"><span class="fill" style="width:13.8%"></span></span><b>22</b></span></td>
+            <td class="n">$68.05</td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="nm">Jessie <span class="pill">early</span></span><span class="city">Lancaster, CA</span></th>
+            <td>Oct 15</td>
+            <td class="n">17,510</td>
+            <td class="n">7</td>
+            <td class="n"><span class="pace"><span class="track" aria-hidden="true"><span class="fill" style="width:12.6%"></span></span><b>20</b></span></td>
+            <td class="n">$74.85</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="swipe">Swipe sideways to see every column.</p>
+  </section>
+
+  <section class="sec">
+    <div class="sec__head">
+      <h2>The first texts that get homeowners to raise their hand.</h2>
+      <p>The two openers that got the most homeowners to reply with interest.</p>
+    </div>
+    <div class="openers">
+      <div class="msg">
+        <div class="msg__b">Has anyone looked at your roof since the last hail? Would you want my crew to come check it out?</div>
+        <p class="msg__l">Top opener &middot; about 83 leads per 50,000 texts</p>
+      </div>
+      <div class="msg">
+        <div class="msg__b">Would you be open to a roof inspection this week? Just a quick look to see where it stands.</div>
+        <p class="msg__l">Runner-up &middot; about 74 leads per 50,000 texts</p>
+      </div>
+    </div>
+    <div class="lessons">
+      <div class="lesson"><h3>Volume wins</h3><p>Lead counts track how many homeowners you reach.</p></div>
+      <div class="lesson"><h3>Ask, don't pitch</h3><p>A question about their roof beats &ldquo;we have openings.&rdquo;</p></div>
+      <div class="lesson"><h3>Your name, your company</h3><p>Texts that don't say who's texting get &ldquo;who is this?&rdquo; instead of a lead.</p></div>
+    </div>
+  </section>
+
+  <footer class="fine">
+    <p>All figures come from each roofer's own CRM and texting account on 26 Oct 2026. &ldquo;~&rdquo; means the count was estimated from a sample of that account's messages. Leads per 50,000 texts = the account's real leads &divide; texts delivered &times; 50,000; it shows each account's rate at a common volume, not leads already received. All-in cost per lead = ($997 monthly plan + 50,000 texts &times; $0.01) &divide; leads per 50,000 texts. A month with fewer texts spreads the plan over fewer leads, so the cost per lead is higher.</p>
+    <p>Opener rankings are based on a small number of leads per message and will change as more data comes in.</p>
+    <p>Results vary by market, list size and how fast leads are followed up. Past results don't guarantee future results.</p>
+  </footer>
+
+  <section class="close">
+    <h2>Twenty minutes, and you'll know if it fits.</h2>
+    <p>We'll look at your market and what this would look like in your business.</p>
+    <a class="btn" id="bookBtn" href="https://api.leadconnectorhq.com/widget/booking/qGwFPBZK6x7c1td9IDiY">Book a call</a>
+  </section>
+
+  <p class="footer">Cosa Marketing &nbsp;&middot;&nbsp; admin@cosaventures.com</p>
+
+</div>
+
+<script>
+  /* Carry UTM parameters through to the booking page so GoHighLevel
+     can attribute the booking. The link works without this script. */
+  (function () {
+    var btn = document.getElementById("bookBtn");
+    var keep = new URLSearchParams();
+    new URLSearchParams(window.location.search).forEach(function (v, k) {
+      if (/^utm_/i.test(k) || k === "fbclid" || k === "gclid") keep.append(k, v);
+    });
+    var qs = keep.toString();
+    if (qs) btn.href = btn.href + "?" + qs;
+  })();
+</script>
