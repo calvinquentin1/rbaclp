@@ -462,15 +462,32 @@ a{color:inherit;text-decoration:none}
 }
 
 /* ── QUALIFIER — lives inline where the calendar used to pop up ── */
-.qual{
-  position:relative;
-  max-width:520px;margin:0 auto;text-align:left;
-  background:var(--surface);
-  border:1px solid var(--border);border-radius:10px;
-  padding:20px 18px 18px;
-  scroll-margin-top:16px;
+.qual{position:relative;text-align:left}
+/* pop-up shell (same behaviour as the old calendar pop-up) */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,.75);
+  align-items:center;justify-content:center;padding:16px;
 }
-.qual__top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.modal-overlay.open{display:flex}
+.modal__box{
+  position:relative;background:var(--surface);
+  border:1px solid var(--border);border-radius:10px;
+  width:min(560px,100%);
+  max-height:92vh;max-height:92dvh;overflow-y:auto;
+  padding:24px 18px 18px;
+  -webkit-overflow-scrolling:touch;
+}
+.modal__close{
+  position:absolute;top:10px;right:12px;z-index:10;
+  background:var(--surface-hi);border:1px solid var(--border);
+  color:var(--text-2);border-radius:var(--r);
+  width:40px;height:40px;font-size:22px;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.modal__close:hover{background:var(--border);color:var(--text)}
+.modal__close:focus-visible{outline:3px solid var(--accent-dk);outline-offset:2px}
+.qual__top{display:flex;align-items:center;gap:12px;margin-bottom:18px;padding-right:48px}
 .qual__step{
   font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
   color:var(--accent-ink);white-space:nowrap;
@@ -598,7 +615,7 @@ a{color:inherit;text-decoration:none}
     </div>
     <p class="hc__note">One contractor, six days: <strong>50 leads</strong> &middot; real conversation, name removed</p>
 
-    <a href="#qualify" class="btn js-go">Book a 20-Minute Call</a>
+    <button type="button" class="btn js-open">Book a 20-Minute Call</button>
     <span class="btn__sub">No setup fee. Nothing to install.</span>
   </div>
 </section>
@@ -903,56 +920,8 @@ a{color:inherit;text-decoration:none}
     <h2 class="close__hl">Twenty minutes, and you'll know if it fits.</h2>
     <p class="close__d">We'll go through the zips you want worked, what you're paying for leads now, and what this would look like in your business. If it isn't a fit, we'll say so.</p>
 
-    <!-- ── 3-QUESTION QUALIFIER ──
-         Everything happens on this page. The booking calendar is the iframe
-         injected into #qCal after question 1; nothing here redirects. -->
-    <div class="qual" id="qualify" aria-live="polite">
-      <div class="qual__top">
-        <span class="qual__step" id="qStep">1 of 3</span>
-        <span class="qual__bar" aria-hidden="true"><span class="qual__fill" id="qFill"></span></span>
-      </div>
-
-      <div class="qs" data-s="q1">
-        <h3 class="qual__q" tabindex="-1">Are you the owner of the company?</h3>
-        <div class="qual__opts">
-          <button type="button" class="ans" data-k="owner" data-v="owner">Yes, I'm the owner</button>
-          <button type="button" class="ans" data-k="owner" data-v="partner_manager">Partner or manager</button>
-          <button type="button" class="ans" data-k="owner" data-v="someone_else">Someone else decides</button>
-        </div>
-      </div>
-
-      <div class="qs" data-s="q2" hidden>
-        <h3 class="qual__q" tabindex="-1">How many roofs do you install in a typical month?</h3>
-        <div class="qual__opts">
-          <button type="button" class="ans" data-k="roofs" data-v="0-2">0&ndash;2</button>
-          <button type="button" class="ans" data-k="roofs" data-v="3-10">3&ndash;10</button>
-          <button type="button" class="ans" data-k="roofs" data-v="10plus">10+</button>
-        </div>
-      </div>
-
-      <div class="qs" data-s="q3" hidden>
-        <h3 class="qual__q" tabindex="-1">Our system is $1,500 to set up, then $597/month. If it's a fit, are you able to invest that?</h3>
-        <div class="qual__opts">
-          <button type="button" class="ans" data-k="budget" data-v="yes">Yes</button>
-          <button type="button" class="ans" data-k="budget" data-v="yes_partner">Yes, I'd just talk it over with my partner first</button>
-          <button type="button" class="ans" data-k="budget" data-v="not_now">Not right now</button>
-        </div>
-      </div>
-
-      <div class="qs" data-s="ok" hidden>
-        <h3 class="qual__q" tabindex="-1">Great, grab a time below. It's a quick 15-minute call.</h3>
-      </div>
-
-      <div class="qs" data-s="no" hidden>
-        <h3 class="qual__q" tabindex="-1">Thanks for being straight with us.</h3>
-        <p class="qual__p">It's probably not the right time yet. Here's what our roofers are getting, so you can come back when it makes sense:</p>
-        <a class="btn" href="/client-results">See client results</a>
-      </div>
-
-      <div class="qual__cal is-wait" id="qCal"></div>
-
-      <div class="qual__foot"><button type="button" class="qual__back" id="qBack" hidden>Back</button></div>
-    </div>
+    <button type="button" class="btn js-open">Book a 20-Minute Call</button>
+    <span class="btn__sub">No setup fee. Nothing to install.</span>
   </div>
 </section>
 
@@ -962,14 +931,73 @@ a{color:inherit;text-decoration:none}
   </div>
 </footer>
 
+<!-- ── BOOKING POP-UP: 3-question qualifier, then the calendar ──
+     Everything happens in this pop-up on this page. The calendar is the
+     iframe injected into #qCal after question 1; nothing redirects. -->
+<div class="modal-overlay" id="qualModal" role="dialog" aria-modal="true" aria-label="Book a call">
+  <div class="modal__box">
+    <button type="button" class="modal__close" id="qClose" aria-label="Close">&times;</button>
+  <div class="qual" id="qualify" aria-live="polite">
+    <div class="qual__top">
+      <span class="qual__step" id="qStep">1 of 3</span>
+      <span class="qual__bar" aria-hidden="true"><span class="qual__fill" id="qFill"></span></span>
+    </div>
+
+    <div class="qs" data-s="q1">
+      <h3 class="qual__q" tabindex="-1">Are you the owner of the company?</h3>
+      <div class="qual__opts">
+        <button type="button" class="ans" data-k="owner" data-v="owner">Yes, I'm the owner</button>
+        <button type="button" class="ans" data-k="owner" data-v="partner_manager">Partner or manager</button>
+        <button type="button" class="ans" data-k="owner" data-v="someone_else">Someone else decides</button>
+      </div>
+    </div>
+
+    <div class="qs" data-s="q2" hidden>
+      <h3 class="qual__q" tabindex="-1">How many roofs do you install in a typical month?</h3>
+      <div class="qual__opts">
+        <button type="button" class="ans" data-k="roofs" data-v="0-2">0&ndash;2</button>
+        <button type="button" class="ans" data-k="roofs" data-v="3-10">3&ndash;10</button>
+        <button type="button" class="ans" data-k="roofs" data-v="10plus">10+</button>
+      </div>
+    </div>
+
+    <div class="qs" data-s="q3" hidden>
+      <h3 class="qual__q" tabindex="-1">Our system is $1,500 to set up, then $597/month. If it's a fit, are you able to invest that?</h3>
+      <div class="qual__opts">
+        <button type="button" class="ans" data-k="budget" data-v="yes">Yes</button>
+        <button type="button" class="ans" data-k="budget" data-v="yes_partner">Yes, I'd just talk it over with my partner first</button>
+        <button type="button" class="ans" data-k="budget" data-v="not_now">Not right now</button>
+      </div>
+    </div>
+
+    <div class="qs" data-s="ok" hidden>
+      <h3 class="qual__q" tabindex="-1">Great, grab a time below. It's a quick 15-minute call.</h3>
+    </div>
+
+    <div class="qs" data-s="no" hidden>
+      <h3 class="qual__q" tabindex="-1">Thanks for being straight with us.</h3>
+      <p class="qual__p">It's probably not the right time yet. Here's what our roofers are getting, so you can come back when it makes sense:</p>
+      <a class="btn" href="/client-results">See client results</a>
+    </div>
+
+    <div class="qual__cal is-wait" id="qCal"></div>
+
+    <div class="qual__foot"><button type="button" class="qual__back" id="qBack" hidden>Back</button></div>
+  </div>
+  </div>
+</div>
+
 <script>
   /* ── 3-question qualifier ──
      Same roofing calendar the popup used. No redirects: the calendar is an
-     iframe on this page, and the only navigation is the visitor tapping the
-     client-results button on the "not right now" screen. */
+     iframe inside this pop-up, and the only navigation is the visitor
+     tapping the client-results button on the "not right now" screen. */
   (function () {
     var CAL_URL = "https://api.leadconnectorhq.com/widget/booking/qGwFPBZK6x7c1td9IDiY";
+    var modal = document.getElementById("qualModal");
+    var box = modal.querySelector(".modal__box");
     var root = document.getElementById("qualify");
+    var lastOpener = null;
     var screens = {};
     root.querySelectorAll(".qs").forEach(function (el) { screens[el.getAttribute("data-s")] = el; });
     var stepEl = document.getElementById("qStep");
@@ -1036,9 +1064,7 @@ a{color:inherit;text-decoration:none}
       root.querySelectorAll(".ans.is-picked").forEach(function (b) { b.classList.remove("is-picked"); });
       var h = screens[step].querySelector(".qual__q");
       if (h) h.focus({ preventScroll: true });
-      if (!(opts && opts.quiet) && root.getBoundingClientRect().top < 0) {
-        root.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
-      }
+      box.scrollTop = 0;
       if (step === "ok") {
         try {
           var cf = calHost.querySelector("iframe");
@@ -1073,12 +1099,36 @@ a{color:inherit;text-decoration:none}
 
     backEl.addEventListener("click", function () { show(BACK_TO[current]); });
 
-    /* Hero button: scroll to the qualifier on this page. */
-    document.querySelectorAll(".js-go").forEach(function (a) {
-      a.addEventListener("click", function (e) {
-        e.preventDefault();
-        root.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
-      });
+    /* Open / close the pop-up. Progress is kept if they close and reopen. */
+    function openModal(opener) {
+      lastOpener = opener || null;
+      modal.classList.add("open");
+      document.body.style.overflow = "hidden";
+      var hd = screens[current].querySelector(".qual__q");
+      if (hd) hd.focus({ preventScroll: true });
+    }
+    function closeModal() {
+      modal.classList.remove("open");
+      document.body.style.overflow = "";
+      if (lastOpener && lastOpener.focus) lastOpener.focus({ preventScroll: true });
+    }
+    document.querySelectorAll(".js-open").forEach(function (b) {
+      b.addEventListener("click", function () { openModal(b); });
+    });
+    document.getElementById("qClose").addEventListener("click", closeModal);
+    modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
+    document.addEventListener("keydown", function (e) {
+      if (!modal.classList.contains("open")) return;
+      if (e.key === "Escape") { closeModal(); return; }
+      if (e.key === "Tab") {  /* keep keyboard focus inside the pop-up */
+        var f = Array.prototype.filter.call(
+          modal.querySelectorAll("button, a[href]"),
+          function (el) { return !el.hidden && el.offsetParent !== null; });
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
     });
 
     show("q1", { quiet: true });
