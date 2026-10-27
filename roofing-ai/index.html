@@ -461,28 +461,62 @@ a{color:inherit;text-decoration:none}
   border-top:1px solid var(--border);
 }
 
-/* ── MODAL ── */
-.modal-overlay{
-  display:none;position:fixed;inset:0;z-index:999;
-  background:rgba(0,0,0,.75);
-  align-items:center;justify-content:center;padding:16px;
+/* ── QUALIFIER — lives inline where the calendar used to pop up ── */
+.qual{
+  position:relative;
+  max-width:520px;margin:0 auto;text-align:left;
+  background:var(--surface);
+  border:1px solid var(--border);border-radius:10px;
+  padding:20px 18px 18px;
+  scroll-margin-top:16px;
 }
-.modal-overlay.open{display:flex}
-.modal__box{
-  position:relative;background:var(--surface);
-  border:1px solid var(--border);border-radius:8px;
-  width:min(780px,100%);height:min(680px,92vh);
-  overflow:hidden;display:flex;flex-direction:column;
+.qual__top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.qual__step{
+  font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent-ink);white-space:nowrap;
 }
-.modal__close{
-  position:absolute;top:12px;right:14px;z-index:10;
-  background:var(--surface-hi);border:1px solid var(--border);
-  color:var(--text-2);border-radius:var(--r);
-  width:36px;height:36px;font-size:20px;line-height:1;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
+.qual__bar{flex:1;height:6px;border-radius:3px;background:var(--surface-hi);overflow:hidden}
+.qual__fill{display:block;height:100%;width:33.3%;background:var(--accent);border-radius:3px;transition:width .25s ease}
+.qual__q{
+  font-size:clamp(21px,5.4vw,26px);font-weight:900;
+  letter-spacing:-.02em;line-height:1.2;text-wrap:balance;
+  margin-bottom:16px;outline:none;
 }
-.modal__close:hover{background:var(--border);color:var(--text)}
-.modal__iframe{flex:1;border:none;width:100%;height:100%;background:var(--bg)}
+.qual__p{font-size:16px;color:var(--text-2);line-height:1.55;margin:-4px 0 18px}
+.qual__opts{display:flex;flex-direction:column;gap:10px}
+.ans{
+  display:block;width:100%;min-height:56px;
+  padding:14px 18px;
+  font:inherit;font-size:17px;font-weight:700;line-height:1.3;
+  text-align:left;color:var(--text);
+  background:#fff;
+  border:2px solid var(--border);border-radius:var(--r);
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  transition:border-color .12s ease,background .12s ease,transform .1s ease;
+}
+.ans:hover{border-color:var(--accent)}
+.ans:active{transform:scale(.99);background:rgba(207,80,0,.08)}
+.ans.is-picked{background:var(--accent);border-color:var(--accent);color:#fff}
+.ans:focus-visible,.qual__back:focus-visible{outline:3px solid var(--accent-dk);outline-offset:2px}
+.qual__foot{margin-top:6px}
+.qual__back{
+  font:inherit;font-size:14px;font-weight:700;color:var(--text-2);
+  background:none;border:0;padding:12px 4px 4px;cursor:pointer;
+  text-decoration:underline;text-underline-offset:3px;
+}
+.qual__back:hover{color:var(--text)}
+.qs[hidden]{display:none}
+/* The calendar starts loading after question 1 but stays out of sight
+   until they qualify. visibility (not display:none) keeps it laid out at
+   full width, so GoHighLevel sizes it correctly. */
+.qual__cal{margin:2px -6px 0}
+.qual__cal.is-wait{
+  position:absolute;left:0;right:0;top:0;height:0;overflow:hidden;
+  visibility:hidden;pointer-events:none;margin:0;
+}
+.qual__cal iframe{display:block;width:100%;min-height:560px;border:0;border-radius:var(--r);background:#fff}
+.qual .btn{display:block;text-align:center;max-width:none}
 
 @media(min-width:640px){
   .convo-grid{flex-direction:row;gap:42px}
@@ -564,7 +598,7 @@ a{color:inherit;text-decoration:none}
     </div>
     <p class="hc__note">One contractor, six days: <strong>50 leads</strong> &middot; real conversation, name removed</p>
 
-    <button onclick="openCal()" class="btn">Book a 20-Minute Call</button>
+    <a href="#qualify" class="btn js-go">Book a 20-Minute Call</a>
     <span class="btn__sub">No setup fee. Nothing to install.</span>
   </div>
 </section>
@@ -868,8 +902,57 @@ a{color:inherit;text-decoration:none}
   <div class="wrap">
     <h2 class="close__hl">Twenty minutes, and you'll know if it fits.</h2>
     <p class="close__d">We'll go through the zips you want worked, what you're paying for leads now, and what this would look like in your business. If it isn't a fit, we'll say so.</p>
-    <button onclick="openCal()" class="btn">Book a 20-Minute Call</button>
-    <span class="btn__sub">No setup fee. Nothing to install.</span>
+
+    <!-- ── 3-QUESTION QUALIFIER ──
+         Everything happens on this page. The booking calendar is the iframe
+         injected into #qCal after question 1; nothing here redirects. -->
+    <div class="qual" id="qualify" aria-live="polite">
+      <div class="qual__top">
+        <span class="qual__step" id="qStep">1 of 3</span>
+        <span class="qual__bar" aria-hidden="true"><span class="qual__fill" id="qFill"></span></span>
+      </div>
+
+      <div class="qs" data-s="q1">
+        <h3 class="qual__q" tabindex="-1">Are you the owner of the company?</h3>
+        <div class="qual__opts">
+          <button type="button" class="ans" data-k="owner" data-v="owner">Yes, I'm the owner</button>
+          <button type="button" class="ans" data-k="owner" data-v="partner_manager">Partner or manager</button>
+          <button type="button" class="ans" data-k="owner" data-v="someone_else">Someone else decides</button>
+        </div>
+      </div>
+
+      <div class="qs" data-s="q2" hidden>
+        <h3 class="qual__q" tabindex="-1">How many roofs do you install in a typical month?</h3>
+        <div class="qual__opts">
+          <button type="button" class="ans" data-k="roofs" data-v="0-2">0&ndash;2</button>
+          <button type="button" class="ans" data-k="roofs" data-v="3-10">3&ndash;10</button>
+          <button type="button" class="ans" data-k="roofs" data-v="10plus">10+</button>
+        </div>
+      </div>
+
+      <div class="qs" data-s="q3" hidden>
+        <h3 class="qual__q" tabindex="-1">Our system is $1,500 to set up, then $597/month. If it's a fit, are you able to invest that?</h3>
+        <div class="qual__opts">
+          <button type="button" class="ans" data-k="budget" data-v="yes">Yes</button>
+          <button type="button" class="ans" data-k="budget" data-v="yes_partner">Yes, I'd just talk it over with my partner first</button>
+          <button type="button" class="ans" data-k="budget" data-v="not_now">Not right now</button>
+        </div>
+      </div>
+
+      <div class="qs" data-s="ok" hidden>
+        <h3 class="qual__q" tabindex="-1">Great, grab a time below. It's a quick 15-minute call.</h3>
+      </div>
+
+      <div class="qs" data-s="no" hidden>
+        <h3 class="qual__q" tabindex="-1">Thanks for being straight with us.</h3>
+        <p class="qual__p">It's probably not the right time yet. Here's what our roofers are getting, so you can come back when it makes sense:</p>
+        <a class="btn" href="/client-results">See client results</a>
+      </div>
+
+      <div class="qual__cal is-wait" id="qCal"></div>
+
+      <div class="qual__foot"><button type="button" class="qual__back" id="qBack" hidden>Back</button></div>
+    </div>
   </div>
 </section>
 
@@ -879,47 +962,126 @@ a{color:inherit;text-decoration:none}
   </div>
 </footer>
 
-<!-- CALENDAR MODAL -->
-<div class="modal-overlay" id="calModal" role="dialog" aria-modal="true" aria-label="Book a 20-minute call">
-  <div class="modal__box">
-    <button class="modal__close" onclick="closeCal()" aria-label="Close">&times;</button>
-    <iframe class="modal__iframe" id="calFrame" src="" title="Book a 20-minute call" loading="lazy" scrolling="yes"></iframe>
-  </div>
-</div>
-
 <script>
-  /* Booking calendar. Same one the current roofing page uses. */
-  var CAL_URL = "https://api.leadconnectorhq.com/widget/booking/qGwFPBZK6x7c1td9IDiY";
+  /* ── 3-question qualifier ──
+     Same roofing calendar the popup used. No redirects: the calendar is an
+     iframe on this page, and the only navigation is the visitor tapping the
+     client-results button on the "not right now" screen. */
+  (function () {
+    var CAL_URL = "https://api.leadconnectorhq.com/widget/booking/qGwFPBZK6x7c1td9IDiY";
+    var root = document.getElementById("qualify");
+    var screens = {};
+    root.querySelectorAll(".qs").forEach(function (el) { screens[el.getAttribute("data-s")] = el; });
+    var stepEl = document.getElementById("qStep");
+    var fillEl = document.getElementById("qFill");
+    var backEl = document.getElementById("qBack");
+    var calHost = document.getElementById("qCal");
 
-  /* Carry UTM parameters through to the booking widget so GoHighLevel
-     can attribute the booking back to the ad and to this page. */
-  function calUrlWithUtms() {
-    var incoming = new URLSearchParams(window.location.search);
-    var keep = new URLSearchParams();
-    incoming.forEach(function (v, k) {
-      if (/^utm_/i.test(k) || k === "fbclid" || k === "gclid") keep.append(k, v);
+    var answers = {};
+    var current = "q1";
+    var sent = {};
+    var busy = false;
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var PROGRESS = { q1: [1, 33.3], q2: [2, 66.6], q3: [3, 100], ok: [3, 100], no: [3, 100] };
+    var BACK_TO = { q2: "q1", q3: "q2", ok: "q3", no: "q3" };
+
+    /* Meta custom events, once per visit each. Answers ride along as event
+       details only; nothing here counts as a conversion. */
+    function track(name, data) {
+      if (sent[name]) return;
+      sent[name] = true;
+      try { if (window.fbq) window.fbq("trackCustom", name, data || {}); } catch (e) {}
+    }
+
+    /* Start loading the booking calendar as soon as question 1 is answered,
+       so it is ready the moment they qualify. Real UTMs pass through to
+       GoHighLevel untouched so ad attribution stays intact. */
+    function calUrl() {
+      var keep = new URLSearchParams();
+      new URLSearchParams(window.location.search).forEach(function (v, k) {
+        if (/^utm_/i.test(k) || k === "fbclid" || k === "gclid") keep.append(k, v);
+      });
+      var qs = keep.toString();
+      return qs ? CAL_URL + "?" + qs : CAL_URL;
+    }
+    function loadCalendar() {
+      if (calHost.firstChild) return;
+      var f = document.createElement("iframe");
+      f.src = calUrl();
+      f.id = "qualCal_" + Date.now();
+      f.title = "Book a 15-minute call";
+      f.setAttribute("allow", "payment");
+      f.setAttribute("scrolling", "no");
+      calHost.appendChild(f);
+      /* GoHighLevel's embed script only sizes iframes that exist when it
+         loads, so size this one ourselves once the calendar has loaded. */
+      f.addEventListener("load", function () {
+        try {
+          if (window.iFrameResize && !f.getAttribute("data-iframe-resizer-initialized")) {
+            window.iFrameResize({ log: false, checkOrigin: false, heightCalculationMethod: "offset",
+              autoResize: true, scrolling: false, sizeWidth: false, sizeHeight: true }, f);
+          }
+        } catch (e) {}
+      });
+    }
+
+    function show(step, opts) {
+      current = step;
+      Object.keys(screens).forEach(function (k) { screens[k].hidden = (k !== step); });
+      calHost.classList.toggle("is-wait", step !== "ok");
+      var p = PROGRESS[step];
+      stepEl.textContent = p[0] + " of 3";
+      fillEl.style.width = p[1] + "%";
+      backEl.hidden = !BACK_TO[step];
+      root.querySelectorAll(".ans.is-picked").forEach(function (b) { b.classList.remove("is-picked"); });
+      var h = screens[step].querySelector(".qual__q");
+      if (h) h.focus({ preventScroll: true });
+      if (!(opts && opts.quiet) && root.getBoundingClientRect().top < 0) {
+        root.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+      }
+      if (step === "ok") {
+        try {
+          var cf = calHost.querySelector("iframe");
+          if (cf && cf.iFrameResizer) cf.iFrameResizer.resize();
+          window.dispatchEvent(new Event("resize"));
+        } catch (e) {}
+      }
+    }
+
+    root.addEventListener("click", function (e) {
+      var b = e.target.closest(".ans");
+      if (!b || busy) return;
+      busy = true;
+      b.classList.add("is-picked");
+      var k = b.getAttribute("data-k"), v = b.getAttribute("data-v");
+      answers[k] = v;
+      var next;
+      if (k === "owner") {
+        track("QualifierStart", { owner: v });
+        loadCalendar();
+        next = "q2";
+      } else if (k === "roofs") {
+        next = "q3";
+      } else if (v === "not_now") {
+        track("QualifierFail", { owner: answers.owner, roofs: answers.roofs, budget: v });
+        next = "no";
+      } else {
+        next = "ok";
+      }
+      window.setTimeout(function () { busy = false; show(next); }, reduce ? 0 : 160);
     });
-    var qs = keep.toString();
-    return qs ? CAL_URL + "?" + qs : CAL_URL;
-  }
 
-  function openCal() {
-    var frame = document.getElementById("calFrame");
-    if (!frame.src || frame.src === window.location.href) frame.src = calUrlWithUtms();
-    document.getElementById("calModal").classList.add("open");
-    document.body.style.overflow = "hidden";
-  }
+    backEl.addEventListener("click", function () { show(BACK_TO[current]); });
 
-  function closeCal() {
-    document.getElementById("calModal").classList.remove("open");
-    document.body.style.overflow = "";
-  }
+    /* Hero button: scroll to the qualifier on this page. */
+    document.querySelectorAll(".js-go").forEach(function (a) {
+      a.addEventListener("click", function (e) {
+        e.preventDefault();
+        root.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+      });
+    });
 
-  document.getElementById("calModal").addEventListener("click", function (e) {
-    if (e.target === this) closeCal();
-  });
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") closeCal();
-  });
+    show("q1", { quiet: true });
+  })();
 </script>
 <script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
