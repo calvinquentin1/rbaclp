@@ -370,7 +370,7 @@ body{
   </div>
 
   <div class="totals">
-    <div class="total"><div class="total__n">295</div><div class="total__l">homeowner leads for the roofers below</div></div>
+    <div class="total"><div class="total__n">281</div><div class="total__l">homeowner leads for the roofers below</div></div>
     <div class="total"><div class="total__n">10 days</div><div class="total__l">to 14 leads for our newest account</div></div>
     <div class="total"><div class="total__n">185</div><div class="total__l">leads in 8 weeks for our top account</div></div>
   </div>
@@ -387,6 +387,7 @@ body{
    To add a roofer, copy one entry. To add a homeowner reply, add a line to "replies".
      result:  the one-sentence headline; wrap the key number in <b></b>
      stats:   2-3 small boxes [number, label]
+     Only show stats that sound strong. Leave out slow timelines and small numbers.
      before:  optional, what they were dealing with before (from the sales call)
      replies: optional, real homeowner texts, no names or numbers
    Rules: first name + city only. No prices. Never say jobs, sold or revenue.
@@ -404,21 +405,14 @@ const CLIENTS = [
     result:"<b>38</b> homeowners asked about their roof in his first 7 weeks.",
     stats:[["38","homeowner leads"],["7 weeks","from launch"]] },
   { name:"Moshe", city:"Los Angeles area, CA", started:"Aug 19",
-    result:"<b>26</b> interested homeowners in his pipeline in his first 10 weeks.",
-    stats:[["26","interested homeowners"],["10 weeks","from launch"]] },
+    result:"<b>3</b> roof inspections booked with homeowners who texted back.",
+    stats:[["3","inspections booked"],["26","interested homeowners"]] },
   { name:"Scott", city:"Bradenton, FL", started:"Sep 17",
-    result:"A roof inspection booked <b>25 days</b> after his first text went out.",
-    stats:[["11","homeowner leads"],["25 days","to his first inspection"]] },
-  { name:"Elizabeth", city:"Oklahoma City, OK", started:"Sep 23",
-    result:"<b>9</b> homeowner leads in her first month.",
-    stats:[["9","homeowner leads"],["1 month","from launch"]] },
+    result:"Booked a roof inspection with a homeowner who texted back.",
+    stats:[["11","homeowner leads"],["Inspection","booked from a text"]] },
   { name:"Jessie", city:"Lancaster, CA", started:"Oct 15",
     result:"<b>7</b> homeowner leads in his first 11 days.",
     stats:[["7","homeowner leads"],["11 days","from launch"]] },
-  { name:"Justin", city:"Billings, MT", started:"Sep 24",
-    before:"Had just gone out on his own and wanted leads he owned instead of buying them.",
-    result:"<b>5</b> homeowner leads in his first 16 days, all in his own CRM.",
-    stats:[["5","homeowner leads"],["16 days","from launch"]] },
 ];
 
 (function(){
