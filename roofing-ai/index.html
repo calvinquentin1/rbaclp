@@ -990,11 +990,7 @@ a{color:inherit;text-decoration:none}
     <div class="qs" data-s="contact" hidden>
       <h3 class="qual__q" tabindex="-1">Where should we send your details?</h3>
       <div class="qual__form">
-        <div class="qual__row">
-          <input id="qFirst" type="text" placeholder="First name" autocomplete="given-name">
-          <input id="qLast" type="text" placeholder="Last name" autocomplete="family-name">
-        </div>
-        <input id="qCompany" type="text" placeholder="Company name" autocomplete="organization">
+        <input id="qName" type="text" placeholder="Full name" autocomplete="name">
         <input id="qEmail" type="email" placeholder="Email" autocomplete="email">
         <input id="qPhone" type="tel" placeholder="Mobile number" autocomplete="tel">
         <input id="qWebsite" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;height:0;opacity:0">
@@ -1129,15 +1125,15 @@ a{color:inherit;text-decoration:none}
     var submitEl = document.getElementById("qSubmit"), errEl = document.getElementById("qErr");
     function val(id) { return document.getElementById(id).value.trim(); }
     submitEl.addEventListener("click", function () {
-      var c = { first: val("qFirst"), last: val("qLast"), company: val("qCompany"), email: val("qEmail"), phone: val("qPhone") };
+      var parts = val("qName").split(/\s+/).filter(Boolean);
+      var c = { first: parts[0] || "", last: parts.slice(1).join(" "), email: val("qEmail"), phone: val("qPhone") };
       errEl.textContent = "";
       if (!c.first || !c.last) { errEl.textContent = "Please enter your first and last name."; return; }
-      if (!c.company) { errEl.textContent = "Please enter your company name."; return; }
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c.email)) { errEl.textContent = "Please enter a valid email."; return; }
       if (c.phone.replace(/\D/g, "").length < 10) { errEl.textContent = "Please enter a valid US mobile number."; return; }
       submitEl.disabled = true;
       show("saving");
-      var a = { owner: answers.owner, crews: answers.crews, roofs_per_month: answers.roofs_per_month, ready: answers.ready, company: c.company };
+      var a = { owner: answers.owner, crews: answers.crews, roofs_per_month: answers.roofs_per_month, ready: answers.ready };
       fetch(ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json", "apikey": ANON, "Authorization": "Bearer " + ANON },
