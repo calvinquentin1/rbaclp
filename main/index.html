@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Team Hub | Cosa Ventures</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#F8F6F3;--card:#fff;--text:#141414;--dim:#6b6b6b;--line:#E4DFD7;--acc:#CF5000}
+body{background:var(--bg);color:var(--text);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:26px}
+.sub{color:var(--dim);font-size:14px;margin:4px 0 22px}
+h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);margin:26px 0 10px}
+.item{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:8px}
+.item .t{flex:1;min-width:0}
+.item b{display:block;font-size:16px}
+.item .t>span{display:block;font-size:13px;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item a.open{font-weight:700;font-size:14px;color:#fff;background:var(--text);text-decoration:none;padding:9px 14px;border-radius:8px}
+.item button{font:inherit;font-size:14px;font-weight:600;color:var(--dim);background:none;border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer}
+.item button.ok{color:#1F7A3D;border-color:#1F7A3D}
+.item .tag{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:99px;background:#eee;color:var(--dim);margin-left:6px;vertical-align:middle}
+.item .tag.live{background:#e3f3e8;color:#1F7A3D}
+.item .tag.admin{background:#fbe6e4;color:#B3261E}
+@media(max-width:520px){.item{flex-wrap:wrap}.item .t{flex-basis:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Team Hub</h1>
+  <p class="sub">Every link in one place. Tap Copy to grab the full URL.</p>
+  <div id="hub"></div>
+</div>
+<script>
+(function () {
+  var BASE = "https://ads.cosaventures.com";
+  var G = [
+    ["Landing pages", [
+      ["Roofing: main landing page", "/roofing-ai", "Qualifier funnel. Ads point here.", "live"],
+      ["Roofing: for companies with a sales team", "/roofing-team", "Older version, still up."],
+      ["Roofers: see how it works", "/roofers", "Older version."],
+      ["Roofing: PPL angle", "/roofing", "Redirects to the main roofing page."],
+      ["HVAC: landing page", "/hvac-ai", "HVAC is paused."],
+      ["HVAC: PPL angle", "/hvac", "HVAC is paused."]
+    ]],
+    ["Proof", [
+      ["Client results", "/client-results", "Best, middle and worst accounts. Fail screen links here."],
+      ["Testimonials", "/testimonials", "Client video testimonials."],
+      ["See the system running", "/livewt", "Live walkthrough video."]
+    ]],
+    ["After they book", [
+      ["Thank you: roofing", "/thankyou", "Watch This First page."],
+      ["Thank you: HVAC", "/thankyou-hvac", "HVAC is paused."],
+      ["Lead gen system: call booked", "/leadgensystem", ""],
+      ["Lead gen system: the breakdown", "/leadgensystembd", ""]
+    ]],
+    ["Team tools", [
+      ["Submissions", "/submissions", "Every qualifier submission, stages and score. Password.", "admin"],
+      ["Sendivo credits dashboard", "https://credits.cosaventures.com", "Client credit balances and charging. Password.", "admin"],
+      ["Booking calendar", "https://api.leadconnectorhq.com/widget/booking/qGwFPBZK6x7c1td9IDiY", "Bryant's roofing calendar in GoHighLevel."],
+      ["Landing page version history", "/version-history", ""]
+    ]]
+  ];
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  var html = "";
+  G.forEach(function (g) {
+    html += "<h2>" + esc(g[0]) + "</h2>";
+    g[1].forEach(function (i) {
+      var url = /^https?:/.test(i[1]) ? i[1] : BASE + i[1];
+      var tag = i[3] === "live" ? '<span class="tag live">LIVE</span>' : i[3] === "admin" ? '<span class="tag admin">PASSWORD</span>' : "";
+      html += '<div class="item"><div class="t"><b>' + esc(i[0]) + tag + "</b><span>" + esc(i[2] || url.replace(/^https?:\/\//, "")) + '</span></div>' +
+        '<button type="button" data-u="' + esc(url) + '">Copy</button><a class="open" href="' + esc(url) + '" target="_blank" rel="noopener">Open</a></div>';
+    });
+  });
+  document.getElementById("hub").innerHTML = html;
+  document.getElementById("hub").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-u]"); if (!b) return;
+    var u = b.getAttribute("data-u");
+    function done() { b.textContent = "Copied"; b.classList.add("ok"); setTimeout(function () { b.textContent = "Copy"; b.classList.remove("ok"); }, 1400); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(u).then(done, function () { window.prompt("Copy this link", u); });
+    else window.prompt("Copy this link", u);
+  });
+})();
+</script>
+</body>
+</html>
