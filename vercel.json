@@ -9,6 +9,16 @@
       "source": "/roofing/",
       "destination": "/roofing-ai",
       "permanent": false
+    },
+    {
+      "source": "/client-results",
+      "destination": "/testimonials",
+      "permanent": true
+    },
+    {
+      "source": "/client-results/",
+      "destination": "/testimonials",
+      "permanent": true
     }
   ],
   "functions": {

@@ -297,6 +297,42 @@ body{
 @media(prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}
 }
+
+/* ── PROOF FEED ── */
+.feedhead{text-align:center;max-width:560px;margin:44px auto 24px;padding-top:30px;border-top:1px solid var(--border)}
+.feedhead h2{font-size:clamp(22px,4.4vw,30px);font-weight:900;letter-spacing:-.02em;line-height:1.12;text-wrap:balance;margin-bottom:10px}
+.feedhead p{font-size:15px;color:var(--text-2);line-height:1.6}
+
+.feed{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:24px 24px 20px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card--wide{grid-column:1 / -1}
+.tag{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim)}
+.big{font-size:clamp(44px,8vw,60px);font-weight:900;letter-spacing:-.04em;line-height:1;color:var(--accent);font-variant-numeric:tabular-nums}
+.line{font-size:15px;line-height:1.5;color:var(--text)}
+.since{font-size:12.5px;color:var(--text-dim)}
+.who{margin-top:auto;padding-top:12px;border-top:1px solid var(--border);font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim)}
+.who b{color:var(--accent-ink);font-weight:800}
+
+.card--reply{background:var(--bg)}
+.bubble{align-self:flex-start;max-width:92%;background:var(--surface-hi);border-radius:16px 16px 16px 4px;padding:11px 14px;font-size:15px;line-height:1.45;color:var(--text)}
+
+.story{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.story h4{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px}
+.story .after h4{color:var(--accent-ink)}
+.story p{font-size:14.5px;line-height:1.5;color:var(--text-2)}
+.story .after p{color:var(--text)}
+.story .after b{color:var(--accent);font-weight:900}
+
+.cta{text-align:center;margin:40px 0 0}
+.cta a{display:inline-block;background:var(--accent);color:#fff;font-weight:800;font-size:16px;text-decoration:none;padding:16px 34px;border-radius:6px}
+.cta a:hover{background:var(--accent-dk)}
+.cta a:focus-visible{outline:3px solid var(--accent-ink);outline-offset:3px}
+.fine{font-size:12px;color:var(--text-dim);line-height:1.6;text-align:center;max-width:620px;margin:26px auto 18px}
+
+@media(max-width:700px){
+  .feed{grid-template-columns:minmax(0,1fr)}
+  .story{grid-template-columns:minmax(0,1fr)}
+}
 </style>
 
 <div class="wrap">
@@ -305,7 +341,7 @@ body{
     <p class="eyebrow">Client results</p>
     <h1 class="headline">Hear it from a contractor <em>running the system.</em></h1>
     <p class="subline">
-      No script and no polish. This is a real client talking about what the outbound texting system did for their roofing business.
+      No script and no polish. A real client talking about what the outbound texting system did for their roofing business.
     </p>
   </div>
 
@@ -319,6 +355,61 @@ body{
 
   <!-- To add another testimonial, copy the .video block above, its caption
        and a .vhead heading, and paste them here. -->
+
+
+  <div class="feedhead">
+    <h2>Real roofers. Real homeowners texting back.</h2>
+    <p>Highlights from roofers texting homeowners with us, pulled from their own CRMs. Keep scrolling.</p>
+  </div>
+
+  <div class="feed" id="feed"></div>
+
+  <div class="cta"><a href="/roofing-ai">Book a call</a></div>
+
+  <p class="fine">Figures come from each roofer's own CRM as of October 2026. A lead is a homeowner who replied asking for an inspection, a quote or a call. Each roofer works their own leads, so we don't report jobs or revenue. Homeowner replies are shown word for word with names and numbers removed. Results vary by market, list size and how fast leads are followed up. Past results don't guarantee future results.</p>
+
+<script>
+/* ─────────────────────────────────────────────────────────────
+   PROOF FEED. To add a highlight, add one line to this list.
+   The page shows them in this order. Types:
+     stat:  { type:"stat",  big:"14", line:"...", since:"Started Oct 16", name:"Chris", city:"Bedford Heights, OH" }
+     reply: { type:"reply", text:"homeowner's exact words", name:"Paul", city:"Warren, OH" }
+     story: { type:"story", before:"...", after:"... <b>5</b> ...", name:"Justin", city:"Billings, MT" }
+   Add wide:true to make a card span the full width.
+   Rules: first name + city only. No prices. Never say jobs, sold or revenue.
+   ───────────────────────────────────────────────────────────── */
+const HIGHLIGHTS = [
+  { type:"stat",  wide:true, big:"185", line:"homeowners asked for an inspection or a quote in his first 8 weeks.", since:"Started Sep 1", name:"Paul", city:"Warren, OH" },
+  { type:"stat",  big:"14", line:"homeowner leads in his first 10 days.", since:"Started Oct 16", name:"Chris", city:"Bedford Heights, OH" },
+  { type:"reply", text:"Please call! I like a quote!", name:"Chris", city:"Bedford Heights, OH" },
+  { type:"story", wide:true, before:"Had just gone out on his own and wanted leads he owned instead of buying them.", after:"<b>5</b> homeowner leads in his first 16 days of texting, all in his own CRM.", name:"Justin", city:"Billings, MT" },
+  { type:"reply", text:"Storm damage and a leak", name:"Paul", city:"Warren, OH" },
+  { type:"stat",  big:"25", line:"days from his first text to a roof inspection booked with a homeowner who texted back.", since:"Started Sep 17", name:"Scott", city:"Bradenton, FL" },
+  { type:"stat",  big:"38", line:"homeowners asked about their roof in his first 7 weeks.", since:"Started Sep 4", name:"Jeremy", city:"Sarasota, FL" },
+  { type:"reply", text:"Will this Thursday after 5 work?", name:"Paul", city:"Warren, OH" },
+  { type:"stat",  big:"26", line:"interested homeowners in his pipeline in his first 10 weeks.", since:"Started Aug 19", name:"Moshe", city:"Los Angeles area, CA" },
+  { type:"reply", text:"We're still looking for somebody to do the flashing around the chimney", name:"Chris", city:"Bedford Heights, OH" },
+  { type:"stat",  wide:true, big:"1,423", line:"homeowners texted back since September 1. Every reply lands in his own CRM.", since:"", name:"Paul", city:"Warren, OH" },
+  { type:"reply", text:"There was leaks. I had a company come patch it up a year ago. No leaks, but getting old and beat up.", name:"Paul", city:"Warren, OH" },
+  { type:"stat",  big:"7", line:"homeowner leads in his first 11 days.", since:"Started Oct 15", name:"Jessie", city:"Lancaster, CA" },
+  { type:"reply", text:"Give me a holler tomorrow", name:"Paul", city:"Warren, OH" },
+  { type:"stat",  big:"9", line:"homeowner leads in her first month.", since:"Started Sep 23", name:"Elizabeth", city:"Oklahoma City, OK" },
+  { type:"reply", text:"Yeah I'd be interested", name:"Chris", city:"Bedford Heights, OH" },
+  { type:"reply", text:"Sure thing! Have your people call my people!", name:"Paul", city:"Warren, OH" },
+];
+
+(function(){
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const who = (h, pre) => `<div class="who">${pre||""}<b>${esc(h.name)}</b> · ${esc(h.city)}</div>`;
+  const html = HIGHLIGHTS.map(h => {
+    const wide = h.wide ? " card--wide" : "";
+    if (h.type === "reply") return `<div class="card card--reply${wide}"><div class="tag">Homeowner reply</div><div class="bubble">${esc(h.text)}</div>${who(h, "To ")}</div>`;
+    if (h.type === "story") return `<div class="card${wide}"><div class="tag">Before and after</div><div class="story"><div><h4>Before</h4><p>${esc(h.before)}</p></div><div class="after"><h4>With the system</h4><p>${h.after}</p></div></div>${who(h)}</div>`;
+    return `<div class="card${wide}"><div class="big">${esc(h.big)}</div><div class="line">${esc(h.line)}</div>${h.since ? `<div class="since">${esc(h.since)}</div>` : ""}${who(h)}</div>`;
+  }).join("");
+  document.getElementById("feed").innerHTML = html;
+})();
+</script>
 
   <p class="note">Questions? Reach us at admin@cosaventures.com</p>
   <p class="footer">&copy; 2026 Internal Lead Systems for Roofing Contractors</p>
