@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Payment Links | Cosa Ventures</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#F8F6F3;--card:#fff;--text:#141414;--dim:#6b6b6b;--line:#E4DFD7;--acc:#CF5000;--acc-soft:#FBEBDD;--ok:#1F7A3D;--ok-soft:#e3f3e8;--bad:#B3261E;--bad-soft:#fbe6e4}
+body{background:var(--bg);color:var(--text);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 16px 72px}
+header{margin-bottom:18px}
+h1{font-size:26px;letter-spacing:-.01em}
+.sub{color:var(--dim);font-size:14px;margin-top:4px}
+.rules{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:10px;padding:14px 16px;margin:16px 0 20px;font-size:14px}
+.rules .head{display:block;margin-bottom:4px}
+.rules ul{padding-left:18px;color:#333}
+.rules li{margin:2px 0}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+.tab{font:inherit;font-weight:600;font-size:14px;background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:99px;padding:8px 14px;cursor:pointer}
+.tab.on{background:var(--text);color:#fff;border-color:var(--text)}
+.search{flex:1;min-width:180px;font:inherit;font-size:15px;padding:9px 12px;border:1.5px solid var(--line);border-radius:8px;background:var(--card)}
+.search:focus{outline:none;border-color:var(--text)}
+section{margin-bottom:28px}
+section h2{font-size:17px;margin-bottom:2px}
+section .hint{color:var(--dim);font-size:13px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.card.new{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset}
+.amt{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.amt b{font-size:30px;line-height:1;letter-spacing:-.02em}
+.amt span{color:var(--dim);font-size:14px}
+.then{font-size:15px;font-weight:600}
+.detail{color:var(--dim);font-size:13px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;background:#eee;color:#444}
+.tag.new{background:var(--acc-soft);color:var(--acc)}
+.tag.ok{background:var(--ok-soft);color:var(--ok)}
+.tag.bad{background:var(--bad-soft);color:var(--bad)}
+.act{display:flex;gap:8px;margin-top:auto}
+.act button,.act a{font:inherit;font-weight:700;font-size:15px;border-radius:8px;padding:11px 14px;cursor:pointer;text-decoration:none;text-align:center}
+.copy{flex:1;border:0;background:var(--text);color:#fff}
+.copy.done{background:var(--ok)}
+.open{border:1px solid var(--line);background:var(--card);color:var(--text)}
+.empty{color:var(--dim);text-align:center;padding:40px 0}
+footer{color:var(--dim);font-size:12px;margin-top:8px}
+@media(max-width:480px){.grid{grid-template-columns:1fr}.amt b{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Payment Links</h1>
+    <p class="sub">Cosa Ventures · Roofing Lead Gen System. Tap <b>Copy link</b> and paste it to the client.</p>
+  </header>
+
+  <div class="rules">
+    <b class="head">Before you send</b>
+    <ul>
+      <li>The amount charged today <b>includes month 1</b>. The monthly starts in month 2, on the same card.</li>
+      <li>Split deal? Send a <b>Payment plan</b> link, never a paid-in-full one. Only plan links save the card for the second charge.</li>
+      <li>Don't see the exact deal? Ask Calvin for a new link. Don't send a close match.</li>
+    </ul>
+  </div>
+
+  <div class="bar">
+    <div id="tabs" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+    <input class="search" id="q" type="search" placeholder="Search amount, e.g. 2500 or 597" autocomplete="off">
+  </div>
+
+  <div id="list"></div>
+  <footer>Updated Oct 29, 2026.</footer>
+</div>
+
+<script>
+(function () {
+  // group: plan | monthly | onetime | subs
+  // today and monthly are whole dollars; monthly null = one-time only.
+  var GROUPS = [
+    { id: "monthly", name: "Setup + monthly", hint: "One checkout: setup plus the first month today, then the monthly automatically." },
+    { id: "plan", name: "Payment plans", hint: "First payment today. The card is saved and the second payment is charged after records are delivered." },
+    { id: "onetime", name: "One-time", hint: "A single charge. Nothing further is billed and the card isn't saved." },
+    { id: "subs", name: "Monthly only", hint: "Subscription with no setup fee." }
+  ];
+  var LINKS = [
+    { group: "monthly", today: 5000, monthly: 797, detail: "$4,203 setup + $797 month 1", url: "https://buy.stripe.com/eVq00l9gMd5rgUmblC3F60z", isNew: true, tags: [["Paid in full", "ok"]] },
+    { group: "monthly", today: 2500, monthly: 597, detail: "$1,903 setup + $597 month 1", url: "https://buy.stripe.com/7sY3cxcsYghD0Vo1L23F60n" },
+    { group: "monthly", today: 2000, monthly: 597, detail: "$1,403 setup + $597 month 1", url: "https://buy.stripe.com/14AfZjgJeghD1Zs4Xe3F60o" },
+    { group: "monthly", today: 1700, monthly: 497, detail: "$1,203 setup + $497 month 1", url: "https://buy.stripe.com/4gM3cx64Ae9v9rUahy3F60r" },
+    { group: "monthly", today: 1500, monthly: 667, detail: "$833 setup + $667 month 1", url: "https://buy.stripe.com/8x2eVfakQ2qN6fIexO3F60q", tags: [["Doesn't collect name or phone", "bad"]] },
+    { group: "monthly", today: 1500, monthly: 597, detail: "$903 setup + $597 month 1", url: "https://buy.stripe.com/4gMaEZdx23uR9rU4Xe3F60s" },
+    { group: "monthly", today: 1250, monthly: 597, detail: "$653 setup + $597 month 1", url: "https://buy.stripe.com/5kQ00lfFad5r5bEfBS3F60t" },
+    { group: "monthly", today: 1000, monthly: 597, detail: "$403 setup + $597 month 1", url: "https://buy.stripe.com/4gMbJ3akQ9TfdIaahy3F60l" },
+    { group: "monthly", today: 2500, monthly: 997, detail: "$1,503 setup + $997 month 1", url: "https://buy.stripe.com/7sY28t8cIe9v5bE1L23F60h", tags: [["Test before sending", "bad"]] },
+    { group: "monthly", today: 2000, monthly: 997, detail: "$1,003 setup + $997 month 1", url: "https://buy.stripe.com/cNi5kF50w8Pb0Vo1L23F60i", tags: [["Test before sending", "bad"]] },
+    { group: "monthly", today: 2500, monthly: 897, detail: "$1,603 setup + $897 month 1", url: "https://buy.stripe.com/00w4gB9gMghDfQi1L23F60j", tags: [["Test before sending", "bad"]] },
+    { group: "monthly", today: 2000, monthly: 897, detail: "$1,103 setup + $897 month 1", url: "https://buy.stripe.com/5kQ3cx78E9Tf47A61i3F60k", tags: [["Test before sending", "bad"]] },
+
+    { group: "plan", today: 2500, monthly: 797, second: 2500, detail: "$1,703 setup + $797 month 1 today. $5,000 setup in total.", url: "https://buy.stripe.com/4gM4gBboU6H3dIafBS3F60A", isNew: true },
+    { group: "plan", today: 1750, monthly: 600, second: 1750, detail: "$1,150 setup + $600 month 1 today. $3,500 in total.", url: "https://buy.stripe.com/7sY9AVgJee9v9rUcpG3F60p" },
+    { group: "plan", today: 1350, monthly: null, second: "agreed", detail: "First payment only. The second amount is set at charge time.", url: "https://buy.stripe.com/7sY14p3Ws4yV5bEblC3F60a" },
+    { group: "plan", today: 1150, monthly: null, second: "agreed", detail: "First payment only. The second amount is set at charge time.", url: "https://buy.stripe.com/dRm14pdx23uR47A1L23F60c" },
+    { group: "plan", today: 1100, monthly: null, second: "agreed", detail: "First payment only. The second amount is set at charge time.", url: "https://buy.stripe.com/cNi9AVfFafdzavYexO3F60b" },
+    { group: "plan", today: 600, monthly: null, second: "agreed", detail: "First payment only. The second amount is set at charge time.", url: "https://buy.stripe.com/9B6cN7csY3uRfQi1L23F609" },
+
+    { group: "onetime", today: 3100, monthly: null, detail: "Setup, paid in full.", url: "https://buy.stripe.com/7sY28t8cI1mJ1ZscpG3F602" },
+    { group: "onetime", today: 2100, monthly: null, detail: "Setup, paid in full.", url: "https://buy.stripe.com/cNi9AVakQfdz6fI2P63F606" },
+    { group: "onetime", today: 1750, monthly: null, detail: "Setup, paid in full.", url: "https://buy.stripe.com/dRm00l9gM0iFbA2blC3F604" },
+    { group: "onetime", today: 1350, monthly: null, detail: "Setup, paid in full.", url: "https://buy.stripe.com/eVq00l78EghD1Zs61i3F601" },
+    { group: "onetime", today: 500, monthly: null, detail: "Records order only: a data pull with no system build.", url: "https://buy.stripe.com/bJe00l0Kg5CZdIadtK3F60d", tags: [["Records only", ""]] },
+
+    { group: "subs", today: 2000, monthly: 2000, detail: "SMS Lead Gen System.", url: "https://buy.stripe.com/fZucN71Okc1navY61i3F60f", tags: [["Doesn't collect name or phone", "bad"]] },
+    { group: "subs", today: 1500, monthly: 1500, detail: "SMS Lead Gen System.", url: "https://buy.stripe.com/bJefZjeB6c1n6fI4Xe3F60e", tags: [["Doesn't collect name or phone", "bad"]] },
+    { group: "subs", today: 1000, monthly: 1000, detail: "SMS Lead Gen System.", url: "https://buy.stripe.com/5kQdRbgJe0iFcE69du3F60g", tags: [["Doesn't collect name or phone", "bad"]] },
+    { group: "subs", today: 600, monthly: 600, detail: "SMS System.", url: "https://buy.stripe.com/28EcN79gMe9vbA23Ta3F608" },
+    { group: "subs", today: 400, monthly: 400, detail: "Old Starter plan.", url: "https://buy.stripe.com/8x228t1Ok0iF8nQ9du3F600" }
+  ];
+
+  var $ = function (id) { return document.getElementById(id); };
+  var filter = "all", query = "";
+
+  function money(n) { return "$" + n.toLocaleString("en-US"); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+  function thenLine(l) {
+    if (l.group === "subs") return "Every month until cancelled";
+    var parts = [];
+    if (l.second === "agreed") parts.push("Second payment charged to the saved card after records are delivered");
+    else if (l.second) parts.push("Then " + money(l.second) + " charged to the saved card after records are delivered");
+    if (l.monthly) parts.push((parts.length ? "plus " : "Then ") + money(l.monthly) + "/mo from month 2");
+    if (!parts.length) return "Nothing further billed";
+    return parts.join(", ");
+  }
+
+  function matches(l) {
+    if (filter !== "all" && l.group !== filter) return false;
+    if (!query) return true;
+    var hay = [l.today, l.monthly, l.second, money(l.today), l.detail].join(" ").replace(/[$,]/g, "").toLowerCase();
+    return query.split(/\s+/).every(function (w) { return hay.indexOf(w) !== -1; });
+  }
+
+  function card(l) {
+    var i = LINKS.indexOf(l);
+    var tags = (l.isNew ? [["New", "new"]] : []).concat(l.tags || []);
+    var unit = l.group === "subs" ? "/mo" : " today";
+    return '<div class="card' + (l.isNew ? " new" : "") + '">' +
+      '<div class="amt"><b>' + money(l.today) + "</b><span>" + unit + "</span></div>" +
+      '<div class="then">' + esc(thenLine(l)) + "</div>" +
+      '<div class="detail">' + esc(l.detail) + "</div>" +
+      (tags.length ? '<div class="tags">' + tags.map(function (t) { return '<span class="tag ' + t[1] + '">' + esc(t[0]) + "</span>"; }).join("") + "</div>" : "") +
+      '<div class="act"><button class="copy" data-i="' + i + '">Copy link</button><a class="open" href="' + esc(l.url) + '" target="_blank" rel="noopener">Open</a></div>' +
+      "</div>";
+  }
+
+  function render() {
+    var tabs = [{ id: "all", name: "All" }].concat(GROUPS);
+    $("tabs").innerHTML = tabs.map(function (t) {
+      return '<button class="tab' + (filter === t.id ? " on" : "") + '" data-f="' + t.id + '">' + t.name + "</button>";
+    }).join("");
+
+    var html = GROUPS.map(function (g) {
+      var items = LINKS.filter(function (l) { return l.group === g.id && matches(l); });
+      if (!items.length) return "";
+      return "<section><h2>" + g.name + '</h2><p class="hint">' + g.hint + '</p><div class="grid">' + items.map(card).join("") + "</div></section>";
+    }).join("");
+    $("list").innerHTML = html || '<p class="empty">No link for that amount. Ask Calvin to make one.</p>';
+  }
+
+  function copy(text) {
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+    return new Promise(function (ok, fail) {
+      var t = document.createElement("textarea");
+      t.value = text; t.setAttribute("readonly", ""); t.style.position = "fixed"; t.style.opacity = "0";
+      document.body.appendChild(t); t.select();
+      try { document.execCommand("copy") ? ok() : fail(); } catch (e) { fail(e); }
+      document.body.removeChild(t);
+    });
+  }
+
+  $("tabs").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-f]");
+    if (b) { filter = b.getAttribute("data-f"); render(); }
+  });
+  $("q").addEventListener("input", function () { query = this.value.trim().toLowerCase().replace(/[$,]/g, ""); render(); });
+  $("list").addEventListener("click", function (e) {
+    var b = e.target.closest(".copy");
+    if (!b) return;
+    var url = LINKS[+b.getAttribute("data-i")].url;
+    copy(url).then(function () {
+      b.textContent = "Copied"; b.classList.add("done");
+      setTimeout(function () { b.textContent = "Copy link"; b.classList.remove("done"); }, 1600);
+    }, function () { window.prompt("Copy this link:", url); });
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
