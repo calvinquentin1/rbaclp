@@ -308,6 +308,8 @@ body{
 .total__n{font-size:clamp(24px,5vw,32px);font-weight:900;letter-spacing:-.03em;color:var(--accent);font-variant-numeric:tabular-nums;line-height:1.05}
 .total__l{font-size:12.5px;color:var(--text-2);line-height:1.4;margin-top:6px}
 
+.varies{max-width:720px;margin:0 auto 22px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 18px;font-size:14px;line-height:1.55;color:var(--text-2)}
+.varies strong{color:var(--text)}
 .clients{display:flex;flex-direction:column;gap:18px;max-width:720px;margin:0 auto}
 .client{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:24px 26px;display:flex;flex-direction:column;gap:16px;box-shadow:0 1px 2px rgba(28,28,28,.04)}
 .client__top{display:flex;align-items:center;gap:12px}
@@ -375,11 +377,13 @@ body{
     <div class="total"><div class="total__n">185</div><div class="total__l">leads in 8 weeks for our top account</div></div>
   </div>
 
+  <p class="varies"><strong>Why the numbers differ so much:</strong> every roofer sends a different number of texts. Some text far more homeowners than others, and some pause for a few weeks when their crews are booked up. More texts going out usually means more homeowners texting back.</p>
+
   <div class="clients" id="clients"></div>
 
   <div class="cta"><a href="/roofing-ai">Book a call</a></div>
 
-  <p class="fine">Figures come from each roofer's own CRM as of October 2026. A lead is a homeowner who replied asking for an inspection, a quote or a call. Each roofer works their own leads, so we don't report jobs or revenue. Homeowner replies are real texts, shown without names or numbers. Results vary by market, list size and how fast leads are followed up. Past results don't guarantee future results.</p>
+  <p class="fine">Figures come from each roofer's own CRM as of October 2026. A lead is a homeowner who replied asking for an inspection, a quote or a call. Each roofer works their own leads, so we don't report jobs or revenue. Homeowner replies are real texts, shown without names or numbers. Results vary by how many texts each roofer sends, pauses when their schedule is full, market, list size and how fast leads are followed up. Past results don't guarantee future results.</p>
 
 <script>
 /* ─────────────────────────────────────────────────────────────
