@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Submissions | Cosa Ventures</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#F8F6F3;--card:#fff;--text:#141414;--dim:#6b6b6b;--line:#E4DFD7;--acc:#CF5000;--ok:#1F7A3D;--bad:#B3261E}
+body{background:var(--bg);color:var(--text);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:24px;margin-bottom:4px}
+.sub{color:var(--dim);font-size:14px;margin-bottom:18px}
+.login{max-width:360px;margin:12vh auto;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px}
+.login input{width:100%;font:inherit;padding:12px;border:1.5px solid var(--line);border-radius:8px;margin:12px 0 10px}
+button{font:inherit;font-weight:700;border:0;border-radius:8px;padding:12px 18px;background:var(--text);color:#fff;cursor:pointer}
+button.ghost{background:none;color:var(--dim);font-weight:600;padding:8px 10px}
+.err{color:var(--bad);font-size:14px;min-height:20px;margin-top:8px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0 18px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+.tile b{display:block;font-size:26px;line-height:1.1}
+.tile span{font-size:13px;color:var(--dim)}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.tab{background:var(--card);color:var(--text);border:1px solid var(--line);padding:8px 14px;font-weight:600;font-size:14px}
+.tab.on{background:var(--text);color:#fff;border-color:var(--text)}
+.sp{flex:1}
+.list{display:flex;flex-direction:column;gap:10px}
+.row{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--line);border-radius:10px;padding:14px;display:grid;grid-template-columns:1.3fr 1.6fr 1.6fr auto;gap:8px 16px;align-items:start}
+.row.q{border-left-color:var(--ok)}.row.n{border-left-color:var(--bad)}
+.nm{font-weight:700}
+.dim{color:var(--dim);font-size:13px}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px;background:#eee}
+.tag.q{background:#e3f3e8;color:var(--ok)}.tag.n{background:#fbe6e4;color:var(--bad)}
+.steps{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;font-size:13px}
+.st{color:#9a9a9a}.st::before{content:"\25CB  "}
+.st.done{color:var(--ok);font-weight:600}.st.done::before{content:"\25CF  "}
+.st.warn{color:var(--bad);font-weight:600}.st.warn::before{content:"\25CF  "}
+.score{font-size:22px;font-weight:800;text-align:right}
+.ans{font-size:14px}
+.empty{color:var(--dim);text-align:center;padding:40px 0}
+a{color:inherit}
+@media(max-width:720px){.row{grid-template-columns:1fr auto}.row .c2,.row .c3{grid-column:1 / -1}}
+</style>
+</head>
+<body>
+<div class="login" id="login">
+  <h1>Submissions</h1>
+  <p class="sub">Roofing qualifier</p>
+  <input id="pw" type="password" placeholder="Password" autocomplete="current-password">
+  <button id="go" style="width:100%">Open</button>
+  <p class="err" id="lerr"></p>
+</div>
+
+<div class="wrap" id="app" hidden>
+  <div class="bar"><div><h1>Submissions</h1><p class="sub" id="upd">Roofing qualifier</p></div><span class="sp"></span><button class="ghost" id="refresh">Refresh</button><button class="ghost" id="out">Log out</button></div>
+  <div class="tiles" id="tiles"></div>
+  <div class="bar" id="tabs"></div>
+  <div class="list" id="list"></div>
+</div>
+
+<script>
+(function () {
+  var ENDPOINT = "https://jeemalunmhhbodepereq.supabase.co/functions/v1/leads-admin";
+  var ANON = "sb_publishable_rhDb2vzJLS99sQnJmBpkdw_36N8rkhd";
+  var LABEL = {
+    owner: { owner: "Owner", partner: "Partner", other: "Someone else decides" },
+    crews: { solo: "Just me", "2-5": "2 to 5 people", "6-15": "6 to 15 people", "16+": "16+ people" },
+    roofs_per_month: { lt4: "Under 4 roofs/mo", "4-7": "4 to 7 roofs/mo", "8-20": "8 to 20 roofs/mo", "20+": "20+ roofs/mo" },
+    ready: { yes: "OK with $4,997 + $797/mo", not_now: "Said No to the price" }
+  };
+  var $ = function (id) { return document.getElementById(id); };
+  var pw = "", rows = [], filter = "all", timer = null;
+  try { pw = sessionStorage.getItem("subs_pw") || ""; } catch (e) {}
+
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function fmt(t) { return new Date(t).toLocaleString("en-US", { timeZone: "America/New_York", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }) + " ET"; }
+  function ymd(t) { return new Date(t).toLocaleDateString("en-CA", { timeZone: "America/New_York" }); }
+
+  function load(first) {
+    return fetch(ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", apikey: ANON, Authorization: "Bearer " + ANON }, body: JSON.stringify({ password: pw }) })
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (x) {
+        if (!x.ok) { throw new Error(x.j.error || "Could not load."); }
+        rows = x.j.rows || [];
+        try { sessionStorage.setItem("subs_pw", pw); } catch (e) {}
+        $("login").hidden = true; $("app").hidden = false;
+        render();
+      })
+      .catch(function (e) {
+        if (first) { $("lerr").textContent = e.message; } else { $("upd").textContent = e.message; }
+        if (first) { try { sessionStorage.removeItem("subs_pw"); } catch (e2) {} }
+      });
+  }
+
+  function render() {
+    var fin = rows.filter(function (r) { return r.stage === "final"; });
+    var q = fin.filter(function (r) { return r.qualified; });
+    var today = ymd(new Date()), week = Date.now() - 7 * 864e5;
+    var tToday = fin.filter(function (r) { return ymd(r.created_at) === today; }).length;
+    var tWeek = fin.filter(function (r) { return new Date(r.created_at).getTime() >= week; }).length;
+    var pct = fin.length ? Math.round(q.length / fin.length * 100) : 0;
+    $("tiles").innerHTML = [
+      [fin.length, "Total submissions"], [tToday, "Today"], [tWeek, "Last 7 days"],
+      [q.length, "Qualified (calendar shown)"], [fin.length - q.length, "Not qualified"], [pct + "%", "Qualify rate"]
+    ].map(function (t) { return '<div class="tile"><b>' + t[0] + "</b><span>" + t[1] + "</span></div>"; }).join("");
+
+    var tabs = [["all", "All"], ["q", "Qualified"], ["n", "Not qualified"]];
+    $("tabs").innerHTML = tabs.map(function (t) { return '<button class="tab' + (filter === t[0] ? " on" : "") + '" data-f="' + t[0] + '">' + t[1] + "</button>"; }).join("");
+
+    var shown = rows.filter(function (r) { return filter === "all" || (filter === "q" ? r.qualified : (r.stage === "final" && !r.qualified)); });
+    $("list").innerHTML = shown.length ? shown.map(function (r) {
+      var cls = r.stage !== "final" ? "" : (r.qualified ? "q" : "n");
+      var a = r.stage === "final"
+        ? [LABEL.owner[r.owner], LABEL.crews[r.crews], LABEL.roofs_per_month[r.roofs_per_month], LABEL.ready[r.ready]].map(function (x) { return esc(x || "?"); }).join("<br>")
+        : '<span class="dim">Did not finish</span>';
+      var saved = '<span class="st done">Saved to Supabase</span>';
+      var ghl = r.ghl_status === "ok" ? '<span class="st done">In GoHighLevel</span>' : (r.ghl_status ? '<span class="st warn">GoHighLevel: ' + esc(r.ghl_status) + "</span>" : '<span class="st">GoHighLevel</span>');
+      var book = "";
+      if (r.stage === "final" && r.qualified) {
+        if (r.booking && r.booking.state === "booked") book = '<span class="st done">Booked' + (r.booking.start ? " " + esc(fmt(r.booking.start)) : "") + "</span>";
+        else if (r.booking && r.booking.state === "none") book = '<span class="st">Not booked yet</span>';
+      } else if (r.stage === "final") { book = '<span class="st">No calendar (not qualified)</span>'; }
+      var steps = '<div class="steps">' + saved + ghl + book + "</div>";
+      var why = (r.dq_reasons && r.dq_reasons.length) ? '<div class="dim" style="margin-top:6px">' + esc(r.dq_reasons.join(", ")) + "</div>" : "";
+      var src = r.utm && (r.utm.utm_campaign || r.utm.utm_source) ? '<div class="dim">Source: ' + esc(r.utm.utm_campaign || r.utm.utm_source) + "</div>" : "";
+      return '<div class="row ' + cls + '">' +
+        '<div><div class="nm">' + esc(r.first_name) + " " + esc(r.last_name) + '</div><div class="dim">' + fmt(r.created_at) + "</div>" + src + steps + "</div>" +
+        '<div class="c2"><div class="ans"><a href="tel:' + esc(r.phone) + '">' + esc(r.phone) + '</a></div><div class="ans"><a href="mailto:' + esc(r.email) + '">' + esc(r.email) + '</a></div></div>' +
+        '<div class="c3 ans">' + a + why + "</div>" +
+        "<div>" + (r.score == null ? "" : '<div class="score">' + r.score + '</div>') + (cls ? '<span class="tag ' + cls + '">' + (r.qualified ? "Qualified" : "Not qualified") + "</span>" : "") + "</div></div>";
+    }).join("") : '<p class="empty">No submissions yet.</p>';
+    $("upd").textContent = "Updated " + new Date().toLocaleTimeString("en-US", { timeZone: "America/New_York", hour: "numeric", minute: "2-digit" }) + " ET. Refreshes every minute.";
+  }
+
+  $("go").addEventListener("click", function () { pw = $("pw").value; $("lerr").textContent = ""; load(true).then(start); });
+  $("pw").addEventListener("keydown", function (e) { if (e.key === "Enter") $("go").click(); });
+  $("refresh").addEventListener("click", function () { load(false); });
+  $("out").addEventListener("click", function () { try { sessionStorage.removeItem("subs_pw"); } catch (e) {} location.reload(); });
+  $("tabs").addEventListener("click", function (e) { var b = e.target.closest("[data-f]"); if (b) { filter = b.getAttribute("data-f"); render(); } });
+  function start() { if (!timer && !$("app").hidden) timer = setInterval(function () { load(false); }, 60000); }
+  if (pw) { load(true).then(start); }
+})();
+</script>
+</body>
+</html>
