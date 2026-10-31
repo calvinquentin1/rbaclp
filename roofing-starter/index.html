@@ -1112,12 +1112,19 @@ a{color:inherit;text-decoration:none}
     var PROGRESS = { q1: [1, 20], q2: [2, 40], q3: [3, 60], q4: [4, 80], contact: [5, 100], saving: [5, 100], ok: [5, 100], no: [5, 100] };
     var BACK_TO = { q2: "q1", q3: "q2", q4: "q3", contact: "q4" };
 
-    /* Meta custom events, once per visit each. Schedule is NOT fired here:
-       GHL sends it after a real booking, only for qualified contacts. */
-    function track(name, data) {
-      if (sent[name]) return;
-      sent[name] = true;
-      try { if (window.fbq) window.fbq("trackCustom", name, data || {}); } catch (e) {}
+    /* Qualifier steps go to OUR database only (qualifier_events), never to Meta (Calvin, 31 Oct).
+       sendBeacon = text/plain, no preflight, survives page close; works on iPhones.
+       Schedule is NOT fired here: GHL sends it after a real booking, only for qualified contacts. */
+    var STEP_URL = "https://jeemalunmhhbodepereq.supabase.co/functions/v1/qualifier-event";
+    var SID = Math.random().toString(36).slice(2) + Date.now().toString(36);
+    function step(name, answer) {
+      if (name === "open") { if (sent.open) return; sent.open = true; }
+      try {
+        var p = JSON.stringify({ session_id: SID, step: name, answer: answer || "", page: location.href, tier: "starter",
+          utm: utmObj(), fbclid: new URLSearchParams(window.location.search).get("fbclid") || "" });
+        if (navigator.sendBeacon) navigator.sendBeacon(STEP_URL, new Blob([p], { type: "text/plain" }));
+        else fetch(STEP_URL, { method: "POST", keepalive: true, headers: { "Content-Type": "text/plain" }, body: p });
+      } catch (e) {}
     }
     function cookie(n) { return (document.cookie.match("(^|; )" + n + "=([^;]*)") || [])[2] || ""; }
 
@@ -1198,7 +1205,7 @@ a{color:inherit;text-decoration:none}
       b.classList.add("is-picked");
       var k = b.getAttribute("data-k");
       answers[k] = b.getAttribute("data-v");
-      if (k === "owner") track("QualifierStart");
+      step(k, answers[k]);
       window.setTimeout(function () { busy = false; show(NEXT[k]); }, reduce ? 0 : 160);
     });
 
@@ -1214,7 +1221,8 @@ a{color:inherit;text-decoration:none}
       var pass = localQualified();
       /* Show the result right away; save the lead in the background (one retry). */
       if (pass) { loadCalendar(c); show("ok"); }
-      else { track("QualifierFail"); show("no"); }   /* never optimize on this event */
+      else show("no");
+      step("contact_submit", pass ? "qualified" : "not_qualified");
       var a = { owner: answers.owner, crews: answers.crews, roofs_per_month: answers.roofs_per_month, ready: answers.ready };
       var body = JSON.stringify({ stage: "final", submission_id: subId, first_name: c.first, last_name: c.last, email: c.email, phone: c.phone,
         answers: a, tier: "starter", utm: utmObj(), fbclid: new URLSearchParams(window.location.search).get("fbclid") || "",
@@ -1232,6 +1240,7 @@ a{color:inherit;text-decoration:none}
 
     /* Open / close the pop-up. Progress is kept if they close and reopen. */
     function openModal(opener) {
+      step("open");
       lastOpener = opener || null;
       modal.classList.add("open");
       document.body.style.overflow = "hidden";
