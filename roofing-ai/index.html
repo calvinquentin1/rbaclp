@@ -1,4 +1,5 @@
 <meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Homeowners Ready for Your Sales Team to Call | Cosa Growth Marketing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -643,16 +644,31 @@ a{color:inherit;text-decoration:none}
 .hero__guar{display:inline-flex;align-items:center;gap:8px;margin:14px auto 26px;padding:10px 18px;border:1.5px solid var(--accent);border-radius:999px;background:rgba(207,80,0,.06);font-size:15px;font-weight:800;color:var(--accent-ink);line-height:1.25;text-wrap:balance}
 .hero__guar svg{flex:0 0 auto;width:17px;height:17px;fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
 @media(max-width:640px){.hero__guar{font-size:14px;padding:9px 15px;margin:10px auto 22px}}
+
+.lpx{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:6px 0 22px}
+.lpx__c{border:1px solid var(--border);border-radius:10px;padding:18px 16px;background:var(--bg);display:flex;flex-direction:column;gap:6px}
+.lpx__c--us{border:2px solid var(--accent);background:rgba(207,80,0,.05)}
+.lpx__t{font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--text-dim)}
+.lpx__c--us .lpx__t{color:var(--accent-ink)}
+.lpx__p{font-size:30px;font-weight:900;letter-spacing:-.02em;color:var(--text);font-variant-numeric:tabular-nums}
+.lpx__c--us .lpx__p{color:var(--accent)}
+.lpx__d{font-size:14px;line-height:1.45;color:var(--text-2)}
+.lpx__note{font-size:12px;color:var(--text-dim);line-height:1.5;margin-top:10px}
+.glist{margin:8px 0 12px;padding-left:22px;display:flex;flex-direction:column;gap:10px;font-size:16px;line-height:1.5}
+.glist strong{color:var(--accent-ink)}
+.glist__note{font-size:12.5px;color:var(--text-dim);line-height:1.5}
+@media(max-width:640px){.lpx{grid-template-columns:minmax(0,1fr)}.glist{text-align:left}}
 </style>
 
 <!-- ══ 1. HERO ══ -->
+<div style="position:sticky;top:0;z-index:999;background:#b00020;color:#fff;text-align:center;font:700 13px/1.3 system-ui,sans-serif;padding:8px 12px">TEST VERSION &mdash; not live. New offer preview.</div>
 <section class="hero">
   <div class="wrap">
     <p class="hero__brand">Cosa Growth Marketing</p>
     <p class="hero__eyebrow"><span class="st" aria-hidden="true">&#9733;</span> Established roofing company owners <span class="st" aria-hidden="true">&#9733;</span></p>
-    <h1 class="hero__hl">Homeowners ready for <em>your sales team to call.</em></h1>
-    <p class="hero__sub">We build you a system that texts thousands of homeowners in your area every day. An AI answers every reply, and your team calls the ones ready for an estimate.</p>
-    <p class="hero__guar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>20 leads in 60 days, or your money back.</p>
+    <h1 class="hero__hl">Homeowners in your area asking <em>your company</em> for an estimate.</h1>
+    <p class="hero__sub">Exclusive to you, never shared or resold. We text homeowners in your zip codes under your company&rsquo;s name, an AI answers every reply, and you only hear about the ones who want an estimate.</p>
+    <p class="hero__guar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>20 exclusive leads in 60 days, or your setup fee back.</p>
     <div class="hconvo">
       <p class="hc__ctx">She'd told us about a soft spot. The AI asked if she'd take a call.</p>
       <div class="hc__row hc__row--out"><div class="hc__b"><span class="hc__tag">AI</span><br>Would you be open to a quick call with the roofing team to talk through that soft spot?</div></div>
@@ -769,11 +785,15 @@ a{color:inherit;text-decoration:none}
 <!-- ══ 6. THE MECHANISM ══ -->
 <section class="sec">
   <div class="wrap">
-    <p class="eyebrow">Why they cost so little</p>
-    <h2 class="h2">You're not paying a middleman, and you're not paying anybody to sit and answer messages.</h2>
-    <p class="lede">A broker charges you for a lead because someone had to generate it and work it. Here, the texting costs a penny a message, and the answering is done by AI.</p>
-    <p class="lede"><strong>It answers every homeowner who writes back &mdash; in seconds, at any hour &mdash; and picks up when they call.</strong> It asks what's going on with the roof and drops the ones who are actually interested into your pipeline.</p>
-    <p class="lede">That's the whole reason the numbers work. Nothing gets generated and then left sitting.</p>
+    <p class="eyebrow">Why ours cost less</p>
+    <h2 class="h2">Agencies mark up every lead. We cut out the markup.</h2>
+    <div class="lpx">
+      <div class="lpx__c"><div class="lpx__t">Shared leads</div><div class="lpx__p">$15&ndash;$120</div><div class="lpx__d">Sold to 3&ndash;5 roofers at once. Whoever calls first wins.</div></div>
+      <div class="lpx__c"><div class="lpx__t">Exclusive leads from an agency</div><div class="lpx__p">$150&ndash;$300</div><div class="lpx__d">Yours alone, but you pay the agency&rsquo;s markup on every single one.</div></div>
+      <div class="lpx__c lpx__c--us"><div class="lpx__t">Yours, with us</div><div class="lpx__p">~$25&ndash;$35</div><div class="lpx__d">Exclusive, typical client cost per lead. Nobody else gets them.</div></div>
+    </div>
+    <p class="lede"><strong>Why so much less?</strong> Lead agencies run the same kind of system, then mark up every lead and sell it to you one at a time, often to several roofers. With us, the system runs in your company&rsquo;s name for a flat monthly fee, so there&rsquo;s no middleman markup per lead. The more homeowners it texts, the lower your cost per lead.</p>
+    <p class="lpx__note">Lead prices are typical industry ranges and vary by market. Our figure is a typical client: about 45 leads per 50,000 texts, divided into the monthly fee plus texting. Results vary.</p>
   </div>
 </section>
 
@@ -829,32 +849,32 @@ a{color:inherit;text-decoration:none}
 <section class="sec sec--tint">
   <div class="wrap">
     <p class="eyebrow">What you actually get</p>
-    <h2 class="h2">The whole machine, built and run for you.</h2>
+    <h2 class="h2">Your own lead system, built and run for you.</h2>
 
     <div class="items">
       <div>
-        <div class="item__t">A CRM, set up and ready</div>
-        <div class="item__d">Leads, notes, pipeline and conversation history, all in one place instead of scattered across a phone and a notepad. <strong>It comes with the system &mdash; there's nothing to connect and nothing to migrate.</strong></div>
+        <div class="item__t">Your Territory List</div>
+        <div class="item__d">10,000 homeowners in your zip codes, pulled to your spec (roof age, homeowner age), checked against Do Not Call and litigator lists, and traced to <strong>mobile numbers</strong>. Part of your setup, not a separate bill.</div>
       </div>
       <div>
-        <div class="item__t">10,000 homeowner records, part of your setup</div>
-        <div class="item__d">Pulled to your spec — your area, roof age, homeowner age — scrubbed and traced to <strong>mobile numbers</strong>. They come with the $5,000 setup, not as a separate bill.</div>
+        <div class="item__t">Your Branded Number</div>
+        <div class="item__d">Texting registered with the carriers <strong>in your company&rsquo;s name</strong>. Get the paperwork wrong and texts fail silently. We handle it.</div>
       </div>
       <div>
-        <div class="item__t">The texting built inside it</div>
-        <div class="item__d">Outbound to those homeowners at <strong>a penny a message</strong>, no cap on volume.</div>
+        <div class="item__t">AI Front Desk</div>
+        <div class="item__d">Answers every reply in seconds and picks up when homeowners call, 24/7. It asks what&rsquo;s going on with the roof and screens out the tire-kickers. <strong>It doesn&rsquo;t book appointments &mdash; your team does.</strong></div>
       </div>
       <div>
-        <div class="item__t">An AI that answers every reply</div>
-        <div class="item__d">Instantly, any hour, on every one of them. It asks what's wrong with the roof and sorts the serious from the curious. <strong>Interested homeowners land in your pipeline and your team calls them and books their own appointments.</strong></div>
+        <div class="item__t">Hot Lead Alerts</div>
+        <div class="item__d">Your phone pings only when a homeowner wants an estimate, with their name, number and what they said. <strong>No noise from the no&rsquo;s.</strong></div>
       </div>
       <div>
-        <div class="item__t">An AI that picks up the phone</div>
-        <div class="item__d">When a homeowner calls and you're up on a roof, it answers, finds out what's going on with the house, and confirms someone will call them straight back. <strong>It doesn't book the appointment &mdash; your team does that.</strong></div>
+        <div class="item__t">Your CRM, set up and ready</div>
+        <div class="item__d">Every lead, note and conversation in one place, with the texting built in at <strong>a penny a message</strong>. Nothing to connect, nothing to migrate.</div>
       </div>
       <div>
-        <div class="item__t">Carrier registration handled</div>
-        <div class="item__d">The paperwork that makes business texting legal and actually deliverable. Get it wrong and your messages fail silently. <strong>We do it for you.</strong></div>
+        <div class="item__t">Monthly market report</div>
+        <div class="item__d">How many homeowners we reached, who replied, and who&rsquo;s ready for an estimate. You always know what the system is doing.</div>
       </div>
     </div>
   </div>
@@ -971,13 +991,19 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
-<!-- ══ 60-DAY LEAD GUARANTEE ══ -->
+<!-- ══ GUARANTEES ══ -->
 <section class="sec sec--tint">
   <div class="wrap guar__wrap">
-    <div class="guar__seal" aria-hidden="true"><span>60&#8209;Day<br><b>Guarantee</b></span></div>
+    <div class="guar__seal" aria-hidden="true"><span>Risk<br><b>Free</b></span></div>
     <div class="guar__body">
-      <h2 class="h2">20 leads in 60 days, or your setup fee back.</h2>
-      <p class="lede">If your system is live and sending on the schedule we set up, and you don&rsquo;t get at least <strong>20 positive homeowner leads</strong> in your first 60 days, we refund your setup fee. A positive lead is a homeowner who replies asking for an inspection, a quote, a price or a call. You run the system &mdash; we stand behind it.</p>
+      <h2 class="h2">Four guarantees. The risk is on us.</h2>
+      <ol class="glist">
+        <li><strong>Live in 14 days,</strong> or your setup fee back.</li>
+        <li><strong>20 exclusive leads in your first 60 days,</strong> or your setup fee back, and you keep every lead you got.</li>
+        <li><strong>Exclusive, always.</strong> Your leads are never shared or resold. If we ever do, that month is free.</li>
+        <li><strong>Month to month.</strong> If you leave, your leads and your homeowner list go with you.</li>
+      </ol>
+      <p class="glist__note">A lead is a homeowner who replies asking for an inspection, a quote, a price or a call. The 60 days start when your texting goes live, as long as it&rsquo;s sending on the schedule we set up.</p>
     </div>
   </div>
 </section>
@@ -996,7 +1022,7 @@ a{color:inherit;text-decoration:none}
 <footer class="footer">
   <div class="wrap">
     Cosa Ventures &nbsp;&middot;&nbsp; admin@cosaventures.com
-    <p style="max-width:560px;margin:14px auto 0;font-size:12px;line-height:1.5;color:var(--text-dim)">14-day guarantee: &ldquo;live&rdquo; means your carrier registration is done, your homeowner list is loaded, texts are going out and the AI is answering replies, within 14 days of us receiving your business details. If we miss it, you get your setup fee back. 60-day lead guarantee: if your system is live and sending on the schedule we set up and you receive fewer than 20 positive homeowner leads (a homeowner replying to ask for an inspection, quote, price or call) in your first 60 days of active texting, we refund your setup fee. Results otherwise vary and are not guaranteed.</p>
+    <p style="max-width:560px;margin:14px auto 0;font-size:12px;line-height:1.5;color:var(--text-dim)">14-day guarantee: &ldquo;live&rdquo; means your carrier registration is done, your homeowner list is loaded, texts are going out and the AI is answering replies, within 14 days of us receiving your business details. If we miss it, you get your setup fee back. 60-day lead guarantee: if your system is live and sending on the schedule we set up and you receive fewer than 20 positive homeowner leads (a homeowner replying to ask for an inspection, quote, price or call) in your first 60 days of active texting, we refund your setup fee and you keep every lead. Exclusivity guarantee: leads from your system are never shared with or sold to another company; if that ever happens, that month&rsquo;s fee is waived. If you cancel, your leads and homeowner list are exported to you; the CRM and texting system stay with us. Lead price ranges are typical industry figures and vary by market. Results otherwise vary and are not guaranteed.</p>
   </div>
 </footer>
 
