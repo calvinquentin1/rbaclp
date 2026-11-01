@@ -41,6 +41,9 @@ button.ghost{background:none;color:var(--dim);font-weight:600;padding:8px 10px}
 .empty{color:var(--dim);text-align:center;padding:40px 0}
 a{color:inherit}
 @media(max-width:720px){.row{grid-template-columns:1fr auto}.row .c2,.row .c3{grid-column:1 / -1}}
+.ph{font-size:17px;margin:28px 0 10px}
+.row.p{border-left-color:#d9a400;grid-template-columns:1.3fr 3fr auto}
+@media(max-width:720px){.row.p{grid-template-columns:1fr auto}}
 </style>
 </head>
 <body>
@@ -57,6 +60,8 @@ a{color:inherit}
   <div class="tiles" id="tiles"></div>
   <div class="bar" id="tabs"></div>
   <div class="list" id="list"></div>
+  <h2 class="ph">Started the form, didn&rsquo;t finish <span class="dim">(last 30 days, no name or phone)</span></h2>
+  <div class="list" id="partials"></div>
 </div>
 
 <script>
@@ -70,7 +75,7 @@ a{color:inherit}
     ready: { yes: "OK with $5,000 + $797/mo", not_now: "Said No to the price" }
   };
   var $ = function (id) { return document.getElementById(id); };
-  var pw = "", rows = [], filter = "all", timer = null;
+  var pw = "", rows = [], partials = [], filter = "all", timer = null;
   try { pw = sessionStorage.getItem("subs_pw") || ""; } catch (e) {}
 
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
@@ -82,7 +87,7 @@ a{color:inherit}
       .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
       .then(function (x) {
         if (!x.ok) { throw new Error(x.j.error || "Could not load."); }
-        rows = x.j.rows || [];
+        rows = x.j.rows || []; partials = x.j.partials || [];
         try { sessionStorage.setItem("subs_pw", pw); } catch (e) {}
         $("login").hidden = true; $("app").hidden = false;
         render();
@@ -130,6 +135,17 @@ a{color:inherit}
         '<div class="c3 ans">' + a + why + "</div>" +
         "<div>" + (r.score == null ? "" : '<div class="score">' + r.score + '</div>') + (cls ? '<span class="tag ' + cls + '">' + (r.qualified ? "Qualified" : "Not qualified") + "</span>" : "") + "</div></div>";
     }).join("") : '<p class="empty">No submissions yet.</p>';
+    var STEP = { owner: "Who decides", crews: "Team size", roofs_per_month: "Roofs per month", ready: "Price" };
+    var STOP = { open: "Opened the form, answered nothing", owner: "Stopped after question 1", crews: "Stopped after question 2", roofs_per_month: "Stopped before the price question", ready: "Answered everything, left at name and phone" };
+    $("partials").innerHTML = partials.length ? partials.map(function (s) {
+      var a = s.answers || {};
+      var ans = ["owner", "crews", "roofs_per_month", "ready"].filter(function (k) { return a[k]; })
+        .map(function (k) { return '<span class="dim">' + STEP[k] + ':</span> ' + esc(k === "ready" ? ({ yes: "Yes", not_now: "No" })[a[k]] || a[k] : ((LABEL[k] && LABEL[k][a[k]]) || a[k])); }).join("<br>") || '<span class="dim">No answers</span>';
+      var price = a.ready === "not_now" ? '<span class="tag n">Said no to price</span>' : (a.ready === "yes" ? '<span class="tag q">Yes on price</span>' : "");
+      var src = esc(s.page || "") + (s.from_ad ? " &middot; from a Facebook ad" : "");
+      return '<div class="row p"><div><div class="nm">' + esc(STOP[s.last_step] || "Stopped") + '</div><div class="dim">' + fmt(s.started_at) + '</div><div class="dim">' + src + '</div></div>' +
+        '<div class="ans">' + ans + '</div><div>' + price + '</div></div>';
+    }).join("") : '<p class="empty">None in the last 30 days.</p>';
     $("upd").textContent = "Updated " + new Date().toLocaleTimeString("en-US", { timeZone: "America/New_York", hour: "numeric", minute: "2-digit" }) + " ET. Refreshes every minute.";
   }
 
