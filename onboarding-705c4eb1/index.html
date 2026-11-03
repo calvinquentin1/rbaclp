@@ -76,16 +76,23 @@ textarea{min-height:64px;resize:vertical}
 .override select{width:auto}
 @media (max-width:620px){.row{grid-template-columns:minmax(0,1fr)} h1{font-size:2rem}}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+
+.team{display:flex;flex-direction:column;gap:8px}
+.member{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) auto;gap:8px;align-items:center}
+.member .other{grid-column:1 / -1}
+.member button{padding:6px 10px}
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (max-width:620px){.trio{grid-template-columns:minmax(0,1fr)}.member{grid-template-columns:minmax(0,1fr) auto}.member select{grid-column:1 / -1;grid-row:2}}
 </style>
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
 </head>
 <body>
 
-
 <div class="wrap">
   <header class="top">
     <h1>Client Onboarding Form</h1>
-    <p class="lede">Run this on the discovery call, before we touch anything. Pick an answer for each line; add a note if it helps. When you're done, hit Export, copy the sheet, and drop it into the client's kit as <code>workspace/profile/Discovery Sheet.md</code>.</p>
+    <p class="lede">Run this on the discovery call, before we touch anything. Pick an answer for each line. When you're done, download the sheet and drop it into the client's kit as <code>workspace/profile/Discovery Sheet.md</code>. Claude reads it and plans the setup.</p>
   </header>
 
   <div class="bar"><div class="bar-in">
@@ -106,39 +113,44 @@ textarea{min-height:64px;resize:vertical}
 
   <section class="export" id="exportBox">
     <h2>Discovery Sheet</h2>
-    <p>This updates as you fill the form. Copy it and paste it into the client's kit.</p>
+    <p>Updates as you fill the form. Download it (or copy it) and put it in the client's kit.</p>
     <div class="override"><label for="f_verdict_override">Verdict</label>
       <select id="f_verdict_override"><option value="">Auto (from answers)</option><option>Ready</option><option>Ready after setup</option><option>Not a fit yet</option></select>
-      <button class="primary" id="btnCopy" type="button">Copy sheet</button><button id="btnDl" type="button">Download .md</button><span class="toast" id="copied" aria-live="polite"></span></div>
+      <button class="primary" id="btnDl" type="button">Download .md</button><button id="btnCopy" type="button">Copy sheet</button><span class="toast" id="copied" aria-live="polite"></span></div>
     <div class="out-wrap" style="margin-top:10px"><textarea id="out" readonly aria-label="Discovery Sheet markdown"></textarea></div>
   </section>
 </div>
 
 <script>
-// g = good, m = partly, b = leak / not tracked
+const STATES=["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"];
+const ROLES=["Owner","Partner","Office manager","Sales rep","Estimator","Project manager","Crew lead","Bookkeeper","Marketing","Other"];
+// grade: g = good, m = partial, b = missing
 const S = [
  {id:"basics", title:"The business", why:"The basics, so every number later has context.", rows:[
-  {id:"owner", q:"Owner", type:"text"},
-  {id:"team", q:"Team", hint:"Names and roles: office, sales reps, production", type:"text"},
-  {id:"services", q:"Services and area", type:"text"},
-  {id:"hours", q:"Hours, time zone, state", hint:"Texting and recording rules depend on the state", type:"text"},
-  {id:"jobs", q:"Jobs per month", type:"text"},
-  {id:"avgjob", q:"Average job value", type:"text"},
-  {id:"close", q:"Close rate (their guess)", type:"text"},
+  {id:"team", q:"Team", hint:"Add each person and their role", type:"team"},
+  {id:"services", q:"Services", type:"chips", opts:["Roof replacement","Roof repair","Gutters","Siding","Windows","Commercial roofing","Storm / insurance work","Solar","Other"]},
+  {id:"area", q:"Main city or service area", type:"text"},
+  {id:"hours", q:"Hours, time zone, state", hint:"Texting and recording rules depend on the state", type:"trio", parts:[
+    {id:"days", opts:["Mon-Fri","Mon-Sat","7 days"]},
+    {id:"tz", opts:["Eastern","Central","Mountain","Pacific","Alaska","Hawaii"]},
+    {id:"state", opts:STATES}]},
+  {id:"jobs", q:"Jobs per month", type:"select", opts:[["Under 5",""],["5 to 10",""],["10 to 20",""],["20 to 40",""],["40+",""]]},
+  {id:"avgjob", q:"Average job value", type:"select", opts:[["Under $5k",""],["$5k to $10k",""],["$10k to $15k",""],["$15k to $25k",""],["$25k+",""]]},
+  {id:"close", q:"Close rate (their guess)", type:"select", opts:[["Under 20%",""],["20% to 30%",""],["30% to 40%",""],["40%+",""],["Don't know",""]]},
   {id:"leads", q:"Leads per month", type:"select", opts:[["Under 20","b"],["20 to 50","m"],["50 to 150","g"],["150+","g"]]},
-  {id:"spend", q:"Marketing spend per month", type:"text"}
+  {id:"spend", q:"Marketing spend per month", type:"select", opts:[["Under $1k",""],["$1k to $3k",""],["$3k to $10k",""],["$10k+",""],["Don't know",""]]}
  ]},
  {id:"org", title:"Your organization: where everything lives", why:"If leads, calls and texts aren't in one place, nobody can see speed to lead or where deals die.", rows:[
-  {id:"crm", q:"CRM", hint:"Which one, if any", type:"select", opts:[["GoHighLevel","g"],["JobNimbus","g"],["AccuLynx","g"],["ServiceTitan","g"],["Other CRM","g"],["Spreadsheet only","m"],["None","b"]]},
+  {id:"crm", q:"CRM", type:"select", opts:[["GoHighLevel","g"],["JobNimbus","g"],["AccuLynx","g"],["ServiceTitan","g"],["Other CRM","g"],["Spreadsheet only","m"],["None","b"]]},
   {id:"crmuse", q:"Is the whole team using it?", type:"select", opts:[["Yes, everyone","g"],["Some of the team","m"],["Barely","b"],["No CRM","b"]]},
   {id:"onesys", q:"One system for leads, calls, texts and notes?", type:"select", opts:[["Yes, one system","g"],["A few that connect","m"],["Several separate tools","b"],["No system","b"]]},
   {id:"leadshome", q:"Where existing leads live today", type:"select", opts:[["In the CRM","g"],["Spreadsheet","m"],["Mixed across tools","m"],["Email inbox","b"],["On phones / notebooks","b"]]},
-  {id:"history", q:"Can they pull up a past customer's full history?", hint:"Ask them to find someone from a month ago: calls, texts, notes, estimate", type:"select", opts:[["Yes, one screen","g"],["Partly, several places","m"],["No","b"]]},
+  {id:"history", q:"Can they pull up a past customer's full history?", hint:"Calls, texts, notes and estimate in one place", type:"select", opts:[["Yes, one screen","g"],["Partly, several places","m"],["No","b"]]},
   {id:"notes", q:"Notes taken after calls and appointments", type:"select", opts:[["Always, in the CRM","g"],["Sometimes","m"],["Rarely or never","b"]]}
  ]},
  {id:"phones", title:"Phones, texts and email", why:"Calls and texts on personal phones are invisible: no missed-call count, no coaching, no follow-up check.", rows:[
   {id:"calls", q:"Where calls are made and received", type:"select", opts:[["Business phone system, everyone on it","g"],["Mix of business and personal","m"],["Personal cells","b"]]},
-  {id:"carrier", q:"Phone system / carrier for the main number", hint:"Needed to forward missed calls", type:"text"},
+  {id:"carrier", q:"Phone system for the main number", hint:"Needed to forward missed calls", type:"select", opts:[["GoHighLevel phone",""],["RingCentral",""],["OpenPhone / Quo",""],["Grasshopper",""],["Dialpad",""],["Nextiva",""],["Google Voice",""],["Regular cell or landline carrier",""],["Other",""]]},
   {id:"recording", q:"Call recording and transcripts", type:"select", opts:[["Both on","g"],["Recording only","m"],["Off","b"],["Not sure","m"]]},
   {id:"afterhours", q:"Who answers at 9 PM or when everyone's on a roof?", type:"select", opts:[["A person or answering service","g"],["Voicemail","b"],["Nobody","b"]]},
   {id:"missed", q:"Do they know how many calls they miss?", type:"select", opts:[["Yes, they track it","g"],["Rough idea","m"],["No idea","b"]]},
@@ -156,32 +168,27 @@ const S = [
   {id:"followup", q:"Open estimates followed up until yes or no?", type:"select", opts:[["Yes, every time","g"],["Sometimes","m"],["No","b"]]},
   {id:"calendar", q:"Where inspections are booked", type:"select", opts:[["Shared calendar in the CRM","g"],["Personal calendars","m"],["Paper / memory","b"]]},
   {id:"pastjobs", q:"List of every past job (date, address, phone)", hint:"Powers reviews, referrals, storm check-ins", type:"select", opts:[["Yes, exportable","g"],["Partly","m"],["No","b"]]},
-  {id:"reviews", q:"Google reviews: rating, count, who asks", type:"text"}
+  {id:"reviews", q:"Google reviews", type:"trio", parts:[
+    {id:"rating", opts:["Under 4.0","4.0 to 4.4","4.5 to 4.7","4.8+","No profile"]},
+    {id:"count", opts:["Under 25","25 to 100","100 to 300","300+"]},
+    {id:"asks", opts:["Asked after every job","Sometimes","Nobody asks"]}]}
  ]},
  {id:"team", title:"Team communication", why:"If the team only talks in personal texts, there's no record and the owner has to call people to know anything.", rows:[
   {id:"teamtalk", q:"How the team talks day to day", type:"select", opts:[["Slack / Teams","g"],["WhatsApp group","m"],["Group texts","b"],["Calls and texts only","b"]]},
   {id:"handoff", q:"How a new lead gets to a rep", type:"select", opts:[["Assigned and logged in the system","g"],["Text or call","m"],["No set process","b"]]},
   {id:"visibility", q:"Can the owner see what each rep is working on?", type:"select", opts:[["Yes, without asking","g"],["Has to ask","m"],["No","b"]]}
- ]},
- {id:"owner", title:"In the owner's words", why:"These shape the daily brief and the leak report.", rows:[
-  {id:"worry", q:"What keeps you up at night?", type:"area"},
-  {id:"cracks", q:"What slips through the cracks?", type:"area"},
-  {id:"win", q:"What would make the next 90 days a win?", type:"area"}
- ]},
- {id:"next", title:"Access and setup", why:"Who gives us access, and anything we have to set up before the health check.", rows:[
-  {id:"admins", q:"Admin for each system (who can give access)", type:"area"},
-  {id:"setup", q:"Setup needed first", hint:"e.g. no CRM: set up GHL, forward the main number, import contacts", type:"area"}
  ]}
 ];
 
-const KEY="cosa-onboarding-form-v1";
+const KEY="cosa-onboarding-form-v2";
 const form=document.getElementById("form");
 const $=id=>document.getElementById(id);
-let state={};
-try{state=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch(e){state={}}
+let state={}, team=[];
+try{const o=JSON.parse(localStorage.getItem(KEY)||"{}")||{};state=o.fields||{};team=o.team||[]}catch(e){}
 
 function el(tag,attrs={},html=""){const e=document.createElement(tag);for(const k in attrs){e.setAttribute(k,attrs[k])}if(html)e.innerHTML=html;return e}
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function sel(id,opts,placeholder="Choose…"){const s=el("select",{id});s.appendChild(el("option",{value:""},placeholder));opts.forEach(t=>s.appendChild(el("option",{value:t},esc(t))));return s}
 
 function build(){
   S.forEach(g=>{
@@ -195,19 +202,22 @@ function build(){
       const a=el("div",{class:"a"});
       if(r.type==="select"){
         const line=el("div",{class:"line"});
-        const dot=el("span",{class:"dot",id:"d_"+r.id,"aria-hidden":"true"});
-        const s=el("select",{id:"f_"+r.id});
-        s.appendChild(el("option",{value:""},"Choose…"));
-        r.opts.forEach(([t])=>s.appendChild(el("option",{value:t},esc(t))));
-        line.append(dot,s);a.appendChild(line);
-        a.appendChild(el("input",{id:"n_"+r.id,class:"note",placeholder:"Note (optional)"}));
+        const graded=r.opts.some(o=>o[1]);
+        line.appendChild(el("span",{class:"dot",id:"d_"+r.id,"aria-hidden":"true",style:graded?"":"display:none"}));
+        line.appendChild(sel("f_"+r.id,r.opts.map(o=>o[0])));
+        a.appendChild(line);
+        if(r.opts.some(o=>o[0]==="Other"||o[0]==="Other CRM")) a.appendChild(el("input",{id:"n_"+r.id,class:"note",placeholder:"Which one?"}));
+      }else if(r.type==="trio"){
+        const t=el("div",{class:"trio"});
+        r.parts.forEach(p=>t.appendChild(sel(`f_${r.id}_${p.id}`,p.opts,p.id==="days"?"Days":p.id==="tz"?"Time zone":p.id==="state"?"State":p.id==="rating"?"Rating":p.id==="count"?"Reviews":"Who asks")));
+        a.appendChild(t);
       }else if(r.type==="chips"){
         const c=el("div",{class:"chips",id:"f_"+r.id});
         r.opts.forEach((o,i)=>{const lab=el("label");const cb=el("input",{type:"checkbox",id:`c_${r.id}_${i}`,value:o});lab.append(cb,document.createTextNode(o));c.appendChild(lab)});
         a.appendChild(c);
-        a.appendChild(el("input",{id:"n_"+r.id,class:"note",placeholder:"Rough leads per channel, spend (optional)"}));
-      }else if(r.type==="area"){
-        a.appendChild(el("textarea",{id:"f_"+r.id}));
+      }else if(r.type==="team"){
+        a.appendChild(el("div",{class:"team",id:"teamList"}));
+        const add=el("button",{type:"button",id:"addMember"},"+ Add team member");a.appendChild(add);
       }else{
         a.appendChild(el("input",{id:"f_"+r.id}));
       }
@@ -217,64 +227,89 @@ function build(){
   });
 }
 
-function allInputs(){return document.querySelectorAll("#form input,#form select,#form textarea,#f_business,#f_verdict_override")}
-function load(){allInputs().forEach(i=>{const v=state[i.id];if(v===undefined)return;if(i.type==="checkbox")i.checked=!!v;else i.value=v})}
-function save(){const o={};allInputs().forEach(i=>{o[i.id]=i.type==="checkbox"?i.checked:i.value});state=o;try{localStorage.setItem(KEY,JSON.stringify(o));$("saved").textContent="Saved on this device"}catch(e){}}
+function renderTeam(){
+  const list=$("teamList");list.innerHTML="";
+  team.forEach((m,i)=>{
+    const d=el("div",{class:"member"});
+    const n=el("input",{id:`tm_name_${i}`,placeholder:"Name","aria-label":"Name"});n.value=m.name||"";
+    const r=sel(`tm_role_${i}`,ROLES,"Role");r.value=m.role||"";
+    const x=el("button",{type:"button","aria-label":"Remove"},"Remove");
+    n.addEventListener("input",()=>{m.name=n.value;save();update()});
+    r.addEventListener("change",()=>{m.role=r.value;renderTeam();save();update()});
+    x.addEventListener("click",()=>{team.splice(i,1);renderTeam();save();update()});
+    d.append(n,r,x);
+    if(m.role==="Other"){const o=el("input",{id:`tm_other_${i}`,class:"other note",placeholder:"What's their role?"});o.value=m.other||"";o.addEventListener("input",()=>{m.other=o.value;save();update()});d.appendChild(o)}
+    list.appendChild(d);
+  });
+}
 
+function fieldInputs(){return document.querySelectorAll("#form input:not([id^=tm_]),#form select:not([id^=tm_]),#f_business,#f_verdict_override")}
+function load(){fieldInputs().forEach(i=>{const v=state[i.id];if(v===undefined)return;if(i.type==="checkbox")i.checked=!!v;else i.value=v});renderTeam()}
+function save(){const o={};fieldInputs().forEach(i=>{o[i.id]=i.type==="checkbox"?i.checked:i.value});state=o;try{localStorage.setItem(KEY,JSON.stringify({fields:o,team}));$("saved").textContent="Saved on this device"}catch(e){}}
+
+function graded(){return S.flatMap(g=>g.rows.filter(r=>r.type==="select"&&r.opts.some(o=>o[1])))}
 function grade(r){const v=$("f_"+r.id).value;const f=r.opts.find(o=>o[0]===v);return f?f[1]:""}
-function selects(){return S.flatMap(g=>g.rows.filter(r=>r.type==="select"))}
 function chipsVal(id){return [...document.querySelectorAll(`#f_${id} input:checked`)].map(c=>c.value)}
+function v(id){const e=$("f_"+id);return e?e.value.trim():""}
 
 function autoVerdict(){
-  const v=k=>$("f_"+k)?$("f_"+k).value:"";
-  const answered=selects().filter(r=>v(r.id)).length;
+  const answered=graded().filter(r=>v(r.id)).length;
   if(!answered && !$("f_business").value) return "";
   if(v("leads")==="Under 20") return "Not a fit yet";
-  const scattered = ["None","Spreadsheet only"].includes(v("crm")) || v("onesys")==="No system" || v("leadshome")==="On phones / notebooks" || v("calls")==="Personal cells" || v("texts")==="Personal phones";
-  if(scattered) return "Ready after setup";
-  return "Ready";
+  const scattered=["None","Spreadsheet only"].includes(v("crm"))||v("onesys")==="No system"||v("leadshome")==="On phones / notebooks"||v("calls")==="Personal cells"||v("texts")==="Personal phones";
+  return scattered?"Ready after setup":"Ready";
 }
 
 function update(){
-  let g=0,m=0,b=0,ans=0;const total=selects().length;
-  selects().forEach(r=>{const k=grade(r);const d=$("d_"+r.id);d.className="dot"+(k?" "+k:"");if(k){ans++;if(k==="g")g++;else if(k==="m")m++;else b++}});
-  $("counts").innerHTML=`<span class="chip">${ans} of ${total} answered</span><span class="chip g">${g} in one place</span><span class="chip m">${m} partly</span><span class="chip b">${b} leaks</span>`;
-  const ov=$("f_verdict_override").value; const v=ov||autoVerdict();
-  const vb=$("verdict"); vb.textContent=v||"Not started";
-  vb.className="verdict"+(v==="Ready"?" ready":v==="Ready after setup"?" setup":v==="Not a fit yet"?" nofit":"");
-  $("out").value=markdown(v);
+  let g=0,m=0,b=0,ans=0;const list=graded();
+  list.forEach(r=>{const k=grade(r);const d=$("d_"+r.id);d.className="dot"+(k?" "+k:"");if(k){ans++;if(k==="g")g++;else if(k==="m")m++;else b++}});
+  $("counts").innerHTML=`<span class="chip">${ans} of ${list.length} answered</span><span class="chip g">${g} good</span><span class="chip m">${m} partial</span><span class="chip b">${b} missing</span>`;
+  const ov=$("f_verdict_override").value;const verdict=ov||autoVerdict();
+  const vb=$("verdict");vb.textContent=verdict||"Not started";
+  vb.className="verdict"+(verdict==="Ready"?" ready":verdict==="Ready after setup"?" setup":verdict==="Not a fit yet"?" nofit":"");
+  $("out").value=markdown(verdict);
 }
 
 function markdown(verdict){
-  const val=id=>{const e=$("f_"+id);return e?e.value.trim():""};
-  const note=id=>{const e=$("n_"+id);return e&&e.value.trim()?` (${e.value.trim()})`:""};
-  const mark={g:"✅",m:"⚠️",b:"❌"};
-  const name=$("f_business").value.trim()||"{{Business Name}}";
+  const word={g:"good",m:"partial",b:"missing"};
+  const name=$("f_business").value.trim()||"(business name)";
   const today=new Date().toISOString().slice(0,10);
-  let md=`# Client Discovery Sheet: ${name}\nFilled: ${today} · Verdict: ${verdict||"not set"}\n\n`;
-  md+="Status key: ✅ in one system · ⚠️ partly · ❌ not tracked / leak\n";
+  const other=id=>{const e=$("n_"+id);return e&&e.value.trim()?` (${e.value.trim()})`:""};
+  let md=`# Discovery Sheet: ${name}\n\nDate: ${today}\nVerdict: ${verdict||"not set"}\nFilled by Cosa on the discovery call. Status per item: good = in one system, partial = partly tracked, missing = not tracked.\n`;
   S.forEach(g=>{
     md+=`\n## ${g.title}\n`;
-    if(g.rows.some(r=>r.type==="select")){md+="| Item | Answer | Status |\n|---|---|---|\n"}
     g.rows.forEach(r=>{
-      if(r.type==="select"){const v=val(r.id);md+=`| ${r.q} | ${v?v+note(r.id):"not asked"} | ${mark[grade(r)]||"—"} |\n`}
-      else if(r.type==="chips"){const c=chipsVal(r.id);md+=`| ${r.q} | ${c.length?c.join(", "):"none listed"}${note(r.id)} | |\n`}
+      if(r.type==="team"){
+        if(!team.length){md+=`- Team: not entered\n`;return}
+        md+=`- Team:\n`;team.forEach(t=>{const role=t.role==="Other"?(t.other||"Other"):(t.role||"role not set");md+=`  - ${t.name||"(no name)"}: ${role}\n`});
+      }else if(r.type==="trio"){
+        const vals=r.parts.map(p=>v(`${r.id}_${p.id}`)).filter(Boolean);
+        md+=`- ${r.q}: ${vals.length?vals.join(", "):"not asked"}\n`;
+      }else if(r.type==="chips"){
+        const c=chipsVal(r.id);md+=`- ${r.q}: ${c.length?c.join(", "):"none selected"}\n`;
+      }else if(r.type==="select"){
+        const val=v(r.id);const k=grade(r);
+        md+=`- ${r.q}: ${val?val+other(r.id):"not asked"}${k?` (status: ${word[k]})`:""}
+`;
+      }else{
+        md+=`- ${r.q}: ${v(r.id)||"not asked"}\n`;
+      }
     });
-    g.rows.filter(r=>r.type==="text"||r.type==="area").forEach(r=>{md+=`- **${r.q}:** ${val(r.id)||"unknown, ask"}\n`});
   });
-  const leaks=selects().filter(r=>grade(r)==="b").map(r=>`- ${r.q}: ${val(r.id)}${note(r.id)}`);
-  md+=`\n## Leaks flagged on the call\n${leaks.length?leaks.join("\n"):"- none flagged"}\n`;
+  const gaps=graded().filter(r=>grade(r)==="b").map(r=>`- ${r.q}: ${v(r.id)}`);
+  const partial=graded().filter(r=>grade(r)==="m").map(r=>`- ${r.q}: ${v(r.id)}`);
+  md+=`\n## Missing (not tracked)\n${gaps.length?gaps.join("\n"):"- none"}\n`;
+  md+=`\n## Partial\n${partial.length?partial.join("\n"):"- none"}\n`;
   return md;
 }
 
-const SAMPLE={f_business:"Ridgeline Roofing (sample)",f_owner:"Tony Russo",f_team:"Tony (owner, sells), Dana (office), Marcus (sales rep), 2 crews",f_services:"Roof replacement and repair, gutters · Columbus metro",f_hours:"Mon-Sat 8-6 · Eastern · Ohio",f_jobs:"14",f_avgjob:"$14,000",f_close:"about 30%",f_leads:"50 to 150",f_spend:"$4,500",
+const SAMPLE={fields:{f_business:"Ridgeline Roofing (sample)",c_services_0:true,c_services_1:true,c_services_2:true,f_area:"Columbus, Ohio metro",f_hours_days:"Mon-Sat",f_hours_tz:"Eastern",f_hours_state:"Ohio",f_jobs:"10 to 20",f_avgjob:"$10k to $15k",f_close:"20% to 30%",f_leads:"50 to 150",f_spend:"$3k to $10k",
  f_crm:"JobNimbus",f_crmuse:"Some of the team",f_onesys:"Several separate tools",f_leadshome:"Mixed across tools",f_history:"Partly, several places",f_notes:"Sometimes",
  f_calls:"Mix of business and personal",f_carrier:"RingCentral",f_recording:"Recording only",f_afterhours:"Voicemail",f_missed:"No idea",f_texts:"Business number, not logged",f_email:"Owner's inbox only",
- c_channels_0:true,c_channels_3:true,c_channels_5:true,c_channels_6:true,n_channels:"Angi ~30/mo, Google ~25/mo, referrals ~10/mo",f_source:"Some",f_form:"Email inbox",f_speed:"Same day",
- f_estimates:"Made in a tool, not tracked",f_followup:"Sometimes",f_calendar:"Personal calendars",f_pastjobs:"Partly",f_reviews:"4.6 stars, 58 reviews, nobody asks",
- f_teamtalk:"Group texts",f_handoff:"Text or call",f_visibility:"Has to ask",
- f_worry:"Paying Angi for leads that go nowhere",f_cracks:"Estimates nobody follows up on",f_win:"Two more signed jobs a month without more ad spend",
- f_admins:"JobNimbus: Dana · RingCentral: Tony · Google: Tony",f_setup:"Turn on transcripts in RingCentral; route the website form into JobNimbus"};
+ c_channels_0:true,c_channels_3:true,c_channels_5:true,c_channels_6:true,f_source:"Some",f_form:"Email inbox",f_speed:"Same day",
+ f_estimates:"Made in a tool, not tracked",f_followup:"Sometimes",f_calendar:"Personal calendars",f_pastjobs:"Partly",f_reviews_rating:"4.5 to 4.7",f_reviews_count:"25 to 100",f_reviews_asks:"Nobody asks",
+ f_teamtalk:"Group texts",f_handoff:"Text or call",f_visibility:"Has to ask"},
+ team:[{name:"Tony Russo",role:"Owner"},{name:"Dana Price",role:"Office manager"},{name:"Marcus Hill",role:"Sales rep"},{name:"Luis Ortega",role:"Crew lead"}]};
 
 build();load();update();
 form.addEventListener("input",()=>{save();update()});
@@ -282,12 +317,26 @@ form.addEventListener("change",()=>{save();update()});
 form.addEventListener("submit",e=>e.preventDefault());
 $("f_business").addEventListener("input",()=>{save();update()});
 $("f_verdict_override").addEventListener("change",()=>{save();update()});
+$("addMember").addEventListener("click",()=>{team.push({name:"",role:""});renderTeam();save();update();const i=team.length-1;$(`tm_name_${i}`).focus()});
 $("btnExport").addEventListener("click",()=>{update();$("exportBox").scrollIntoView({behavior:"smooth",block:"start"})});
-$("btnSample").addEventListener("click",()=>{allInputs().forEach(i=>{if(i.type==="checkbox")i.checked=!!SAMPLE[i.id];else i.value=SAMPLE[i.id]||""});save();update()});
+$("btnSample").addEventListener("click",()=>{fieldInputs().forEach(i=>{if(i.type==="checkbox")i.checked=!!SAMPLE.fields[i.id];else i.value=SAMPLE.fields[i.id]||""});team=JSON.parse(JSON.stringify(SAMPLE.team));renderTeam();save();update()});
 $("btnClear").addEventListener("click",()=>{$("confirmClear").hidden=false});
 $("noClear").addEventListener("click",()=>{$("confirmClear").hidden=true});
-$("yesClear").addEventListener("click",()=>{allInputs().forEach(i=>{if(i.type==="checkbox")i.checked=false;else i.value=""});save();update();$("confirmClear").hidden=true;$("saved").textContent="Cleared"});
+$("yesClear").addEventListener("click",()=>{fieldInputs().forEach(i=>{if(i.type==="checkbox")i.checked=false;else i.value=""});team=[];renderTeam();save();update();$("confirmClear").hidden=true;$("saved").textContent="Cleared"});
 $("btnCopy").addEventListener("click",()=>{const t=$("out").value;navigator.clipboard.writeText(t).then(()=>{$("copied").textContent="Copied"}).catch(()=>{$("out").focus();$("out").select();$("copied").textContent="Selected. Press Ctrl/Cmd+C to copy"})});
+$("btnDl").addEventListener("click",async()=>{
+  update();
+  const text=$("out").value;
+  const n=($("f_business").value.trim()||"client").replace(/[^a-z0-9]+/gi,"-").replace(/^-|-$/g,"");
+  const fname=`Discovery Sheet - ${n}.md`;
+  try{
+    const a=document.createElement("a");
+    a.href="data:text/markdown;charset=utf-8,"+encodeURIComponent(text);
+    a.download=fname;a.rel="noopener";a.style.display="none";
+    document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),1000);
+    $("copied").textContent="Downloaded "+fname;
+  }catch(e){$("copied").textContent="Download blocked here. Use Copy sheet instead."}
+});
 </script>
 
 </body>
