@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Client Onboarding Form</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a field clipboard. Sticky summary bar on top, one column of grouped sections, export panel at the end. */
+:root{
+  --bg:#f3f4f1; --card:#ffffff; --ink:#1d232b; --muted:#5e6670; --line:#d9ddd6;
+  --accent:#2f5d50; --accent-ink:#ffffff; --accent-soft:#e3ece8;
+  --good:#2e7d4f; --good-bg:#e4f2e9; --mid:#a86a00; --mid-bg:#fbf0db; --bad:#b3362c; --bad-bg:#f8e3e0;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"IBM Plex Sans",-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#14181d; --card:#1c2128; --ink:#e8ebe7; --muted:#9aa3ad; --line:#2f3640;
+  --accent:#7fb8a5; --accent-ink:#0f1a16; --accent-soft:#22332e;
+  --good:#6cc492; --good-bg:#1d3226; --mid:#e0ad52; --mid-bg:#352a17; --bad:#ec8a80; --bad-bg:#3a201d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#14181d; --card:#1c2128; --ink:#e8ebe7; --muted:#9aa3ad; --line:#2f3640;
+  --accent:#7fb8a5; --accent-ink:#0f1a16; --accent-soft:#22332e;
+  --good:#6cc492; --good-bg:#1d3226; --mid:#e0ad52; --mid-bg:#352a17; --bad:#ec8a80; --bad-bg:#3a201d; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--card)}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+header.top{padding-block:28px 12px}
+h1{font-family:var(--display);font-weight:700;font-size:2.4rem;letter-spacing:.01em;line-height:1.05;margin:0;text-wrap:balance}
+.lede{color:var(--muted);margin:6px 0 0;max-width:62ch}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border-bottom:1px solid var(--line);margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding:10px max(16px,env(safe-area-inset-left,0px))}
+.bar-in{max-width:860px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
+.client{flex:1 1 220px;min-width:0}
+.client input{width:100%;font:600 1.05rem var(--body);border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;padding:7px 10px}
+.counts{display:flex;gap:6px;flex-wrap:wrap;font-variant-numeric:tabular-nums}
+.chip{font:500 .8rem var(--body);padding:3px 9px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
+.chip.g{background:var(--good-bg);color:var(--good);border-color:transparent}
+.chip.m{background:var(--mid-bg);color:var(--mid);border-color:transparent}
+.chip.b{background:var(--bad-bg);color:var(--bad);border-color:transparent}
+.verdict{font:700 .95rem var(--display);letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:6px;background:var(--accent-soft);color:var(--accent)}
+.verdict.setup{background:var(--mid-bg);color:var(--mid)} .verdict.nofit{background:var(--bad-bg);color:var(--bad)} .verdict.ready{background:var(--good-bg);color:var(--good)}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 4px}
+button{font:500 .9rem var(--body);border-radius:6px;padding:8px 14px;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section.grp{margin-top:26px}
+.grp h2{font-family:var(--display);font-weight:700;font-size:1.45rem;letter-spacing:.02em;margin:0 0 2px}
+.grp .why{color:var(--muted);margin:0 0 10px;font-size:.92rem;max-width:68ch}
+.rows{background:var(--card);border:1px solid var(--line);border-radius:8px}
+.row{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:8px 14px;padding:12px 14px;border-top:1px solid var(--line);align-items:start}
+.row:first-child{border-top:0}
+.q{font-weight:500}
+.q small{display:block;font-weight:400;color:var(--muted);font-size:.84rem;margin-top:2px}
+.a{display:flex;flex-direction:column;gap:6px;min-width:0}
+.a .line{display:flex;gap:8px;align-items:center}
+select,.a input,textarea{width:100%;font:400 .92rem var(--body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:7px 9px}
+textarea{min-height:64px;resize:vertical}
+.note{font-size:.85rem!important;padding:5px 8px!important}
+.dot{flex:0 0 10px;width:10px;height:10px;border-radius:50%;background:var(--line)}
+.dot.g{background:var(--good)} .dot.m{background:var(--mid)} .dot.b{background:var(--bad)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips label{display:inline-flex;gap:6px;align-items:center;border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:.88rem;cursor:pointer;background:var(--bg)}
+.chips input{width:auto;accent-color:var(--accent)}
+.export{margin-top:32px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px}
+.export h2{font-family:var(--display);font-size:1.45rem;margin:0}
+.export p{color:var(--muted);margin:4px 0 12px;font-size:.92rem}
+.out-wrap{overflow-x:auto}
+#out{width:100%;min-height:320px;font:400 .82rem/1.5 var(--mono);white-space:pre}
+.toast{margin-left:6px;color:var(--good);font-size:.88rem}
+.override{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px;font-size:.9rem}
+.override select{width:auto}
+@media (max-width:620px){.row{grid-template-columns:minmax(0,1fr)} h1{font-size:2rem}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="top">
+    <h1>Client Onboarding Form</h1>
+    <p class="lede">Run this on the discovery call, before we touch anything. Pick an answer for each line; add a note if it helps. When you're done, hit Export, copy the sheet, and drop it into the client's kit as <code>workspace/profile/Discovery Sheet.md</code>.</p>
+  </header>
+
+  <div class="bar"><div class="bar-in">
+    <div class="client"><input id="f_business" placeholder="Business name" aria-label="Business name"></div>
+    <div class="counts" id="counts"></div>
+    <div class="verdict" id="verdict">Not started</div>
+  </div></div>
+
+  <div class="tools">
+    <button class="primary" id="btnExport" type="button">Export sheet</button>
+    <button id="btnSample" type="button">Load sample client</button>
+    <button id="btnClear" type="button">Start a new client</button>
+    <span class="toast" id="saved" aria-live="polite"></span>
+  </div>
+  <div id="confirmClear" hidden style="margin:6px 0;font-size:.9rem">Clear every answer? <button id="yesClear" type="button">Yes, clear</button> <button id="noClear" type="button">Keep</button></div>
+
+  <form id="form" autocomplete="off"></form>
+
+  <section class="export" id="exportBox">
+    <h2>Discovery Sheet</h2>
+    <p>This updates as you fill the form. Copy it and paste it into the client's kit.</p>
+    <div class="override"><label for="f_verdict_override">Verdict</label>
+      <select id="f_verdict_override"><option value="">Auto (from answers)</option><option>Ready</option><option>Ready after setup</option><option>Not a fit yet</option></select>
+      <button class="primary" id="btnCopy" type="button">Copy sheet</button><button id="btnDl" type="button">Download .md</button><span class="toast" id="copied" aria-live="polite"></span></div>
+    <div class="out-wrap" style="margin-top:10px"><textarea id="out" readonly aria-label="Discovery Sheet markdown"></textarea></div>
+  </section>
+</div>
+
+<script>
+// g = good, m = partly, b = leak / not tracked
+const S = [
+ {id:"basics", title:"The business", why:"The basics, so every number later has context.", rows:[
+  {id:"owner", q:"Owner", type:"text"},
+  {id:"team", q:"Team", hint:"Names and roles: office, sales reps, production", type:"text"},
+  {id:"services", q:"Services and area", type:"text"},
+  {id:"hours", q:"Hours, time zone, state", hint:"Texting and recording rules depend on the state", type:"text"},
+  {id:"jobs", q:"Jobs per month", type:"text"},
+  {id:"avgjob", q:"Average job value", type:"text"},
+  {id:"close", q:"Close rate (their guess)", type:"text"},
+  {id:"leads", q:"Leads per month", type:"select", opts:[["Under 20","b"],["20 to 50","m"],["50 to 150","g"],["150+","g"]]},
+  {id:"spend", q:"Marketing spend per month", type:"text"}
+ ]},
+ {id:"org", title:"Your organization: where everything lives", why:"If leads, calls and texts aren't in one place, nobody can see speed to lead or where deals die.", rows:[
+  {id:"crm", q:"CRM", hint:"Which one, if any", type:"select", opts:[["GoHighLevel","g"],["JobNimbus","g"],["AccuLynx","g"],["ServiceTitan","g"],["Other CRM","g"],["Spreadsheet only","m"],["None","b"]]},
+  {id:"crmuse", q:"Is the whole team using it?", type:"select", opts:[["Yes, everyone","g"],["Some of the team","m"],["Barely","b"],["No CRM","b"]]},
+  {id:"onesys", q:"One system for leads, calls, texts and notes?", type:"select", opts:[["Yes, one system","g"],["A few that connect","m"],["Several separate tools","b"],["No system","b"]]},
+  {id:"leadshome", q:"Where existing leads live today", type:"select", opts:[["In the CRM","g"],["Spreadsheet","m"],["Mixed across tools","m"],["Email inbox","b"],["On phones / notebooks","b"]]},
+  {id:"history", q:"Can they pull up a past customer's full history?", hint:"Ask them to find someone from a month ago: calls, texts, notes, estimate", type:"select", opts:[["Yes, one screen","g"],["Partly, several places","m"],["No","b"]]},
+  {id:"notes", q:"Notes taken after calls and appointments", type:"select", opts:[["Always, in the CRM","g"],["Sometimes","m"],["Rarely or never","b"]]}
+ ]},
+ {id:"phones", title:"Phones, texts and email", why:"Calls and texts on personal phones are invisible: no missed-call count, no coaching, no follow-up check.", rows:[
+  {id:"calls", q:"Where calls are made and received", type:"select", opts:[["Business phone system, everyone on it","g"],["Mix of business and personal","m"],["Personal cells","b"]]},
+  {id:"carrier", q:"Phone system / carrier for the main number", hint:"Needed to forward missed calls", type:"text"},
+  {id:"recording", q:"Call recording and transcripts", type:"select", opts:[["Both on","g"],["Recording only","m"],["Off","b"],["Not sure","m"]]},
+  {id:"afterhours", q:"Who answers at 9 PM or when everyone's on a roof?", type:"select", opts:[["A person or answering service","g"],["Voicemail","b"],["Nobody","b"]]},
+  {id:"missed", q:"Do they know how many calls they miss?", type:"select", opts:[["Yes, they track it","g"],["Rough idea","m"],["No idea","b"]]},
+  {id:"texts", q:"Where customer texts are sent from", type:"select", opts:[["CRM / business system","g"],["Business number, not logged","m"],["Personal phones","b"]]},
+  {id:"email", q:"Customer email", type:"select", opts:[["Shared or connected inbox","g"],["Owner's inbox only","m"],["Scattered across people","b"]]}
+ ]},
+ {id:"leadsmkt", title:"Leads and marketing", why:"So we can see which channels actually make money, and where new leads go the moment they arrive.", rows:[
+  {id:"channels", q:"Marketing channels", type:"chips", opts:["Google Ads","Google LSA","Facebook / Instagram","Angi / HomeAdvisor","Thumbtack","Referrals","Website / SEO","Door knocking","Yard signs / truck","Storm work","Other"]},
+  {id:"source", q:"Is each lead tagged with its source?", type:"select", opts:[["Yes, in the CRM","g"],["Some","m"],["No","b"]]},
+  {id:"form", q:"Website form goes to", type:"select", opts:[["CRM with an instant alert","g"],["Email inbox","m"],["Nowhere / not checked","b"],["No form","b"]]},
+  {id:"speed", q:"How fast a new lead gets a reply (their guess)", type:"select", opts:[["Under 5 minutes","g"],["Within the hour","m"],["Same day","b"],["Next day or later","b"]]}
+ ]},
+ {id:"sales", title:"Sales process", why:"Unfollowed estimates and forgotten leads are usually the biggest pile of money.", rows:[
+  {id:"estimates", q:"Where estimates are made and tracked", type:"select", opts:[["One tool, open ones visible","g"],["Made in a tool, not tracked","m"],["Paper / scattered","b"]]},
+  {id:"followup", q:"Open estimates followed up until yes or no?", type:"select", opts:[["Yes, every time","g"],["Sometimes","m"],["No","b"]]},
+  {id:"calendar", q:"Where inspections are booked", type:"select", opts:[["Shared calendar in the CRM","g"],["Personal calendars","m"],["Paper / memory","b"]]},
+  {id:"pastjobs", q:"List of every past job (date, address, phone)", hint:"Powers reviews, referrals, storm check-ins", type:"select", opts:[["Yes, exportable","g"],["Partly","m"],["No","b"]]},
+  {id:"reviews", q:"Google reviews: rating, count, who asks", type:"text"}
+ ]},
+ {id:"team", title:"Team communication", why:"If the team only talks in personal texts, there's no record and the owner has to call people to know anything.", rows:[
+  {id:"teamtalk", q:"How the team talks day to day", type:"select", opts:[["Slack / Teams","g"],["WhatsApp group","m"],["Group texts","b"],["Calls and texts only","b"]]},
+  {id:"handoff", q:"How a new lead gets to a rep", type:"select", opts:[["Assigned and logged in the system","g"],["Text or call","m"],["No set process","b"]]},
+  {id:"visibility", q:"Can the owner see what each rep is working on?", type:"select", opts:[["Yes, without asking","g"],["Has to ask","m"],["No","b"]]}
+ ]},
+ {id:"owner", title:"In the owner's words", why:"These shape the daily brief and the leak report.", rows:[
+  {id:"worry", q:"What keeps you up at night?", type:"area"},
+  {id:"cracks", q:"What slips through the cracks?", type:"area"},
+  {id:"win", q:"What would make the next 90 days a win?", type:"area"}
+ ]},
+ {id:"next", title:"Access and setup", why:"Who gives us access, and anything we have to set up before the health check.", rows:[
+  {id:"admins", q:"Admin for each system (who can give access)", type:"area"},
+  {id:"setup", q:"Setup needed first", hint:"e.g. no CRM: set up GHL, forward the main number, import contacts", type:"area"}
+ ]}
+];
+
+const KEY="cosa-onboarding-form-v1";
+const form=document.getElementById("form");
+const $=id=>document.getElementById(id);
+let state={};
+try{state=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch(e){state={}}
+
+function el(tag,attrs={},html=""){const e=document.createElement(tag);for(const k in attrs){e.setAttribute(k,attrs[k])}if(html)e.innerHTML=html;return e}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+
+function build(){
+  S.forEach(g=>{
+    const sec=el("section",{class:"grp"});
+    sec.appendChild(el("h2",{},esc(g.title)));
+    sec.appendChild(el("p",{class:"why"},esc(g.why)));
+    const rows=el("div",{class:"rows"});
+    g.rows.forEach(r=>{
+      const row=el("div",{class:"row"});
+      row.appendChild(el("div",{class:"q"},`<label for="f_${r.id}">${esc(r.q)}</label>${r.hint?`<small>${esc(r.hint)}</small>`:""}`));
+      const a=el("div",{class:"a"});
+      if(r.type==="select"){
+        const line=el("div",{class:"line"});
+        const dot=el("span",{class:"dot",id:"d_"+r.id,"aria-hidden":"true"});
+        const s=el("select",{id:"f_"+r.id});
+        s.appendChild(el("option",{value:""},"Choose…"));
+        r.opts.forEach(([t])=>s.appendChild(el("option",{value:t},esc(t))));
+        line.append(dot,s);a.appendChild(line);
+        a.appendChild(el("input",{id:"n_"+r.id,class:"note",placeholder:"Note (optional)"}));
+      }else if(r.type==="chips"){
+        const c=el("div",{class:"chips",id:"f_"+r.id});
+        r.opts.forEach((o,i)=>{const lab=el("label");const cb=el("input",{type:"checkbox",id:`c_${r.id}_${i}`,value:o});lab.append(cb,document.createTextNode(o));c.appendChild(lab)});
+        a.appendChild(c);
+        a.appendChild(el("input",{id:"n_"+r.id,class:"note",placeholder:"Rough leads per channel, spend (optional)"}));
+      }else if(r.type==="area"){
+        a.appendChild(el("textarea",{id:"f_"+r.id}));
+      }else{
+        a.appendChild(el("input",{id:"f_"+r.id}));
+      }
+      row.appendChild(a);rows.appendChild(row);
+    });
+    sec.appendChild(rows);form.appendChild(sec);
+  });
+}
+
+function allInputs(){return document.querySelectorAll("#form input,#form select,#form textarea,#f_business,#f_verdict_override")}
+function load(){allInputs().forEach(i=>{const v=state[i.id];if(v===undefined)return;if(i.type==="checkbox")i.checked=!!v;else i.value=v})}
+function save(){const o={};allInputs().forEach(i=>{o[i.id]=i.type==="checkbox"?i.checked:i.value});state=o;try{localStorage.setItem(KEY,JSON.stringify(o));$("saved").textContent="Saved on this device"}catch(e){}}
+
+function grade(r){const v=$("f_"+r.id).value;const f=r.opts.find(o=>o[0]===v);return f?f[1]:""}
+function selects(){return S.flatMap(g=>g.rows.filter(r=>r.type==="select"))}
+function chipsVal(id){return [...document.querySelectorAll(`#f_${id} input:checked`)].map(c=>c.value)}
+
+function autoVerdict(){
+  const v=k=>$("f_"+k)?$("f_"+k).value:"";
+  const answered=selects().filter(r=>v(r.id)).length;
+  if(!answered && !$("f_business").value) return "";
+  if(v("leads")==="Under 20") return "Not a fit yet";
+  const scattered = ["None","Spreadsheet only"].includes(v("crm")) || v("onesys")==="No system" || v("leadshome")==="On phones / notebooks" || v("calls")==="Personal cells" || v("texts")==="Personal phones";
+  if(scattered) return "Ready after setup";
+  return "Ready";
+}
+
+function update(){
+  let g=0,m=0,b=0,ans=0;const total=selects().length;
+  selects().forEach(r=>{const k=grade(r);const d=$("d_"+r.id);d.className="dot"+(k?" "+k:"");if(k){ans++;if(k==="g")g++;else if(k==="m")m++;else b++}});
+  $("counts").innerHTML=`<span class="chip">${ans} of ${total} answered</span><span class="chip g">${g} in one place</span><span class="chip m">${m} partly</span><span class="chip b">${b} leaks</span>`;
+  const ov=$("f_verdict_override").value; const v=ov||autoVerdict();
+  const vb=$("verdict"); vb.textContent=v||"Not started";
+  vb.className="verdict"+(v==="Ready"?" ready":v==="Ready after setup"?" setup":v==="Not a fit yet"?" nofit":"");
+  $("out").value=markdown(v);
+}
+
+function markdown(verdict){
+  const val=id=>{const e=$("f_"+id);return e?e.value.trim():""};
+  const note=id=>{const e=$("n_"+id);return e&&e.value.trim()?` (${e.value.trim()})`:""};
+  const mark={g:"✅",m:"⚠️",b:"❌"};
+  const name=$("f_business").value.trim()||"{{Business Name}}";
+  const today=new Date().toISOString().slice(0,10);
+  let md=`# Client Discovery Sheet: ${name}\nFilled: ${today} · Verdict: ${verdict||"not set"}\n\n`;
+  md+="Status key: ✅ in one system · ⚠️ partly · ❌ not tracked / leak\n";
+  S.forEach(g=>{
+    md+=`\n## ${g.title}\n`;
+    if(g.rows.some(r=>r.type==="select")){md+="| Item | Answer | Status |\n|---|---|---|\n"}
+    g.rows.forEach(r=>{
+      if(r.type==="select"){const v=val(r.id);md+=`| ${r.q} | ${v?v+note(r.id):"not asked"} | ${mark[grade(r)]||"—"} |\n`}
+      else if(r.type==="chips"){const c=chipsVal(r.id);md+=`| ${r.q} | ${c.length?c.join(", "):"none listed"}${note(r.id)} | |\n`}
+    });
+    g.rows.filter(r=>r.type==="text"||r.type==="area").forEach(r=>{md+=`- **${r.q}:** ${val(r.id)||"unknown, ask"}\n`});
+  });
+  const leaks=selects().filter(r=>grade(r)==="b").map(r=>`- ${r.q}: ${val(r.id)}${note(r.id)}`);
+  md+=`\n## Leaks flagged on the call\n${leaks.length?leaks.join("\n"):"- none flagged"}\n`;
+  return md;
+}
+
+const SAMPLE={f_business:"Ridgeline Roofing (sample)",f_owner:"Tony Russo",f_team:"Tony (owner, sells), Dana (office), Marcus (sales rep), 2 crews",f_services:"Roof replacement and repair, gutters · Columbus metro",f_hours:"Mon-Sat 8-6 · Eastern · Ohio",f_jobs:"14",f_avgjob:"$14,000",f_close:"about 30%",f_leads:"50 to 150",f_spend:"$4,500",
+ f_crm:"JobNimbus",f_crmuse:"Some of the team",f_onesys:"Several separate tools",f_leadshome:"Mixed across tools",f_history:"Partly, several places",f_notes:"Sometimes",
+ f_calls:"Mix of business and personal",f_carrier:"RingCentral",f_recording:"Recording only",f_afterhours:"Voicemail",f_missed:"No idea",f_texts:"Business number, not logged",f_email:"Owner's inbox only",
+ c_channels_0:true,c_channels_3:true,c_channels_5:true,c_channels_6:true,n_channels:"Angi ~30/mo, Google ~25/mo, referrals ~10/mo",f_source:"Some",f_form:"Email inbox",f_speed:"Same day",
+ f_estimates:"Made in a tool, not tracked",f_followup:"Sometimes",f_calendar:"Personal calendars",f_pastjobs:"Partly",f_reviews:"4.6 stars, 58 reviews, nobody asks",
+ f_teamtalk:"Group texts",f_handoff:"Text or call",f_visibility:"Has to ask",
+ f_worry:"Paying Angi for leads that go nowhere",f_cracks:"Estimates nobody follows up on",f_win:"Two more signed jobs a month without more ad spend",
+ f_admins:"JobNimbus: Dana · RingCentral: Tony · Google: Tony",f_setup:"Turn on transcripts in RingCentral; route the website form into JobNimbus"};
+
+build();load();update();
+form.addEventListener("input",()=>{save();update()});
+form.addEventListener("change",()=>{save();update()});
+form.addEventListener("submit",e=>e.preventDefault());
+$("f_business").addEventListener("input",()=>{save();update()});
+$("f_verdict_override").addEventListener("change",()=>{save();update()});
+$("btnExport").addEventListener("click",()=>{update();$("exportBox").scrollIntoView({behavior:"smooth",block:"start"})});
+$("btnSample").addEventListener("click",()=>{allInputs().forEach(i=>{if(i.type==="checkbox")i.checked=!!SAMPLE[i.id];else i.value=SAMPLE[i.id]||""});save();update()});
+$("btnClear").addEventListener("click",()=>{$("confirmClear").hidden=false});
+$("noClear").addEventListener("click",()=>{$("confirmClear").hidden=true});
+$("yesClear").addEventListener("click",()=>{allInputs().forEach(i=>{if(i.type==="checkbox")i.checked=false;else i.value=""});save();update();$("confirmClear").hidden=true;$("saved").textContent="Cleared"});
+$("btnCopy").addEventListener("click",()=>{const t=$("out").value;navigator.clipboard.writeText(t).then(()=>{$("copied").textContent="Copied"}).catch(()=>{$("out").focus();$("out").select();$("copied").textContent="Selected. Press Ctrl/Cmd+C to copy"})});
+</script>
+
+</body>
+</html>
