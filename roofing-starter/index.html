@@ -1034,7 +1034,7 @@ a{color:inherit;text-decoration:none}
 <section class="close">
   <div class="wrap">
     <h2 class="close__hl">Twenty minutes, and you'll know if it fits.</h2>
-    <p class="close__d">We'll go through the zips you want worked, what you're paying for leads now, and what this would look like in your business. Four quick questions first, so we only book time with owners we can actually help. If it isn't a fit, we'll say so.</p>
+    <p class="close__d">We'll go through the zips you want worked, what you're paying for leads now, and what this would look like in your business. If it isn't a fit, we'll say so.</p>
 
     <button type="button" class="btn js-open">Book a 20-Minute Call</button>
   </div>
@@ -1115,7 +1115,7 @@ a{color:inherit;text-decoration:none}
     </div>
 
     <div class="qs" data-s="ok" hidden>
-      <h3 class="qual__q" tabindex="-1">Great, grab a time below. It's a quick 20-minute call.</h3>
+      <h3 class="qual__q" tabindex="-1">Grab a time below. It's a quick 20-minute call.</h3>
     </div>
 
     <div class="qs" data-s="no" hidden>
@@ -1136,6 +1136,8 @@ a{color:inherit;text-decoration:none}
      iframe inside this pop-up, and nothing on this page navigates away. */
   (function () {
     var CAL_URL = "https://api.leadconnectorhq.com/widget/booking/qGwFPBZK6x7c1td9IDiY";
+    /* Calvin 3 Nov: buttons open the calendar directly (no questions). Set false to bring the qualifier back. */
+    var DIRECT_CAL = true;
     var modal = document.getElementById("qualModal");
     var box = modal.querySelector(".modal__box");
     var root = document.getElementById("qualify");
@@ -1180,7 +1182,7 @@ a{color:inherit;text-decoration:none}
       return o;
     }
     function calUrl(c) {
-      var q = new URLSearchParams({ first_name: c.first, last_name: c.last, name: c.first + " " + c.last, full_name: c.first + " " + c.last, email: c.email, phone: c.phone });
+      var q = new URLSearchParams(c.first ? { first_name: c.first, last_name: c.last, name: c.first + " " + c.last, full_name: c.first + " " + c.last, email: c.email, phone: c.phone } : {});
       new URLSearchParams(window.location.search).forEach(function (v, k) {
         if (/^utm_/i.test(k) || k === "fbclid" || k === "gclid") q.append(k, v);
       });
@@ -1287,6 +1289,7 @@ a{color:inherit;text-decoration:none}
     /* Open / close the pop-up. Progress is kept if they close and reopen. */
     function openModal(opener) {
       step("open");
+      if (DIRECT_CAL) { root.querySelector(".qual__top").style.display = "none"; loadCalendar({}); show("ok"); }
       lastOpener = opener || null;
       modal.classList.add("open");
       document.body.style.overflow = "hidden";
