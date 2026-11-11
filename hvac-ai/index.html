@@ -1,15 +1,4 @@
 <meta charset="utf-8">
-<script>
-/* 50/50 landing page test (Calvin 11 Nov): half of visitors go to the short page (/hvac-short/).
-   Sticky per browser. URL gets lp=long|short so GHL booking attribution shows which page was seen. */
-(function(){try{
-  var k='cosa_lp_hvac', v=null;
-  try{v=localStorage.getItem(k);}catch(e){}
-  if(v!=='short'&&v!=='long'){v=Math.random()<0.5?'short':'long';try{localStorage.setItem(k,v);}catch(e){}}
-  if(v==='short'){window.__lpRedirect=true;location.replace('/hvac-short/'+location.search+location.hash);return;}
-  var u=new URL(location.href);if(u.searchParams.get('lp')!=='long'){u.searchParams.set('lp','long');history.replaceState(null,'',u);}
-}catch(e){}})();
-</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>HVAC Leads Every Week | Cosa Growth Marketing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,11 +14,9 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-if(!window.__lpRedirect){
 fbq('init', '1159853466994711');
 fbq('track', 'PageView');
 fbq('track', 'ViewContent');
-}
 </script>
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=1625103811908671&ev=PageView&noscript=1"
@@ -938,7 +925,7 @@ a{color:inherit;text-decoration:none}
     var incoming = new URLSearchParams(window.location.search);
     var keep = new URLSearchParams();
     incoming.forEach(function (v, k) {
-      if (/^utm_/i.test(k) || k === "fbclid" || k === "gclid" || k === "lp") keep.append(k, v);
+      if (/^utm_/i.test(k) || k === "fbclid" || k === "gclid") keep.append(k, v);
     });
     var qs = keep.toString();
     return qs ? CAL_URL + "?" + qs : CAL_URL;
