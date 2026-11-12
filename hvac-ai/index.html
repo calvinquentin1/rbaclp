@@ -1,6 +1,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>HVAC Leads Every Week | Cosa Growth Marketing</title>
+<link rel="preconnect" href="https://api.leadconnectorhq.com">
+<link rel="preconnect" href="https://stcdn.leadconnectorhq.com">
+<link rel="preconnect" href="https://backend.leadconnectorhq.com" crossorigin>
+<link rel="preconnect" href="https://storage.googleapis.com">
+<link rel="preconnect" href="https://assets.cdn.filesafe.space">
+<link rel="preconnect" href="https://link.msgsndr.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&display=swap" rel="stylesheet">
@@ -565,7 +571,7 @@ a{color:inherit;text-decoration:none}
 .cal__rule{height:3px;background:#111;margin:12px 0 10px}.cal__arrow{font-weight:900;font-size:26px;margin:0}.cal__lead{font-size:15px;margin:4px 0 12px;color:var(--text-dim)}
 .cal__strip{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--text-dim);margin:16px 0 0}
 @media (min-width:720px){.hero--cal .hero__hl{font-size:48px}}
-.cal__embed{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.12);text-align:left}
+.cal__embed{min-height:200px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.12);text-align:left}
 </style>
 
 <!-- ══ 1. HERO (calendar-first preview) ══ -->
@@ -577,7 +583,16 @@ a{color:inherit;text-decoration:none}
     <div class="cal__rule"></div>
     <p class="cal__arrow">&darr; Pick a time below &darr;</p>
     <p class="cal__lead">20-minute call with our team</p>
-    <div class="cal__embed"><iframe id="calInline" src="" title="Book a 20-minute call" scrolling="yes" style="width:100%;border:none;min-height:860px"></iframe></div>
+    <div class="cal__embed"><iframe id="calInline" src="" title="Book a 20-minute call" scrolling="no" style="width:100%;border:none;overflow:hidden;height:540px;display:block"></iframe></div>
+    <script>
+      /* Start the calendar right away (with UTMs) instead of waiting for the end of the page.
+         The id must be <calendarId>_<timestamp> so GoHighLevel's form_embed.js auto-sizes it to its content. */
+      (function(){var f=document.getElementById("calInline"),q=new URLSearchParams(location.search),k=new URLSearchParams();
+        q.forEach(function(v,n){if(/^utm_/i.test(n)||n==="fbclid"||n==="gclid")k.append(n,v)});
+        f.id="xif35Cij0FrgjTPONoFL_"+Date.now();f.setAttribute("data-cal","inline");
+        f.src="https://api.leadconnectorhq.com/widget/booking/xif35Cij0FrgjTPONoFL"+(k.toString()?"?"+k:"");})();
+    </script>
+    <script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
     <p class="cal__strip">MONTH TO MONTH &middot; NO CONTRACTS &middot; LEADS NEVER SHARED</p>
   </div>
 </section>
@@ -943,8 +958,6 @@ a{color:inherit;text-decoration:none}
     return qs ? CAL_URL + "?" + qs : CAL_URL;
   }
 
-  document.getElementById("calInline").src = calUrlWithUtms();
-
   function openCal() {
     var frame = document.getElementById("calFrame");
     if (!frame.src || frame.src === window.location.href) frame.src = calUrlWithUtms();
@@ -964,4 +977,4 @@ a{color:inherit;text-decoration:none}
     if (e.key === "Escape") closeCal();
   });
 </script>
-<script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
+
