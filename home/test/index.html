@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Free Inspection · Cosa Home Services</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap">
+<script>
+/* ============ PER-CLIENT SETTINGS ============ */
+window.CONFIG = {
+  company: "Summit Roofing",   // client's business name (shown in the "goes to" line)
+  city: "Rochester",           // headline city
+  trade: "roofing",            // "roofing" or "hvac"
+  surveyUrl: "",               // HighLevel survey/form link, e.g. https://api.leadconnectorhq.com/widget/survey/XXXX  (empty = placeholder box)
+  pixelId: ""                  // Cosa Home Services pixel id (empty = no pixel)
+};
+/* ============================================= */
+</script>
+<style>
+/* Homeowner lead page: phone-first single column. Hero, trust chips, the HighLevel survey embedded in a card, how-it-works, honest footer. Light only (homeowner-facing). Navy + amber brand. */
+:root{--bg:#F4F6F9;--card:#FFFFFF;--ink:#14202E;--muted:#55606E;--line:#DCE2EA;--navy:#13345A;--navy-2:#1D4E7A;--amber:#F5B83D;--soft:#EEF3F9;
+--display:"Archivo",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;color-scheme:light}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--body)}
+.wrap{max-width:640px;margin:0 auto;padding:18px max(16px,env(safe-area-inset-right,0px)) 44px max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:16px}
+.top{display:flex;align-items:center;gap:10px}
+.logo{width:38px;height:38px;border-radius:9px;background:var(--navy);display:grid;place-items:center;flex:none}
+.logo svg{width:22px;height:22px}
+.brand{font:800 18px/1.15 var(--display);color:var(--navy)}
+.brand small{display:block;font:500 12px var(--body);color:var(--muted)}
+h1{font:900 clamp(30px,7.6vw,42px)/1.05 var(--display);letter-spacing:-.025em;margin:2px 0 0;text-wrap:balance;color:var(--navy)}
+h1 em{font-style:normal;background:linear-gradient(transparent 62%,rgba(245,184,61,.55) 62%)}
+.sub{color:var(--muted);margin:0;font-size:17px}
+.trust{display:flex;flex-wrap:wrap;gap:8px}
+.trust span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;color:var(--navy)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 8px 24px rgba(19,52,90,.07)}
+.goes{background:var(--soft);border:1px solid #CFDCEB;border-radius:10px;padding:10px 12px;font-size:14.5px;margin-bottom:10px}
+.goes b{color:var(--navy)}
+.embed iframe{width:100%;border:0;min-height:620px;display:block}
+.placeholder{border:2px dashed #C3CEDD;border-radius:12px;padding:28px 18px;text-align:center;color:var(--muted);min-height:420px;display:flex;flex-direction:column;justify-content:center;gap:8px}
+.placeholder b{color:var(--navy);font:800 18px var(--display)}
+.placeholder ol{text-align:left;margin:6px auto 0;max-width:380px;font-size:14px}
+.how{display:grid;gap:10px}
+.how div{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.how b{width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font:800 13px var(--display)}
+.how p{margin:0}
+.foot{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+.foot a{color:var(--muted)}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top"><div class="logo"><svg viewBox="0 0 120 120" fill="none" stroke="#F5B83D" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M12 60 60 18l48 42"/><path d="M26 50v52h68V50"/><path d="M50 102V74h20v28"/></svg></div>
+    <div class="brand">Cosa Home Services<small id="tagline"></small></div></div>
+
+  <h1 id="headline"></h1>
+  <p class="sub" id="subline"></p>
+  <div class="trust" id="trust"></div>
+
+  <section class="card" aria-label="Request form">
+    <div class="goes">Your request goes to <b data-company></b>, a licensed local <span data-pro></span>, and no one else.</div>
+    <div class="embed" id="embed"></div>
+  </section>
+
+  <section aria-label="How it works"><div class="how">
+    <div><b>1</b><p>You request a free <span data-offer></span> here. It takes about a minute.</p></div>
+    <div><b>2</b><p>Your request goes straight to <span data-company></span>, the local <span data-pro></span> named above, and no one else.</p></div>
+    <div><b>3</b><p>They reach out to set a time, come take a look, and tell you what they find. No cost, no obligation.</p></div>
+  </div></section>
+
+  <p class="foot">Cosa Home Services, a service of Cosa Ventures LLC, connects homeowners with licensed local home service companies. We are not a contractor and don't perform the work. Your request goes only to the company named above. <a href="/privacy">Privacy policy</a> · <a href="/terms">Terms</a></p>
+</main>
+<script>
+(function(){
+const C = window.CONFIG;
+const T = {
+  roofing:{pro:"roofer",offer:"roof inspection",tagline:"Connecting homeowners with licensed local roofers",
+    head:c=>`Free roof inspection for <em>${c}</em> homeowners.`,sub:"Answer 5 quick questions. A licensed local roofer will look at your roof, at no cost to you.",
+    trust:["Free inspection","Licensed local roofer","No obligation"]},
+  hvac:{pro:"HVAC company",offer:"HVAC check",tagline:"Connecting homeowners with licensed local HVAC pros",
+    head:c=>`Free HVAC check for <em>${c}</em> homeowners.`,sub:"Answer 5 quick questions. A licensed local HVAC company will check your system, at no cost to you.",
+    trust:["Free system check","Licensed local HVAC pro","No obligation"]}
+}[C.trade] || null;
+const esc = s => String(s).replace(/[&<>"]/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+const $ = id => document.getElementById(id);
+document.querySelectorAll("[data-company]").forEach(e => e.textContent = C.company);
+document.querySelectorAll("[data-pro]").forEach(e => e.textContent = T.pro);
+document.querySelectorAll("[data-offer]").forEach(e => e.textContent = T.offer);
+$("tagline").textContent = T.tagline;
+$("headline").innerHTML = T.head(esc(C.city));
+$("subline").textContent = T.sub;
+$("trust").innerHTML = T.trust.map(t => `<span>${esc(t)}</span>`).join("");
+
+// Pass ad tracking (UTM, fbclid) through to the HighLevel form so each lead shows which ad it came from
+const qs = location.search;
+if (C.surveyUrl) {
+  const src = C.surveyUrl + (qs ? (C.surveyUrl.includes("?") ? "&" : "?") + qs.slice(1) : "");
+  $("embed").innerHTML = `<iframe src="${esc(src)}" title="Request your free ${esc(T.offer)}" scrolling="no"></iframe>`;
+  const s = document.createElement("script"); s.src = "https://link.msgsndr.com/js/form_embed.js"; document.body.appendChild(s);
+} else {
+  $("embed").innerHTML = `<div class="placeholder"><b>Your HighLevel form goes here</b><span>Paste the survey link into <code>surveyUrl</code> at the top of this page.</span>
+  <ol><li>What do you need help with?</li><li>How soon?</li><li>Do you own the home?</li><li>Address</li><li>Name, phone, email + consent naming ${esc(C.company)} and Cosa Home Services</li></ol></div>`;
+}
+if (C.pixelId) {
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', C.pixelId); fbq('track','PageView');
+}
+})();
+</script>
+</body>
+</html>
