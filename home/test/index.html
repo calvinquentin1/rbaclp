@@ -13,7 +13,7 @@ window.CONFIG = {
   company: "Summit Roofing",     // client's business name
   city: "Rochester",             // headline city / area
   trade: "roofing",              // "roofing" or "hvac"
-  surveyUrl: "",                 // HighLevel survey link (empty = placeholder box)
+  surveyUrl: "https://api.leadconnectorhq.com/widget/survey/IObSLPQwjnPQlHzFgJsh",                 // HighLevel survey link (empty = placeholder box)
   beforeImg: "",                 // URL of a REAL "before" photo from the client's job (empty = section hidden, or placeholder in preview)
   afterImg: "",                  // URL of the matching "after" photo
   photoCaption: "",              // e.g. "Full replacement in Rochester, Oct 2026"
@@ -180,7 +180,8 @@ if (C.beforeImg && C.afterImg) {
 const qs = location.search;
 if (C.surveyUrl) {
   const src = C.surveyUrl + (qs ? (C.surveyUrl.includes("?") ? "&" : "?") + qs.slice(1) : "");
-  $("embed").innerHTML = `<iframe src="${esc(src)}" title="Request your free ${esc(T.offer)}" scrolling="no"></iframe>`;
+  const sid = C.surveyUrl.split("?")[0].split("/").pop();
+  $("embed").innerHTML = `<iframe src="${esc(src)}" id="${esc(sid)}" style="border:none;width:100%;" scrolling="no" title="survey" data-cookie-consent="true" data-cookie-consent-provider="auto"></iframe>`;
   const s = document.createElement("script"); s.src = "https://link.msgsndr.com/js/form_embed.js"; document.body.appendChild(s);
 } else {
   $("embed").innerHTML = `<div class="ph"><b>Your HighLevel form goes here</b><span>Paste the survey link into <code>surveyUrl</code>.</span>
