@@ -4,106 +4,191 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>Free Inspection · Cosa Home Services</title>
+<title>Free Roof Inspection · Cosa Home Services</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap">
 <script>
-/* ============ PER-CLIENT SETTINGS ============ */
+/* ============ PER-CLIENT SETTINGS (only this block changes per client) ============ */
 window.CONFIG = {
-  company: "Summit Roofing",   // client's business name (shown in the "goes to" line)
-  city: "Rochester",           // headline city
-  trade: "roofing",            // "roofing" or "hvac"
-  surveyUrl: "",               // HighLevel survey/form link, e.g. https://api.leadconnectorhq.com/widget/survey/XXXX  (empty = placeholder box)
-  pixelId: ""                  // Cosa Home Services pixel id (empty = no pixel)
+  company: "Summit Roofing",     // client's business name
+  city: "Rochester",             // headline city / area
+  trade: "roofing",              // "roofing" or "hvac"
+  surveyUrl: "",                 // HighLevel survey link (empty = placeholder box)
+  beforeImg: "",                 // URL of a REAL "before" photo from the client's job (empty = section hidden, or placeholder in preview)
+  afterImg: "",                  // URL of the matching "after" photo
+  photoCaption: "",              // e.g. "Full replacement in Rochester, Oct 2026"
+  license: "",                   // e.g. "MN License #BC123456" (only if real)
+  rating: "",                    // e.g. "4.9 on Google (120 reviews)" (only if real)
+  pixelId: "",
+  preview: true                  // shows placeholders so the layout can be reviewed
 };
-/* ============================================= */
+/* ================================================================================== */
 </script>
 <style>
-/* Homeowner lead page: phone-first single column. Hero, trust chips, the HighLevel survey embedded in a card, how-it-works, honest footer. Light only (homeowner-facing). Navy + amber brand. */
-:root{--bg:#F4F6F9;--card:#FFFFFF;--ink:#14202E;--muted:#55606E;--line:#DCE2EA;--navy:#13345A;--navy-2:#1D4E7A;--amber:#F5B83D;--soft:#EEF3F9;
+/* Homeowner lead page, phone-first. Dark navy hero with qualify checklist and one button (Roofix/Fetchapro pattern), form card "takes 60 seconds" (Minyona), before/after from the client's real jobs, what-you-get list, 3 steps, honest footer, sticky mobile button. Light body. */
+:root{--bg:#F4F6F9;--card:#FFFFFF;--ink:#14202E;--muted:#55606E;--line:#DCE2EA;--navy:#13345A;--navy-d:#0B1F35;--navy-2:#1D4E7A;--amber:#F5B83D;--soft:#EEF3F9;--ok:#1E7A45;
 --display:"Archivo",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;color-scheme:light}
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--body)}
-.wrap{max-width:640px;margin:0 auto;padding:18px max(16px,env(safe-area-inset-right,0px)) 44px max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:16px}
-.top{display:flex;align-items:center;gap:10px}
-.logo{width:38px;height:38px;border-radius:9px;background:var(--navy);display:grid;place-items:center;flex:none}
-.logo svg{width:22px;height:22px}
-.brand{font:800 18px/1.15 var(--display);color:var(--navy)}
-.brand small{display:block;font:500 12px var(--body);color:var(--muted)}
-h1{font:900 clamp(30px,7.6vw,42px)/1.05 var(--display);letter-spacing:-.025em;margin:2px 0 0;text-wrap:balance;color:var(--navy)}
-h1 em{font-style:normal;background:linear-gradient(transparent 62%,rgba(245,184,61,.55) 62%)}
-.sub{color:var(--muted);margin:0;font-size:17px}
-.trust{display:flex;flex-wrap:wrap;gap:8px}
-.trust span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;color:var(--navy)}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--body);padding-bottom:84px}
+.in{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.topbar{background:var(--navy-d);color:#C9D6E6;font-size:13px;text-align:center;padding:8px 12px}
+.topbar b{color:var(--amber)}
+.hero{background:linear-gradient(160deg,var(--navy-d) 0%,var(--navy) 60%,var(--navy-2) 100%);color:#fff;padding:18px 0 28px}
+.brandrow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:9px;font:800 17px/1.1 var(--display)}
+.brand svg{width:28px;height:28px}
+.brand small{display:block;font:500 11.5px var(--body);color:#AFC2D8}
+.pill{font:700 11px var(--body);letter-spacing:.06em;text-transform:uppercase;border:1px solid rgba(245,184,61,.6);color:var(--amber);border-radius:99px;padding:5px 10px;white-space:nowrap}
+.trust{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:20px;font-size:13px;color:#D6E2F0}
+.trust span::before{content:"★ ";color:var(--amber)}
+h1{font:900 clamp(32px,8.4vw,46px)/1.03 var(--display);letter-spacing:-.025em;margin:12px 0 10px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--amber)}
+.sub{margin:0 0 18px;color:#D6E2F0;font-size:17px}
+.qual{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:14px 16px}
+.qual p{margin:0 0 8px;font:700 13px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--amber)}
+.qual ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.qual li{display:flex;gap:10px;align-items:center;font-weight:600}
+.qual li i{width:22px;height:22px;border-radius:6px;background:var(--amber);color:var(--navy-d);display:grid;place-items:center;font:900 13px var(--body);font-style:normal;flex:none}
+.cta{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:16px;padding:16px;border:0;border-radius:12px;background:var(--amber);color:var(--navy-d);font:900 18px var(--display);text-decoration:none;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.cta:hover{filter:brightness(1.05)}
+.fine{font-size:12.5px;color:#AFC2D8;text-align:center;margin:10px 0 0}
+main{display:flex;flex-direction:column;gap:18px;padding-top:18px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 8px 24px rgba(19,52,90,.07)}
+.formhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+.formhead h2{font:800 20px/1.2 var(--display);margin:0;color:var(--navy)}
+.time{font:700 12px var(--body);color:var(--ok);background:#E7F4EC;border-radius:99px;padding:4px 10px;white-space:nowrap}
 .goes{background:var(--soft);border:1px solid #CFDCEB;border-radius:10px;padding:10px 12px;font-size:14.5px;margin-bottom:10px}
 .goes b{color:var(--navy)}
 .embed iframe{width:100%;border:0;min-height:620px;display:block}
-.placeholder{border:2px dashed #C3CEDD;border-radius:12px;padding:28px 18px;text-align:center;color:var(--muted);min-height:420px;display:flex;flex-direction:column;justify-content:center;gap:8px}
-.placeholder b{color:var(--navy);font:800 18px var(--display)}
-.placeholder ol{text-align:left;margin:6px auto 0;max-width:380px;font-size:14px}
-.how{display:grid;gap:10px}
-.how div{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
-.how b{width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font:800 13px var(--display)}
-.how p{margin:0}
-.foot{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+.ph{border:2px dashed #C3CEDD;border-radius:12px;padding:22px 16px;text-align:center;color:var(--muted);min-height:360px;display:flex;flex-direction:column;justify-content:center;gap:6px}
+.ph b{color:var(--navy);font:800 17px var(--display)}
+.ph ol{text-align:left;margin:6px auto 0;max-width:360px;font-size:14px}
+h3{font:800 21px/1.2 var(--display);margin:0 0 10px;color:var(--navy)}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ba figure{margin:0;position:relative;border-radius:10px;overflow:hidden;aspect-ratio:4/3;background:#DDE4EC}
+.ba img{width:100%;height:100%;object-fit:cover;display:block}
+.ba .lbl{position:absolute;top:0;left:0;right:0;font:800 13px var(--display);letter-spacing:.06em;text-align:center;padding:5px;color:#fff}
+.ba .b .lbl{background:#2F5F8F}.ba .a .lbl{background:var(--ok)}
+.ba .empty{display:grid;place-items:center;height:100%;padding-top:30px !important;font-size:13px;color:var(--muted);padding:10px;text-align:center}
+.cap{font-size:13px;color:var(--muted);margin:8px 0 0}
+.get{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.get li{display:grid;grid-template-columns:24px 1fr;gap:10px}
+.get li i{width:24px;height:24px;border-radius:50%;background:#E7F4EC;color:var(--ok);display:grid;place-items:center;font:900 13px var(--body);font-style:normal}
+.steps{display:grid;gap:10px}
+.steps div{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start}
+.steps b{width:30px;height:30px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font:800 14px var(--display)}
+.steps p{margin:3px 0 0}
+.foot{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding:14px 0 6px}
 .foot a{color:var(--muted)}
+.sticky{position:fixed;left:0;right:0;bottom:0;background:rgba(244,246,249,.96);border-top:1px solid var(--line);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:center;transition:transform .2s}
+.sticky .cta{max-width:608px;margin:0;padding:14px;font-size:17px}
+.sticky.hide{transform:translateY(110%)}
+@media(min-width:900px){body{padding-bottom:0}.sticky{display:none}}
 </style>
 </head>
 <body>
-<main class="wrap">
-  <div class="top"><div class="logo"><svg viewBox="0 0 120 120" fill="none" stroke="#F5B83D" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M12 60 60 18l48 42"/><path d="M26 50v52h68V50"/><path d="M50 102V74h20v28"/></svg></div>
-    <div class="brand">Cosa Home Services<small id="tagline"></small></div></div>
+<div class="topbar"><b>Free</b> · No cost, no obligation · Licensed local <span data-pro></span></div>
 
+<header class="hero"><div class="in">
+  <div class="brandrow">
+    <div class="brand"><svg viewBox="0 0 120 120" fill="none" stroke="#F5B83D" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M12 60 60 18l48 42"/><path d="M26 50v52h68V50"/><path d="M50 102V74h20v28"/></svg><div>Cosa Home Services<small>Connecting homeowners with local pros</small></div></div>
+    <span class="pill" id="pill"></span>
+  </div>
+  <div class="trust" id="trust"></div>
   <h1 id="headline"></h1>
   <p class="sub" id="subline"></p>
-  <div class="trust" id="trust"></div>
+  <div class="qual"><p>See if you qualify</p><ul>
+    <li><i>✓</i>You own your home</li>
+    <li><i>✓</i>You live in the <span data-city></span> area</li>
+    <li><i>✓</i><span id="q3"></span></li>
+  </ul></div>
+  <a class="cta" href="#form" id="cta1"></a>
+  <p class="fine">Takes about 60 seconds. Your request goes to one local company only.</p>
+</div></header>
 
-  <section class="card" aria-label="Request form">
+<main class="in">
+  <section class="card" id="form" aria-label="Request form">
+    <div class="formhead"><h2 id="formh"></h2><span class="time">⏱ 60 seconds</span></div>
     <div class="goes">Your request goes to <b data-company></b>, a licensed local <span data-pro></span>, and no one else.</div>
     <div class="embed" id="embed"></div>
   </section>
 
-  <section aria-label="How it works"><div class="how">
-    <div><b>1</b><p>You request a free <span data-offer></span> here. It takes about a minute.</p></div>
-    <div><b>2</b><p>Your request goes straight to <span data-company></span>, the local <span data-pro></span> named above, and no one else.</p></div>
-    <div><b>3</b><p>They reach out to set a time, come take a look, and tell you what they find. No cost, no obligation.</p></div>
+  <section class="card" id="basec" aria-label="Before and after" hidden>
+    <h3>Recent work from <span data-company></span></h3>
+    <div class="ba"><figure class="b"><span class="lbl">BEFORE</span><div id="bimg"></div></figure><figure class="a"><span class="lbl">AFTER</span><div id="aimg"></div></figure></div>
+    <p class="cap" id="cap"></p>
+  </section>
+
+  <section class="card" aria-label="What you get">
+    <h3 id="geth"></h3>
+    <ul class="get" id="getlist"></ul>
+  </section>
+
+  <section aria-label="How it works"><div class="steps">
+    <div><b>1</b><p><strong>Answer a few quick questions.</strong> About a minute.</p></div>
+    <div><b>2</b><p><strong><span data-company></span> reaches out</strong> to set a time that works for you.</p></div>
+    <div><b>3</b><p><strong>They take a look</strong> and tell you what they find. No cost, no pressure.</p></div>
   </div></section>
 
   <p class="foot">Cosa Home Services, a service of Cosa Ventures LLC, connects homeowners with licensed local home service companies. We are not a contractor and don't perform the work. Your request goes only to the company named above. <a href="/privacy">Privacy policy</a> · <a href="/terms">Terms</a></p>
 </main>
+
+<div class="sticky" id="sticky"><a class="cta" href="#form" id="cta2"></a></div>
+
 <script>
 (function(){
 const C = window.CONFIG;
 const T = {
-  roofing:{pro:"roofer",offer:"roof inspection",tagline:"Connecting homeowners with licensed local roofers",
-    head:c=>`Free roof inspection for <em>${c}</em> homeowners.`,sub:"Answer 5 quick questions. A licensed local roofer will look at your roof, at no cost to you.",
-    trust:["Free inspection","Licensed local roofer","No obligation"]},
-  hvac:{pro:"HVAC company",offer:"HVAC check",tagline:"Connecting homeowners with licensed local HVAC pros",
-    head:c=>`Free HVAC check for <em>${c}</em> homeowners.`,sub:"Answer 5 quick questions. A licensed local HVAC company will check your system, at no cost to you.",
-    trust:["Free system check","Licensed local HVAC pro","No obligation"]}
+  roofing:{pro:"roofer",offer:"roof inspection",pill:"Free roof inspection",
+    head:c=>`Free roof inspection for <em>${c}</em> homeowners.`,
+    sub:"A licensed local roofer will check your roof and tell you exactly what they find. No cost, no obligation.",
+    q3:"You'd like your roof checked (leaks, storm damage, age)",cta:"Check my roof →",form:"Get your free roof inspection",
+    geth:"What you get at your free inspection",
+    get:["A full check of your roof, top to bottom","Signs of leaks, storm damage and wear you can't see from the ground","A straight answer: fine as is, repair, or replace","No cost and no pressure to buy anything"]},
+  hvac:{pro:"HVAC company",offer:"HVAC check",pill:"Free HVAC check",
+    head:c=>`Free HVAC check for <em>${c}</em> homeowners.`,
+    sub:"A licensed local HVAC company will check your system and tell you exactly what they find. No cost, no obligation.",
+    q3:"You'd like your heating or AC checked",cta:"Check my system →",form:"Get your free HVAC check",
+    geth:"What you get at your free check",
+    get:["A full check of your heating and cooling system","Problems caught before they become breakdowns","A straight answer: fine as is, repair, or replace","No cost and no pressure to buy anything"]}
 }[C.trade] || null;
 const esc = s => String(s).replace(/[&<>"]/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
 const $ = id => document.getElementById(id);
 document.querySelectorAll("[data-company]").forEach(e => e.textContent = C.company);
 document.querySelectorAll("[data-pro]").forEach(e => e.textContent = T.pro);
-document.querySelectorAll("[data-offer]").forEach(e => e.textContent = T.offer);
-$("tagline").textContent = T.tagline;
-$("headline").innerHTML = T.head(esc(C.city));
-$("subline").textContent = T.sub;
-$("trust").innerHTML = T.trust.map(t => `<span>${esc(t)}</span>`).join("");
+document.querySelectorAll("[data-city]").forEach(e => e.textContent = C.city);
+$("pill").textContent = T.pill; $("headline").innerHTML = T.head(esc(C.city)); $("subline").textContent = T.sub;
+$("q3").textContent = T.q3; $("cta1").textContent = T.cta; $("cta2").textContent = T.cta; $("formh").textContent = T.form;
+$("geth").textContent = T.geth; $("getlist").innerHTML = T.get.map(g => `<li><i>✓</i><span>${esc(g)}</span></li>`).join("");
+const trust = []; if (C.rating) trust.push(C.rating); if (C.license) trust.push(C.license);
+$("trust").innerHTML = trust.map(t => `<span>${esc(t)}</span>`).join(""); if (!trust.length) $("trust").hidden = true;
 
-// Pass ad tracking (UTM, fbclid) through to the HighLevel form so each lead shows which ad it came from
+// Before/after: only real client photos; placeholders in preview
+if (C.beforeImg && C.afterImg) {
+  $("bimg").innerHTML = `<img src="${esc(C.beforeImg)}" alt="Before: ${esc(C.photoCaption || "roof before the work")}">`;
+  $("aimg").innerHTML = `<img src="${esc(C.afterImg)}" alt="After: ${esc(C.photoCaption || "roof after the work")}">`;
+  $("cap").textContent = C.photoCaption || ""; $("basec").hidden = false;
+} else if (C.preview) {
+  $("bimg").innerHTML = `<div class="empty">Client's real "before" photo</div>`; $("aimg").innerHTML = `<div class="empty">Client's real "after" photo</div>`;
+  $("cap").textContent = "Preview: shown only when the client sends real photos of their own job."; $("basec").hidden = false;
+}
+
+// HighLevel form, passing ad tracking through
 const qs = location.search;
 if (C.surveyUrl) {
   const src = C.surveyUrl + (qs ? (C.surveyUrl.includes("?") ? "&" : "?") + qs.slice(1) : "");
   $("embed").innerHTML = `<iframe src="${esc(src)}" title="Request your free ${esc(T.offer)}" scrolling="no"></iframe>`;
   const s = document.createElement("script"); s.src = "https://link.msgsndr.com/js/form_embed.js"; document.body.appendChild(s);
 } else {
-  $("embed").innerHTML = `<div class="placeholder"><b>Your HighLevel form goes here</b><span>Paste the survey link into <code>surveyUrl</code> at the top of this page.</span>
+  $("embed").innerHTML = `<div class="ph"><b>Your HighLevel form goes here</b><span>Paste the survey link into <code>surveyUrl</code>.</span>
   <ol><li>What do you need help with?</li><li>How soon?</li><li>Do you own the home?</li><li>Address</li><li>Name, phone, email + consent naming ${esc(C.company)} and Cosa Home Services</li></ol></div>`;
 }
+
+// Hide the sticky button while the form is on screen
+const sticky = $("sticky");
+if ("IntersectionObserver" in window) new IntersectionObserver(es => es.forEach(e => sticky.classList.toggle("hide", e.isIntersecting)), {threshold: .15}).observe($("form"));
+
 if (C.pixelId) {
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
   fbq('init', C.pixelId); fbq('track','PageView');
