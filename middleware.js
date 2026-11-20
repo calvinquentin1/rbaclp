@@ -9,6 +9,11 @@ const FIXED = new Set(['test', 'demo', 'img', 'lp', 'privacy', 'terms']);
 
 export default function middleware(request) {
   const url = new URL(request.url);
+  // admin.cosagrowth.com -> the pay-per-lead agency dashboard (/ppl-admin)
+  if (url.hostname === 'admin.cosagrowth.com') {
+    const p = url.pathname === '/' ? '/ppl-admin/' : url.pathname;
+    return new Response(null, { headers: { 'x-middleware-rewrite': new URL(p + url.search, url).toString() } });
+  }
   if (url.hostname !== 'home.cosaventures.com') return;
   const first = url.pathname.split('/').filter(Boolean)[0] || '';
   let path;
