@@ -4,192 +4,443 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>PPL Dashboard · Cosa</title>
+<title>Cosa Hub</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
-/* Pay-per-lead agency dashboard. Data: Supabase project "Cosa Marketing PPL" via the ppl-admin function (password). */
-:root{--bg:#F4F6F9;--card:#fff;--ink:#14202E;--muted:#5B6675;--line:#DCE2EA;--navy:#13345A;--navy-2:#1D4E7A;--amber:#F5B83D;--soft:#EEF3F9;--ok:#1E7A45;--okbg:#E7F4EC;--bad:#B42318;--badbg:#FDECEA;--warnbg:#FFF4DB}
+/* Cosa Hub: agency dashboard for pay-per-lead and retainer clients (Calvin, 20 Nov 2026, layout "Option A").
+   Data: Supabase "Cosa Marketing PPL" via the ppl-admin function (password). Times shown in ET. */
+:root{--bg:#F5F7FA;--card:#fff;--ink:#0F1B2A;--muted:#6B7685;--faint:#9AA4B2;--line:#E4E8EE;--line2:#EEF1F5;--side:#0E2238;--side2:#1A3555;--navy:#13345A;--blue:#2563EB;--amber:#F5B83D;--ok:#16A34A;--okbg:#E8F6EE;--warn:#B45309;--warnbg:#FEF4E2;--bad:#DC2626;--badbg:#FDECEC;--soft:#F0F4F9;--sel:#F4F8FF}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,system-ui,sans-serif}
-header{background:var(--navy);color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-header b{font-size:16px}header span{color:#AFC2D8;font-size:12.5px}
-header button{background:none;border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:8px;padding:6px 10px;cursor:pointer;font:600 13px Inter}
-.wrap{max-width:1200px;margin:0 auto;padding:16px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
-h2{font-size:17px;margin:0 0 12px;color:var(--navy)}h3{font-size:14px;margin:0 0 8px;color:var(--navy)}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
-.tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
-.tile small{display:block;color:var(--muted);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
-.tile b{font-size:26px;font-variant-numeric:tabular-nums}
-.tbl{width:100%;border-collapse:collapse;font-size:13px}
-.tbl th{text-align:left;color:var(--muted);font-weight:600;font-size:12px;border-bottom:1px solid var(--line);padding:8px 8px;white-space:nowrap}
-.tbl td{border-bottom:1px solid #EEF1F5;padding:8px;vertical-align:top}
-.tbl td.n{text-align:right;font-variant-numeric:tabular-nums}
-.tbl tr.click{cursor:pointer}.tbl tr.click:hover td{background:var(--soft)}
+body{margin:0;background:var(--bg);color:var(--ink);font:13.5px/1.45 Inter,system-ui,sans-serif}
+button{font:inherit;cursor:pointer}
+a{color:var(--blue);text-decoration:none}
+.shell{display:grid;grid-template-columns:220px minmax(0,1fr);min-height:100vh}
+aside{background:var(--side);color:#C8D3E0;padding:18px 12px;display:flex;flex-direction:column;gap:2px;position:sticky;top:0;height:100vh;align-self:start}
+.shell{background:linear-gradient(to right,var(--side) 220px,transparent 220px)}
+.logo{display:flex;align-items:center;gap:9px;color:#fff;font:800 16px Inter;padding:4px 10px 18px}
+.logo i{width:28px;height:28px;border-radius:8px;background:var(--amber);color:var(--side);display:grid;place-items:center;font:900 15px Inter;font-style:normal}
+.nav{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;font-weight:600;color:#C8D3E0;border:0;background:none;text-align:left;width:100%}
+.nav:hover{background:rgba(255,255,255,.05)}
+.nav svg{width:17px;height:17px;opacity:.85;flex:none}
+.nav.on{background:var(--side2);color:#fff}
+.nav .badge{margin-left:auto;background:var(--bad);color:#fff;border-radius:99px;font:700 11px Inter;padding:1px 7px}
+.side-foot{margin-top:auto;font-size:12px;color:#7F92A8;padding:10px;display:flex;flex-direction:column;gap:8px}
+.side-foot button{background:none;border:1px solid #2B4566;color:#C8D3E0;border-radius:8px;padding:6px 10px;font-weight:600}
+main{padding:22px 28px 60px;min-width:0}
+.top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+.crumb{color:var(--muted);font-size:12.5px;margin-bottom:4px}.crumb a{color:var(--muted)}
+h1{font:800 22px Inter;margin:0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sub{color:var(--muted);font-size:13px;margin-top:3px}
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:99px;padding:2px 9px;font:700 11.5px Inter;white-space:nowrap}
+.pill.ok{background:var(--okbg);color:var(--ok)}.pill.warn{background:var(--warnbg);color:var(--warn)}.pill.bad{background:var(--badbg);color:var(--bad)}.pill.mut{background:#EEF1F5;color:#4B5563}.pill.info{background:#EAF0FB;color:#1D4ED8}
+.pill.ppl{background:#EAF0FB;color:#1D4ED8}.pill.retainer{background:#F1EAFB;color:#6D28D9}.pill.test{background:#F3F0FF;color:#6D28D9}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block;flex:none}
+.btn{border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px 12px;font-weight:600;color:var(--ink);white-space:nowrap}
+.btn:hover{border-color:#CBD3DE}
+.btn.pri{background:var(--navy);border-color:var(--navy);color:#fff}
+.btn.sm{padding:5px 9px;font-size:12.5px}
+.btn:disabled{opacity:.5;cursor:wait}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}
+.kpis.five{grid-template-columns:repeat(5,minmax(0,1fr))}
+.k{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;min-width:0}
+.k small{display:block;color:var(--muted);font-weight:600;font-size:12px}
+.k b{display:block;font:800 26px Inter;margin-top:4px;font-variant-numeric:tabular-nums;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.k b span{font-size:14px;color:var(--faint);font-weight:600}
+.k .d{font-size:12px;color:var(--muted);margin-top:2px}.k .d.up{color:var(--ok)}.k .d.dn{color:var(--bad)}
+.k b.na{font-size:15px;color:var(--faint);font-weight:600;margin-top:10px}
+.bar{height:6px;border-radius:99px;background:var(--line2);margin-top:9px;overflow:hidden}.bar i{display:block;height:100%;border-radius:99px;background:var(--blue)}
+.bar.warn i{background:var(--amber)}.bar.ok i{background:var(--ok)}.bar.bad i{background:var(--bad)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;min-width:0}
+.card-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line2)}
+.card-h h2{font:700 15px Inter;margin:0}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);padding:0 8px;overflow-x:auto}
+.tab{padding:11px 12px;font-weight:600;color:var(--muted);border:0;background:none;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tab.on{color:var(--ink);border-bottom-color:var(--navy)}.tab em{font-style:normal;color:var(--faint);font-weight:600;margin-left:4px}
 .scroll{overflow-x:auto}
-.tag{display:inline-block;border-radius:99px;padding:2px 8px;font-size:11.5px;font-weight:700;white-space:nowrap}
-.t-new{background:var(--soft);color:var(--navy-2)}.t-qualified{background:var(--okbg);color:var(--ok)}.t-returned,.t-rejected{background:var(--badbg);color:var(--bad)}.t-duplicate{background:#EEE;color:#666}
-.t-active{background:var(--okbg);color:var(--ok)}.t-setup{background:var(--warnbg);color:#8A5A00}.t-paused,.t-ended{background:#EEE;color:#555}.t-test{background:#EDE7FB;color:#5B3FA8}
-.zero{color:var(--bad);font-weight:800}
-.muted{color:var(--muted)}.small{font-size:12px}
-button.b{background:var(--navy);color:#fff;border:0;border-radius:8px;padding:8px 12px;font:700 13px Inter;cursor:pointer}
-button.b2{background:#fff;color:var(--navy);border:1px solid var(--line);border-radius:8px;padding:5px 9px;font:600 12px Inter;cursor:pointer;white-space:nowrap}
-button:disabled{opacity:.5;cursor:wait}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px 14px}
-label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:3px}
-input,select,textarea{width:100%;font:14px Inter;padding:8px 10px;border:1px solid #C9D2DE;border-radius:8px;background:#fff;color:var(--ink)}
-.row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
-.err{color:var(--bad);font-weight:600}
-.ok{color:var(--ok);font-weight:600}
-.back{background:none;border:0;color:var(--navy-2);font:600 14px Inter;cursor:pointer;padding:0;margin-bottom:12px}
-.login{max-width:360px;margin:80px auto}
-details summary{cursor:pointer;font-weight:700;color:var(--navy)}
-.lead-x{font-size:12px;color:var(--muted);margin-top:2px}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font:600 11.5px Inter;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding:10px 16px;border-bottom:1px solid var(--line2);white-space:nowrap}
+td{padding:11px 16px;border-bottom:1px solid var(--line2);white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+tr.click{cursor:pointer}tr.click:hover td{background:#FAFBFD}tr.sel td{background:var(--sel)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}.faint{color:var(--faint)}.small{font-size:12px}
+.chev{color:var(--faint);width:20px}
+.empty{padding:28px 16px;text-align:center;color:var(--muted)}
+.split{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:18px;align-items:start}
+.split.closed{grid-template-columns:minmax(0,1fr)}
+.drawer{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 40px rgba(15,27,42,.10);position:sticky;top:16px;max-height:calc(100vh - 32px);overflow:auto}
+.drawer .hd{padding:16px;border-bottom:1px solid var(--line2);display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.drawer .hd b{font:800 17px Inter}
+.x{border:0;background:none;color:var(--faint);font-size:18px;line-height:1;padding:2px 6px}
+.sec{padding:14px 16px;border-bottom:1px solid var(--line2)}
+.sec:last-child{border-bottom:0}
+.lbl{font:600 11px Inter;color:var(--faint);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.kv{display:grid;grid-template-columns:100px minmax(0,1fr);gap:6px 10px;font-size:13px}.kv>span:nth-child(odd){color:var(--muted)}
+.kv .v{word-break:break-word}
+.quote{background:var(--soft);border-radius:8px;padding:10px;font-size:12px;color:#475569;line-height:1.5}
+.tl{list-style:none;margin:0;padding:0}
+.tl li{display:grid;grid-template-columns:12px minmax(0,1fr) auto;gap:10px;align-items:start;padding:6px 0;font-size:12.5px}
+.tl li i{width:8px;height:8px;border-radius:50%;margin-top:5px;background:var(--faint)}
+.tl li i.ok{background:var(--ok)}.tl li i.failed{background:var(--bad)}.tl li i.off,.tl li i.skipped{background:#CBD3DE}
+.tl time{color:var(--faint);white-space:nowrap}
+.alert{display:flex;gap:12px;align-items:flex-start;padding:12px 16px;border-bottom:1px solid var(--line2)}
+.alert:last-child{border-bottom:0}
+.alert.click{cursor:pointer}.alert.click:hover{background:#FAFBFD}
+.alert .ic{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;flex:none;font:800 14px Inter}
+.alert.bad .ic{background:var(--badbg);color:var(--bad)}.alert.warn .ic{background:var(--warnbg);color:var(--warn)}.alert.info .ic{background:#EAF0FB;color:#1D4ED8}
+.alert b{display:block}.alert p{margin:1px 0 0;color:var(--muted);font-size:12.5px;white-space:normal}
+.health{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.health.ok{color:var(--ok)}.health.warn{color:var(--warn)}.health.bad{color:var(--bad)}.health.mut{color:var(--muted)}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:18px;align-items:start}
+.filters{display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--line2)}
+input,select,textarea{font:14px Inter;padding:8px 10px;border:1px solid #CBD3DE;border-radius:8px;background:#fff;color:var(--ink);width:100%}
+.filters input,.filters select{width:auto;min-width:160px}
+label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px}
+.form{padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px 16px}
+.form h3{grid-column:1/-1;margin:8px 0 0;font:700 13px Inter;color:var(--navy);border-top:1px solid var(--line2);padding-top:14px}
+.form h3:first-child{border:0;padding-top:0;margin-top:0}
+.form .full{grid-column:1/-1}
+.err{color:var(--bad);font-weight:600}.okmsg{color:var(--ok);font-weight:600}
+.login{max-width:360px;margin:12vh auto;padding:24px}
+.login .logo{color:var(--ink);padding:0 0 16px}
+.mini td,.mini th{padding:8px 16px}
+.inline{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;padding:14px 16px;border-bottom:1px solid var(--line2)}
+.inline>div{min-width:110px}
+.toast{position:fixed;right:18px;bottom:18px;background:var(--ink);color:#fff;border-radius:10px;padding:10px 14px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.2);z-index:9}
+@media(max-width:1100px){.kpis.five{grid-template-columns:repeat(3,minmax(0,1fr))}.grid2,.split{grid-template-columns:minmax(0,1fr)}.drawer{position:static;max-height:none}}
+@media(max-width:860px){.shell{grid-template-columns:1fr;background:none}aside{position:sticky;height:auto;flex-direction:row;overflow-x:auto;padding:8px;gap:4px;z-index:5}.logo{padding:4px 8px}.logo span{display:none}.side-foot{display:none}.nav{width:auto;white-space:nowrap}main{padding:16px}.kpis,.kpis.five{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 </head>
 <body>
-<header><div><b>Pay-Per-Lead Dashboard</b> <span>Cosa Home Services · times in ET</span></div><div id="hdr"></div></header>
-<div class="wrap" id="app"></div>
+<div id="root"></div>
 <script>
 (function(){
 const API = "https://gwekfiwckclqszxidqqz.supabase.co/functions/v1/ppl-admin";
 const PAGE = "https://home.cosaventures.com/";
-const app = document.getElementById("app"), hdr = document.getElementById("hdr");
+const root = document.getElementById("root");
 const esc = s => String(s ?? "").replace(/[&<>"]/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
-const et = d => d ? new Date(d).toLocaleString("en-US",{timeZone:"America/New_York",month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}) : "";
-const ago = d => { if (!d) return "never"; const m = (Date.now()-new Date(d))/6e4; return m<60?Math.round(m)+"m ago":m<1440?Math.round(m/60)+"h ago":Math.round(m/1440)+"d ago"; };
+const pretty = s => String(s ?? "").replace(/\b(\d{4})-(\d{2})-(\d{2})\b/g, (_,y,m,d) => new Date(`${y}-${m}-${d}T12:00:00Z`).toLocaleDateString("en-US",{month:"short",day:"numeric"}));
+const TZ = "America/New_York";
+const dayKey = d => new Date(d).toLocaleDateString("en-CA",{timeZone:TZ});
+const when = d => { if (!d) return ""; const t = new Date(d), today = dayKey(Date.now()), y = dayKey(Date.now()-864e5), k = dayKey(t);
+  const hm = t.toLocaleTimeString("en-US",{timeZone:TZ,hour:"numeric",minute:"2-digit"});
+  return k===today ? "Today "+hm : k===y ? "Yesterday "+hm : t.toLocaleDateString("en-US",{timeZone:TZ,month:"short",day:"numeric"})+", "+hm; };
+const full = d => d ? new Date(d).toLocaleString("en-US",{timeZone:TZ,month:"short",day:"numeric",year:"numeric",hour:"numeric",minute:"2-digit",second:"2-digit"})+" ET" : "";
+const dateOnly = d => d ? new Date(d.length===10 ? d+"T12:00:00Z" : d).toLocaleDateString("en-US",{timeZone:TZ,month:"short",day:"numeric",year:"numeric"}) : "";
+const ago = d => { if (!d) return "never"; const m = (Date.now()-new Date(d))/6e4; return m<1?"just now":m<60?Math.round(m)+"m ago":m<1440?Math.round(m/60)+"h ago":Math.round(m/1440)+"d ago"; };
+const money = c => c==null ? "" : "$"+(c/100).toLocaleString("en-US",{maximumFractionDigits:c%100?2:0});
 const phone = p => { const d = String(p||"").replace(/\D/g,"").slice(-10); return d.length===10?`(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`:esc(p); };
-let pw = ""; try { pw = sessionStorage.getItem("ppl_pw") || ""; } catch(_e) {}
-let clientsById = {};
+const name = l => esc(((l.first_name||"")+" "+(l.last_name?l.last_name[0]+".":"")).trim());
+const fullName = l => esc(((l.first_name||"")+" "+(l.last_name||"")).trim());
+const STATUS = {new:["mut","New"],qualified:["ok","Qualified"],returned:["bad","Returned"],rejected:["bad","Rejected"],duplicate:["mut","Duplicate"]};
+const st = s => { const [c,t] = STATUS[s]||["mut",s]; return `<span class="pill ${c}">${t}</span>`; };
+const type = t => `<span class="pill ${t==="retainer"?"retainer":"ppl"}">${t==="retainer"?"Retainer":"PPL"}</span>`;
+const health = h => `<span class="health ${h.level}"><span class="dot"></span>${esc(h.label)}</span>`;
+const adOf = l => { const u = l.utm||{}; return u.utm_content || u.utm_campaign || (l.fbclid?"Ad click":"Direct"); };
+const ICON = {
+  overview:'<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>',
+  alerts:'<path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/>',
+  clients:'<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-7h6v7"/>',
+  leads:'<circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/><path d="M17 11h5M19.5 8.5v5"/>',
+  billing:'<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>'};
+const svg = k => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICON[k]}</svg>`;
+
+let pw = ""; try { pw = sessionStorage.getItem("hub_pw") || sessionStorage.getItem("ppl_pw") || ""; } catch(_e) {}
+let cache = {list:null};
+let alertCount = 0;
 
 async function call(action, extra={}) {
   const r = await fetch(API, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({password: pw, action, ...extra})});
   const j = await r.json().catch(() => ({error:"Server error"}));
-  if (r.status === 403 || r.status === 429) { pw = ""; try { sessionStorage.removeItem("ppl_pw"); } catch(_e) {} login(j.error); throw new Error(j.error); }
+  if (r.status === 403 || r.status === 429) { pw = ""; try { sessionStorage.removeItem("hub_pw"); } catch(_e) {} login(j.error); throw new Error("__login"); }
   if (!r.ok) throw new Error(j.error || "Error");
   return j;
 }
+function toast(t){ const d = document.createElement("div"); d.className="toast"; d.textContent=t; document.body.appendChild(d); setTimeout(()=>d.remove(),2600); }
 
 function login(msg) {
-  hdr.innerHTML = "";
-  app.innerHTML = `<div class="card login"><h2>Sign in</h2><form id="lf"><label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" autofocus>
-  <p class="err" id="le">${esc(msg||"")}</p><button class="b" type="submit">Sign in</button></form></div>`;
-  document.getElementById("lf").onsubmit = e => { e.preventDefault(); pw = document.getElementById("pw").value; try { sessionStorage.setItem("ppl_pw", pw); } catch(_e) {} home(); };
+  root.innerHTML = `<div class="card login"><div class="logo"><i>C</i>Cosa Hub</div><form id="lf"><label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" autofocus>
+  <p class="err" id="le">${esc(msg||"")}</p><button class="btn pri" type="submit" style="width:100%">Sign in</button></form></div>`;
+  document.getElementById("lf").onsubmit = e => { e.preventDefault(); pw = document.getElementById("pw").value; try { sessionStorage.setItem("hub_pw", pw); } catch(_e) {} route(); };
 }
 
-const leadAd = l => { const u = l.utm||{}; return u.utm_campaign||u.utm_content ? `${esc(u.utm_campaign||"-")}<div class="lead-x">${esc(u.utm_term||"")}${u.utm_term&&u.utm_content?" · ":""}${esc(u.utm_content||"")}</div>` : `<span class="muted">${l.fbclid?"ad click, no UTMs":"no ad data"}</span>`; };
-const st = s => `<span class="tag t-${esc(s)}">${esc(s)}</span>`;
+function shell(active, body) {
+  const navs = [["overview","Overview"],["alerts","Alerts"],["clients","Clients"],["leads","Leads"],["billing","Billing"]];
+  root.innerHTML = `<div class="shell"><aside><div class="logo"><i>C</i><span>Cosa Hub</span></div>
+  ${navs.map(([k,t]) => `<button class="nav ${k===active?"on":""}" data-go="#/${k}">${svg(k)}${t}${k==="alerts"&&alertCount?`<span class="badge">${alertCount}</span>`:""}</button>`).join("")}
+  <div class="side-foot"><span>Times in ET</span><button id="out">Sign out</button></div></aside><main id="main">${body}</main></div>`;
+  root.querySelectorAll("[data-go]").forEach(b => b.onclick = () => location.hash = b.dataset.go);
+  document.getElementById("out").onclick = () => { try { sessionStorage.removeItem("hub_pw"); } catch(_e) {} pw=""; login(); };
+  return document.getElementById("main");
+}
+const loading = active => shell(active, `<p class="muted">Loading…</p>`);
 
-async function home() {
-  hdr.innerHTML = `<button id="add">+ Add client</button> <button id="out">Sign out</button>`;
-  document.getElementById("out").onclick = () => { try { sessionStorage.removeItem("ppl_pw"); } catch(_e) {} pw=""; login(); };
-  document.getElementById("add").onclick = () => editClient(null);
-  app.innerHTML = `<p class="muted">Loading…</p>`;
-  let d; try { d = await call("list"); } catch(e) { if (pw) app.innerHTML = `<p class="err">${esc(e.message)}</p>`; return; }
-  clientsById = Object.fromEntries(d.clients.map(c => [c.id, c]));
-  const live = d.clients.filter(c => !c.is_test);
+async function getList(force) { if (!cache.list || force) { cache.list = await call("list"); } const live = cache.list.clients.filter(c => !c.is_test);
+  alertCount = cache.list.clients.reduce((s,c) => s + c.alerts.filter(a => a.level!=="info").length, 0); return cache.list; }
+
+// ---------- Overview
+async function overview() {
+  loading("overview"); const d = await getList(true);
+  const live = d.clients.filter(c => !c.is_test), act = live.filter(c => c.status==="active");
   const sum = (a,k) => a.reduce((s,c) => s + (c[k]||0), 0);
-  app.innerHTML = `
-  <div class="tiles">
-    <div class="tile"><small>Active clients</small><b>${live.filter(c=>c.status==="active").length}</b></div>
-    <div class="tile"><small>Leads, last 7 days</small><b>${sum(live,"leads_7d")}</b></div>
-    <div class="tile"><small>Leads, all time</small><b>${sum(live,"leads_total")}</b></div>
-    <div class="tile"><small>Credits owed to clients</small><b>${sum(live,"credits_left")}</b></div>
-    <div class="tile"><small>Out of credits</small><b class="${live.some(c=>c.status==="active"&&c.credits_left<=0)?"zero":""}">${live.filter(c=>c.status==="active"&&c.credits_left<=0).length}</b></div>
-  </div>
-  <div class="card"><h2>Clients</h2><div class="scroll"><table class="tbl"><thead><tr><th>Client</th><th>Status</th><th>Area</th><th class="n">Credits left</th><th class="n">Bought</th><th class="n">Leads</th><th class="n">7 days</th><th class="n">Qualified</th><th class="n">Returned</th><th>Last lead</th></tr></thead><tbody>
-  ${d.clients.map(c => `<tr class="click" data-id="${c.id}"><td><b>${esc(c.company)}</b><div class="lead-x">${esc(c.trade)} · /${esc(c.slug)}</div></td><td>${st(c.status)} ${c.is_test?st("test"):""}</td><td>${esc(c.city||"")}${c.state?", "+esc(c.state):""}</td>
-    <td class="n ${c.credits_left<=0?"zero":""}">${c.credits_left}</td><td class="n">${c.credits_bought}</td><td class="n">${c.leads_total}</td><td class="n">${c.leads_7d}</td><td class="n">${c.leads_qualified}</td><td class="n">${c.leads_returned}</td><td>${ago(c.last_lead_at)}</td></tr>`).join("") || `<tr><td colspan="10" class="muted">No clients yet.</td></tr>`}
-  </tbody></table></div></div>
-  <div class="card"><h2>Latest leads, all clients</h2><div class="scroll"><table class="tbl"><thead><tr><th>Received</th><th>Client</th><th>Homeowner</th><th>Need</th><th>Campaign / ad</th><th>Status</th></tr></thead><tbody>
-  ${d.leads.map(l => `<tr class="click" data-id="${l.client_id}"><td>${et(l.created_at)}</td><td>${esc(clientsById[l.client_id]?.company||"")}</td><td>${esc(l.first_name)} ${esc(l.last_name||"")}<div class="lead-x">${phone(l.phone)} · ${esc(l.zip||"")}</div></td><td>${esc(l.answers?.need||"")}<div class="lead-x">${esc(l.answers?.timeframe||"")}</div></td><td>${leadAd(l)}</td><td>${st(l.status)}${l.is_test?" "+st("test"):""}</td></tr>`).join("") || `<tr><td colspan="6" class="muted">No leads yet.</td></tr>`}
-  </tbody></table></div></div>`;
-  app.querySelectorAll("tr.click").forEach(tr => tr.onclick = () => client(tr.dataset.id));
+  const l7 = sum(live,"leads_7d"), lp = sum(live,"leads_prev_7d"), sp7 = sum(live,"spend_7d_cents"), hasAds = live.some(c => c.has_ad_stats);
+  const mrr = act.filter(c => c.client_type==="retainer").reduce((s,c) => s + (c.monthly_price_cents||0), 0);
+  const pct = lp ? Math.round((l7-lp)/lp*100) : null;
+  const alerts = d.clients.flatMap(c => c.alerts.map(a => ({...a, c})));
+  const m = shell("overview", `
+  <div class="top"><div><h1>Overview</h1><div class="sub">${new Date().toLocaleDateString("en-US",{timeZone:TZ,weekday:"long",month:"short",day:"numeric"})} · all clients</div></div><button class="btn pri" data-go="#/new">+ Add client</button></div>
+  <div class="kpis five">
+   <div class="k"><small>Active clients</small><b>${act.length}</b><div class="d">${act.filter(c=>c.client_type==="ppl").length} pay-per-lead · ${act.filter(c=>c.client_type==="retainer").length} retainer</div></div>
+   <div class="k"><small>Leads, last 7 days</small><b>${l7}</b><div class="d ${pct>0?"up":pct<0?"dn":""}">${pct==null?"no prior week yet":(pct>=0?"▲ ":"▼ ")+Math.abs(pct)+"% vs prior week"}</div></div>
+   <div class="k"><small>Ad spend, 7 days</small>${hasAds?`<b>${money(sp7)}</b><div class="d">all client campaigns</div>`:`<b class="na">Meta not connected</b><div class="d">needs the Meta read token</div>`}</div>
+   <div class="k"><small>Cost per lead, 7 days</small>${hasAds&&l7?`<b>${money(Math.round(sp7/l7))}</b><div class="d">spend ÷ leads</div>`:`<b class="na">n/a</b><div class="d">needs ad spend</div>`}</div>
+   <div class="k"><small>Revenue this month</small><b>${money(d.ppl_month_cents + mrr)}</b><div class="d">${money(d.ppl_month_cents)} packs · ${money(mrr)} retainer</div></div></div>
+  <div class="grid2">
+   <div class="card"><div class="card-h"><h2>Clients</h2><span class="muted">${act.length} active</span></div>${clientTable(d.clients.filter(c => c.status!=="ended"))}</div>
+   <div class="card"><div class="card-h"><h2>Needs attention</h2>${alerts.length?`<span class="pill bad">${alerts.filter(a=>a.level!=="info").length}</span>`:""}</div>${alertList(alerts.slice(0,8))}</div>
+  </div>`);
+  wire(m);
+}
+function clientTable(cs) {
+  if (!cs.length) return `<div class="empty">No clients yet. Add your first client.</div>`;
+  return `<div class="scroll"><table><thead><tr><th>Client</th><th>Type</th><th>Health</th><th class="n">Leads 7d</th><th class="n">CPL</th><th>Progress</th><th>Last lead</th></tr></thead><tbody>
+  ${cs.map(c => `<tr class="click" data-go="#/client/${c.id}"><td><b>${esc(c.company)}</b> ${c.is_test?'<span class="pill test">Test</span>':""}<div class="faint">${esc([c.city,c.state].filter(Boolean).join(", "))}</div></td>
+   <td>${type(c.client_type)}</td><td>${health(c.health)}</td><td class="n">${c.leads_7d}</td><td class="n">${c.cpl_7d_cents?money(c.cpl_7d_cents):'<span class="faint">n/a</span>'}</td>
+   <td>${progress(c)}</td><td>${ago(c.last_lead_at)}</td></tr>`).join("")}</tbody></table></div>`;
+}
+const progress = c => c.client_type==="ppl" ? `${c.credits_left}/${c.credits_bought} credits`
+  : c.guarantee ? `${c.guarantee.got}/${c.guarantee.target} · ${c.guarantee.done?"met":c.guarantee.days_left+"d left"}` : `<span class="faint">no target</span>`;
+function alertList(as) {
+  if (!as.length) return `<div class="empty">Nothing needs attention. 👍</div>`;
+  return as.map(a => `<div class="alert ${a.level} click" data-go="#/client/${a.c.id}"><div class="ic">${a.level==="info"?"i":"!"}</div><div><b>${esc(a.c.company)}: ${esc(a.title)}</b><p>${esc(pretty(a.detail))}</p></div></div>`).join("");
+}
+function wire(scope) { scope.querySelectorAll("[data-go]").forEach(b => b.onclick = e => { e.stopPropagation(); location.hash = b.dataset.go; }); }
+
+// ---------- Alerts
+async function alertsView() {
+  loading("alerts"); const d = await getList(true);
+  const as = d.clients.flatMap(c => c.alerts.map(a => ({...a, c})));
+  const groups = [["bad","Urgent"],["warn","Check soon"],["info","Heads-up"]];
+  const m = shell("alerts", `<div class="top"><div><h1>Alerts</h1><div class="sub">Checked every time this page loads. Click one to open the client.</div></div></div>
+  ${groups.map(([lv,t]) => { const g = as.filter(a => a.level===lv); return `<div class="card" style="margin-bottom:16px"><div class="card-h"><h2>${t}</h2><span class="pill ${lv}">${g.length}</span></div>${g.length?alertList(g):'<div class="empty">None.</div>'}</div>`; }).join("")}
+  <div class="card"><div class="card-h"><h2>Rules</h2></div><div class="sec small muted" style="line-height:1.7">
+   Out of credits · 1 credit left · no lead in 5+ days after go-live · guarantee behind pace after the halfway point (or missed) · cost per lead up 30%+ week over week · still in setup after 7 days · retainer payment past due · retainer renews within 3 days.</div></div>`);
+  wire(m);
 }
 
-async function client(id) {
-  app.innerHTML = `<p class="muted">Loading…</p>`;
-  let d; try { d = await call("client", {client_id: id}); } catch(e) { if (pw) app.innerHTML = `<p class="err">${esc(e.message)}</p>`; return; }
-  const c = d.client, s = d.summary;
-  app.innerHTML = `
-  <button class="back" id="bk">&larr; All clients</button>
-  <div class="card"><div class="row" style="justify-content:space-between"><div><h2 style="margin:0">${esc(c.company)} ${st(c.status)} ${c.is_test?st("test"):""}</h2>
-    <div class="muted small">${esc(c.trade)} · ${esc(c.service_area||c.city||"")} · page: <a href="${PAGE}${esc(c.slug)}" target="_blank" rel="noopener">${PAGE.replace("https://","")}${esc(c.slug)}</a></div></div>
-    <button class="b2" id="ed">Edit settings</button></div></div>
-  <div class="tiles">
-    <div class="tile"><small>Credits left</small><b class="${s.credits_left<=0?"zero":""}">${s.credits_left}</b></div>
-    <div class="tile"><small>Credits bought</small><b>${s.credits_bought}</b></div>
-    <div class="tile"><small>Leads delivered</small><b>${s.leads_total}</b></div>
-    <div class="tile"><small>Last 7 days</small><b>${s.leads_7d}</b></div>
-    <div class="tile"><small>Qualified</small><b>${s.leads_qualified}</b></div>
-    <div class="tile"><small>Returned</small><b>${s.leads_returned}</b></div>
-  </div>
-  ${c.status==="active"&&s.credits_left<=0?`<div class="card" style="background:var(--badbg);border-color:#F3C2BC"><b class="err">Out of credits.</b> Pause this client's ads until they buy another pack (leads that still come in are free).</div>`:""}
-  <div class="card"><h2>Leads (${d.leads.length})</h2><div class="scroll"><table class="tbl"><thead><tr><th>Received</th><th>Homeowner</th><th>Address</th><th>Need</th><th>Campaign / ad</th><th>Status</th><th>Sent to</th><th></th></tr></thead><tbody>
-  ${d.leads.map(l => `<tr><td>${et(l.created_at)}</td><td><b>${esc(l.first_name)} ${esc(l.last_name||"")}</b><div class="lead-x">${phone(l.phone)}${l.email?" · "+esc(l.email):""}</div></td>
-    <td>${esc(l.address||"")}<div class="lead-x">${esc(l.answers?.city||"")} ${esc(l.zip||"")}</div></td>
-    <td>${esc(l.answers?.need||"")}<div class="lead-x">${esc(l.answers?.timeframe||"")}</div></td><td>${leadAd(l)}</td>
-    <td>${st(l.status)}${l.return_reason?`<div class="lead-x">${esc(l.return_reason)}</div>`:""}</td>
-    <td class="small muted">GHL: ${esc(l.ghl_status||"-")}<br>Client CRM: ${esc(l.crm_status||"-")}<br>Meta lead: ${esc(l.capi_lead_status||"-")}${l.capi_qualified_status?`<br>Meta qualified: ${esc(l.capi_qualified_status)}`:""}</td>
-    <td>${l.status==="new"?`<button class="b2" data-q="${l.id}">Qualified</button> <button class="b2" data-r="${l.id}">Return</button>`:""}</td></tr>
-    <tr><td></td><td colspan="7" class="small muted" style="border-bottom:1px solid var(--line)">Consent ${et(l.consent_at)}: “${esc(l.consent_text||"")}”</td></tr>`).join("") || `<tr><td colspan="8" class="muted">No leads yet.</td></tr>`}
-  </tbody></table></div><p class="small muted" style="margin:8px 0 0">“Qualified” sends the qualified event to the Meta pixel. “Return” approves a return under the agreement and gives the client 1 credit back.</p></div>
-  <div class="card"><h2>Credits</h2>
-    <form class="row" id="cf" style="margin-bottom:14px">
-      <div style="width:110px"><label for="cd">Credits</label><input id="cd" type="number" value="3" step="1"></div>
-      <div style="width:150px"><label for="ck">Type</label><select id="ck"><option value="purchase">Purchase</option><option value="adjust">Adjustment</option><option value="refund">Refund (use minus)</option></select></div>
-      <div style="width:130px"><label for="ca">Amount paid ($)</label><input id="ca" type="number" value="450" step="1"></div>
-      <div style="flex:1;min-width:180px"><label for="cn">Note</label><input id="cn" placeholder="e.g. Stripe 3-pack, 20 Nov"></div>
-      <button class="b" type="submit">Add</button><span id="cm"></span></form>
-    <div class="scroll"><table class="tbl"><thead><tr><th>When</th><th>Type</th><th class="n">Credits</th><th class="n">Paid</th><th>Note</th></tr></thead><tbody>
-    ${d.credits.map(k => `<tr><td>${et(k.created_at)}</td><td>${esc(k.kind)}</td><td class="n">${k.delta>0?"+":""}${k.delta}</td><td class="n">${k.amount_cents!=null?"$"+(k.amount_cents/100).toLocaleString():""}</td><td>${esc(k.note||"")}</td></tr>`).join("")}
-    </tbody></table></div></div>`;
-  document.getElementById("bk").onclick = home;
-  document.getElementById("ed").onclick = () => editClient(c);
-  document.getElementById("cf").onsubmit = async e => {
-    e.preventDefault(); const m = document.getElementById("cm");
-    try { await call("add_credits", {client_id: id, delta: document.getElementById("cd").value, kind: document.getElementById("ck").value,
-      amount_cents: Math.round(Number(document.getElementById("ca").value||0)*100), note: document.getElementById("cn").value}); client(id); }
-    catch(x) { m.className = "err"; m.textContent = x.message; }
-  };
-  app.querySelectorAll("[data-q]").forEach(b => b.onclick = async () => { if (!confirm("Mark this lead qualified and send the qualified event to Meta?")) return; b.disabled = true; try { await call("lead_status", {lead_id: b.dataset.q, status: "qualified"}); client(id); } catch(x) { alert(x.message); b.disabled = false; } });
-  app.querySelectorAll("[data-r]").forEach(b => b.onclick = async () => { const reason = prompt("Return reason (wrong number, renter, outside area, duplicate, never requested, service not offered):"); if (!reason) return; b.disabled = true; try { await call("lead_status", {lead_id: b.dataset.r, status: "returned", reason}); client(id); } catch(x) { alert(x.message); b.disabled = false; } });
+// ---------- Clients list
+async function clientsView() {
+  loading("clients"); const d = await getList(true);
+  const m = shell("clients", `<div class="top"><div><h1>Clients</h1><div class="sub">${d.clients.length} total</div></div><button class="btn pri" data-go="#/new">+ Add client</button></div>
+  <div class="card">${clientTable(d.clients)}</div>`);
+  wire(m);
 }
 
-function editClient(c) {
-  const v = k => esc(c?.[k] ?? "");
-  const f = (k, label, ph="") => `<div><label for="f_${k}">${label}</label><input id="f_${k}" value="${v(k)}" placeholder="${esc(ph)}"></div>`;
-  app.innerHTML = `<button class="back" id="bk">&larr; ${c?"Back to client":"All clients"}</button>
-  <div class="card"><h2>${c?"Edit "+esc(c.company):"Add a client"}</h2><form id="ef"><div class="grid">
-    ${f("company","Company name (shown on the page)","Summit Roofing")}
-    ${f("slug","Page name: home.cosaventures.com/…","summit-roofing")}
-    ${f("legal_name","Legal name","Summit Roofing LLC")}
-    <div><label for="f_trade">Trade</label><select id="f_trade"><option value="roofing">Roofing</option><option value="hvac">HVAC</option></select></div>
-    ${f("city","City (headline)","Rochester")}${f("state","State","NY")}
-    ${f("service_area","Service area","Rochester + 25 miles")}
-    ${f("license","License # (only if real)")}${f("rating","Rating (only if real)","4.9 on Google (120 reviews)")}
-    ${f("before_img","Before photo URL")}${f("after_img","After photo URL")}
-    <div><label for="f_photos_are_clients">Photos are the client's own job?</label><select id="f_photos_are_clients"><option value="false">No (illustration)</option><option value="true">Yes, real job</option></select></div>
-    ${f("alert_phone","Lead alert phone")}${f("alert_email","Lead alert email")}
-    ${f("crm_webhook_url","Client CRM webhook URL")}${f("meta_campaign_id","Meta campaign ID")}
-    <div><label for="f_status">Status</label><select id="f_status"><option value="setup">Setup</option><option value="active">Active</option><option value="paused">Paused</option><option value="ended">Ended</option></select></div>
-    <div><label for="f_is_test">Test client?</label><select id="f_is_test"><option value="false">No</option><option value="true">Yes</option></select></div>
-  </div><div style="margin-top:10px"><label for="f_notes">Notes</label><textarea id="f_notes" rows="2">${v("notes")}</textarea></div>
-  <p class="err" id="ee"></p><button class="b" type="submit">Save</button></form></div>`;
-  for (const k of ["trade","status"]) document.getElementById("f_"+k).value = c?.[k] ?? (k==="trade"?"roofing":"setup");
-  for (const k of ["photos_are_clients","is_test"]) document.getElementById("f_"+k).value = String(!!c?.[k]);
-  document.getElementById("bk").onclick = () => c ? client(c.id) : home();
-  document.getElementById("ef").onsubmit = async e => {
-    e.preventDefault();
-    const row = c ? {id: c.id} : {};
-    for (const k of ["company","slug","legal_name","trade","city","state","service_area","license","rating","before_img","after_img","alert_phone","alert_email","crm_webhook_url","meta_campaign_id","status","notes"]) row[k] = document.getElementById("f_"+k).value;
-    for (const k of ["photos_are_clients","is_test"]) row[k] = document.getElementById("f_"+k).value === "true";
-    if (!row.company || !/^[a-z0-9-]{3,60}$/.test(row.slug.toLowerCase())) { document.getElementById("ee").textContent = "Company name and a page name (letters, numbers, dashes) are required."; return; }
-    try { const r = await call("save_client", {client: row}); client(r.id); } catch(x) { document.getElementById("ee").textContent = x.message; }
-  };
+// ---------- One client
+let cState = {};
+async function clientView(id, tab, leadId) {
+  loading("clients");
+  const d = await call("client", {client_id:id});
+  cState = {d, tab: tab||"leads", leadId};
+  renderClient();
+}
+function renderClient() {
+  const {d, tab, leadId} = cState, c = d.client, g = c.guarantee;
+  const isPPL = c.client_type === "ppl";
+  const k1 = isPPL ? `<div class="k"><small>Credits left</small><b>${c.credits_left} <span>of ${c.credits_bought}</span></b><div class="bar ${c.credits_left<=0?"bad":c.credits_left<=1?"warn":""}"><i style="width:${c.credits_bought?Math.max(0,Math.min(100,c.credits_left/c.credits_bought*100)):0}%"></i></div></div>`
+    : `<div class="k"><small>Monthly fee</small><b>${c.monthly_price_cents?money(c.monthly_price_cents):'<span>not set</span>'}</b><div class="d">${c.next_renewal?"renews "+dateOnly(c.next_renewal):"no renewal date"} · ${esc(c.payment_status)}</div></div>`;
+  const k2 = `<div class="k"><small>Leads delivered</small><b>${c.leads_total}</b><div class="d ${c.leads_7d?"up":""}">${c.leads_7d?"+"+c.leads_7d+" this week":"none this week"}</div></div>`;
+  const k3 = c.has_ad_stats ? `<div class="k"><small>Cost per lead</small><b>${c.cpl_7d_cents?money(c.cpl_7d_cents):c.cpl_total_cents?money(c.cpl_total_cents):"n/a"}</b><div class="d">${money(c.spend_7d_cents)} spent · 7 days · ${money(c.spend_total_cents)} total</div></div>`
+    : `<div class="k"><small>Cost per lead</small><b class="na">No ad data yet</b><div class="d">fills in once Meta is connected</div></div>`;
+  const k4 = g ? `<div class="k"><small>${g.target}-lead guarantee</small><b>${g.got} <span>of ${g.target} · ${g.done?"met":g.days_left+" days left"}</span></b><div class="bar ${g.done?"ok":c.health.level==="bad"?"bad":c.health.level==="warn"&&c.alerts.some(a=>a.title.startsWith("Behind"))?"warn":"ok"}"><i style="width:${Math.min(100,g.got/g.target*100)}%"></i></div></div>`
+    : `<div class="k"><small>Guarantee</small><b class="na">Not set</b><div class="d">set go-live date and target in Settings</div></div>`;
+  const tabs = [["leads","Leads",d.leads.length],["credits",isPPL?"Credits & billing":"Billing",null],["ads","Ads",null],["activity","Activity",d.events.length],["settings","Settings",null]];
+  const lead = leadId && d.leads.find(l => l.id===leadId);
+  const m = shell("clients", `
+  <div class="top"><div><div class="crumb"><a href="#/clients">Clients</a> /</div><h1>${esc(c.company)} <span class="pill ${c.health.level}"><span class="dot"></span>${esc(c.health.label)}</span> ${type(c.client_type)} ${c.is_test?'<span class="pill test">Test</span>':""}</h1>
+   <div class="sub">${esc([c.trade==="hvac"?"HVAC":"Roofing", c.service_area||c.city].filter(Boolean).join(" · "))}${c.go_live_at?" · Go-live "+dateOnly(c.go_live_at):""}${isPPL?` · <a href="${PAGE}${esc(c.slug)}" target="_blank" rel="noopener">${PAGE.replace("https://","")}${esc(c.slug)}</a>`:""}</div></div>
+   <div class="acts"><button class="btn" data-tab="settings">Edit</button>${isPPL?'<button class="btn pri" data-tab="credits">+ Add credits</button>':""}</div></div>
+  ${c.alerts.length?`<div class="card" style="margin-bottom:18px">${c.alerts.map(a => `<div class="alert ${a.level}"><div class="ic">${a.level==="info"?"i":"!"}</div><div><b>${esc(a.title)}</b><p>${esc(pretty(a.detail))}</p></div></div>`).join("")}</div>`:""}
+  <div class="kpis">${k1}${k2}${k3}${k4}</div>
+  <div class="split ${lead&&tab==="leads"?"":"closed"}"><div class="card"><div class="tabs">${tabs.map(([k,t,n]) => `<button class="tab ${k===tab?"on":""}" data-tab="${k}">${t}${n!=null?`<em>${n}</em>`:""}</button>`).join("")}</div><div id="tabbody">${tabBody(tab)}</div></div>
+  ${lead&&tab==="leads"?drawer(lead, d.events.filter(e => e.lead_id===lead.id)):""}</div>`);
+  wire(m);
+  m.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { cState.tab = b.dataset.tab; cState.leadId = null; renderClient(); });
+  m.querySelectorAll("[data-lead]").forEach(r => r.onclick = () => { cState.leadId = r.dataset.lead; renderClient(); });
+  const x = m.querySelector(".drawer .x"); if (x) x.onclick = () => { cState.leadId = null; renderClient(); };
+  bindLeadActions(m, () => clientView(c.id, "leads", cState.leadId));
+  if (tab==="credits") bindCredits(m, c);
+  if (tab==="settings") bindForm(m, c);
+}
+function tabBody(tab) {
+  const {d} = cState, c = d.client;
+  if (tab==="leads") return d.leads.length ? `<div class="scroll"><table><thead><tr><th>Received</th><th>Homeowner</th><th>Need</th><th>Ad</th><th>Status</th><th></th></tr></thead><tbody>
+    ${d.leads.map(l => `<tr class="click ${l.id===cState.leadId?"sel":""}" data-lead="${l.id}"><td>${when(l.created_at)}</td><td><b>${name(l)}</b></td><td class="muted">${esc(l.answers?.need||"")}</td><td class="muted">${esc(adOf(l))}</td><td>${st(l.status)}</td><td class="chev">›</td></tr>`).join("")}</tbody></table></div>` : `<div class="empty">No leads yet.</div>`;
+  if (tab==="credits") {
+    const pays = d.credits;
+    return `${c.client_type==="ppl"?`<form class="inline" id="cf">
+      <div><label for="cd">Credits</label><input id="cd" type="number" value="3" step="1" style="width:90px"></div>
+      <div><label for="ck">Type</label><select id="ck"><option value="purchase">Purchase</option><option value="adjust">Adjustment</option><option value="refund">Refund (use minus)</option></select></div>
+      <div><label for="ca">Amount paid ($)</label><input id="ca" type="number" value="450" step="1" style="width:120px"></div>
+      <div><label for="cs">Stripe payment ID</label><input id="cs" placeholder="optional, pi_…" style="width:170px"></div>
+      <div style="flex:1;min-width:160px"><label for="cn">Note</label><input id="cn" placeholder="e.g. 3-pack via payment link"></div>
+      <button class="btn pri" type="submit">Add</button><span id="cm"></span></form>`:""}
+     ${pays.length?`<div class="scroll"><table class="mini"><thead><tr><th>When</th><th>Type</th><th class="n">Credits</th><th class="n">Paid</th><th>Note</th></tr></thead><tbody>
+     ${pays.map(k => `<tr><td>${full(k.created_at)}</td><td>${esc(k.kind)}</td><td class="n">${k.delta>0?"+":""}${k.delta}</td><td class="n">${k.amount_cents!=null?money(k.amount_cents):""}</td><td class="muted">${esc(k.note||"")}${k.stripe_payment_id?` · ${esc(k.stripe_payment_id)}`:""}</td></tr>`).join("")}</tbody></table></div>`:`<div class="empty">No payments recorded.</div>`}`;
+  }
+  if (tab==="ads") {
+    if (!d.ads.length) return `<div class="empty">No ad data yet. Once the Meta read token is added, daily spend, clicks and leads per ad are stored here for every day the client runs.</div>`;
+    const by = {}; d.ads.forEach(a => { const k = a.ad_name||a.ad_id||"(ad)"; by[k] = by[k]||{spend:0,imp:0,clk:0,days:0}; by[k].spend+=a.spend_cents; by[k].imp+=a.impressions||0; by[k].clk+=a.link_clicks||0; by[k].days++; });
+    const leadsBy = {}; d.leads.filter(l=>l.status!=="duplicate").forEach(l => { const k = adOf(l); leadsBy[k]=(leadsBy[k]||0)+1; });
+    return `<div class="scroll"><table class="mini"><thead><tr><th>Ad</th><th class="n">Spend</th><th class="n">Impressions</th><th class="n">Link clicks</th><th class="n">CTR</th><th class="n">Leads</th><th class="n">CPL</th></tr></thead><tbody>
+    ${Object.entries(by).map(([k,v]) => `<tr><td>${esc(k)}</td><td class="n">${money(v.spend)}</td><td class="n">${v.imp.toLocaleString()}</td><td class="n">${v.clk.toLocaleString()}</td><td class="n">${v.imp?(v.clk/v.imp*100).toFixed(2)+"%":""}</td><td class="n">${leadsBy[k]||0}</td><td class="n">${leadsBy[k]?money(Math.round(v.spend/leadsBy[k])):""}</td></tr>`).join("")}</tbody></table></div>`;
+  }
+  if (tab==="activity") return d.events.length ? `<div class="sec"><ul class="tl">${d.events.map(e => `<li><i class="${esc(e.status)}"></i><span>${evText(e, d.leads)}</span><time>${full(e.created_at)}</time></li>`).join("")}</ul></div>` : `<div class="empty">No activity yet.</div>`;
+  if (tab==="settings") return clientForm(c);
+  return "";
+}
+const EV = {lead_received:"Lead received",lead_duplicate:"Duplicate lead (not charged)",delivery:"Delivery",meta_event:"Meta event",qualified:"Marked qualified",returned:"Return approved",status_changed:"Status changed",credits_added:"Credits added",client_created:"Client created",client_updated:"Settings changed",note:"Note"};
+function evText(e, leads) {
+  const l = e.lead_id && leads.find(x => x.id===e.lead_id); const who = l ? ` · ${name(l)}` : "";
+  const dt = e.detail||{};
+  let extra = "";
+  if (e.type==="delivery") extra = ` to ${esc(e.channel==="crm"?"client CRM":e.channel==="ghl"?"our GHL":e.channel)}: ${esc(e.status)}`;
+  if (e.type==="meta_event") extra = ` ${esc(dt.event||"")}: ${esc(e.status)}`;
+  if (e.type==="credits_added") extra = `: ${dt.delta>0?"+":""}${esc(dt.delta)} (${esc(dt.kind)})${dt.amount_cents?" · "+money(dt.amount_cents):""}`;
+  if (e.type==="returned") extra = dt.reason?`: ${esc(dt.reason)}`:"";
+  if (e.type==="client_updated") extra = `: ${esc(Object.keys(dt).join(", "))}`;
+  if (e.type==="status_changed" && dt.to) extra = `: ${esc(dt.from)} → ${esc(dt.to)}`;
+  return `<b>${EV[e.type]||esc(e.type)}</b>${extra}${who}${e.actor&&e.actor!=="system"?` <span class="faint">· ${esc(e.actor)}</span>`:""}`;
+}
+function drawer(l, evs) {
+  const u = l.utm||{};
+  const chk = (s) => s==="sent"||s==="ok"||String(s).startsWith("sent") ? `<span style="color:var(--ok)">✓ ${esc(s)}</span>` : String(s||"").startsWith("error") ? `<span class="err">✕ ${esc(s)}</span>` : `<span class="faint">${esc(s||"not set up")}</span>`;
+  return `<div class="drawer"><div class="hd"><div><b>${fullName(l)}</b><div class="muted">${when(l.created_at)} · ${st(l.status)}</div></div><button class="x" aria-label="Close">✕</button></div>
+  <div class="sec"><div class="lbl">Request</div><div class="kv"><span>Need</span><span class="v">${esc(l.answers?.need||"")}</span><span>When</span><span class="v">${esc(l.answers?.timeframe||"")}</span><span>Owner</span><span class="v">${esc(l.answers?.owner||"")}</span>
+   <span>Address</span><span class="v">${esc(l.address||"")}, ${esc(l.answers?.city||"")} ${esc(l.zip||"")}</span><span>Phone</span><span class="v">${phone(l.phone)}</span>${l.email?`<span>Email</span><span class="v">${esc(l.email)}</span>`:""}</div></div>
+  <div class="sec"><div class="lbl">Came from</div><div class="kv"><span>Campaign</span><span class="v">${esc(u.utm_campaign||"-")}</span><span>Ad set</span><span class="v">${esc(u.utm_term||"-")}</span><span>Ad</span><span class="v">${esc(u.utm_content||"-")}</span><span>Click ID</span><span class="v">${l.fbclid?"✓ saved":"none"}</span></div></div>
+  <div class="sec"><div class="lbl">Delivered</div><div class="kv"><span>Client CRM</span><span class="v">${chk(l.crm_status)}</span><span>Our GHL</span><span class="v">${chk(l.ghl_status)}</span><span>Meta lead</span><span class="v">${chk(l.capi_lead_status)}</span>${l.capi_qualified_status?`<span>Meta qualified</span><span class="v">${chk(l.capi_qualified_status)}</span>`:""}</div></div>
+  <div class="sec"><div class="lbl">Consent</div><div class="quote">“${esc(l.consent_text||"")}” <br><span class="faint">${full(l.consent_at)} · ${esc((l.page_url||"").replace(/^https?:\/\//,""))}</span></div></div>
+  ${evs.length?`<div class="sec"><div class="lbl">History</div><ul class="tl">${evs.slice().reverse().map(e => `<li><i class="${esc(e.status)}"></i><span>${evText(e,[])}</span><time>${when(e.created_at)}</time></li>`).join("")}</ul></div>`:""}
+  ${l.status==="new"?`<div class="sec acts"><button class="btn pri" data-q="${l.id}">Mark qualified</button><button class="btn" data-r="${l.id}">Approve return</button></div>`:""}</div>`;
+}
+function bindLeadActions(m, after) {
+  m.querySelectorAll("[data-q]").forEach(b => b.onclick = async e => { e.stopPropagation(); if (!confirm("Mark this lead qualified and send the qualified event to Meta?")) return; b.disabled = true; try { const r = await call("lead_status", {lead_id: b.dataset.q, status: "qualified"}); toast("Qualified · Meta: "+r.capi); after(); } catch(x) { if (x.message!=="__login") alert(x.message); b.disabled = false; } });
+  m.querySelectorAll("[data-r]").forEach(b => b.onclick = async e => { e.stopPropagation(); const reason = prompt("Return reason (wrong number, renter, outside area, duplicate, never requested, service not offered):"); if (!reason) return; b.disabled = true; try { await call("lead_status", {lead_id: b.dataset.r, status: "returned", reason}); toast("Return approved · 1 credit back"); after(); } catch(x) { if (x.message!=="__login") alert(x.message); b.disabled = false; } });
+}
+function bindCredits(m, c) {
+  const f = m.querySelector("#cf"); if (!f) return;
+  f.onsubmit = async e => { e.preventDefault(); const msg = m.querySelector("#cm");
+    try { await call("add_credits", {client_id: c.id, delta: m.querySelector("#cd").value, kind: m.querySelector("#ck").value, stripe_payment_id: m.querySelector("#cs").value,
+      amount_cents: Math.round(Number(m.querySelector("#ca").value||0)*100), note: m.querySelector("#cn").value}); toast("Credits added"); clientView(c.id, "credits"); }
+    catch(x) { if (x.message!=="__login") { msg.className = "err"; msg.textContent = x.message; } } };
 }
 
-pw ? home() : login();
+// ---------- Client form (Settings tab + Add client)
+const F = [
+ ["Basics"],["company","Company name (shown on the page)"],["client_type","Type","sel",[["ppl","Pay-per-lead"],["retainer","Retainer"]]],["status","Status","sel",[["setup","Setup"],["active","Active"],["paused","Paused"],["ended","Ended"]]],
+ ["slug","Page name: home.cosaventures.com/…"],["legal_name","Legal name"],["trade","Trade","sel",[["roofing","Roofing"],["hvac","HVAC"]]],["city","City"],["state","State"],["service_area","Service area"],
+ ["Owner"],["owner_name","Owner name"],["owner_phone","Owner phone"],["owner_email","Owner email"],
+ ["Dates (proof)"],["agreement_signed_at","Agreement signed","date"],["agreement_version","Agreement version"],["first_paid_at","First payment","date"],["setup_form_at","Setup form received","date"],["go_live_at","Go-live","date"],["paused_at","Paused on","date"],["ended_at","Ended on","date"],["end_reason","End reason"],
+ ["Guarantee"],["guarantee_leads","Leads promised","num"],["guarantee_days","Within days of go-live","num"],
+ ["Money"],["monthly_price_cents","Monthly fee ($, retainer)","money"],["next_renewal","Next renewal","date"],["payment_status","Payment status","sel",[["ok","OK"],["past_due","Past due"],["paused","Paused"],["cancelled","Cancelled"]]],["stripe_customer_id","Stripe customer ID"],["daily_budget_cents","Daily ad budget ($)","money"],
+ ["Lead delivery"],["alert_phone","Lead alert phone"],["alert_email","Lead alert email"],["crm_webhook_url","Client CRM webhook URL"],
+ ["Ads"],["meta_ad_account_id","Meta ad account ID"],["meta_campaign_id","Meta campaign ID"],["license","License # (only if real)"],["rating","Rating (only if real)"],["before_img","Before photo URL"],["after_img","After photo URL"],["photos_are_clients","Photos are the client's own job?","sel",[["false","No (illustration)"],["true","Yes, real job"]]],
+ ["Other"],["is_test","Test client?","sel",[["false","No"],["true","Yes"]]],["notes","Notes","area"]];
+function clientForm(c) {
+  const val = (k,kind) => { const v = c?.[k]; if (v==null) return ""; if (kind==="money") return v/100; if (kind==="date") return String(v).slice(0,10); return v; };
+  return `<form class="form" id="ef">${F.map(f => { if (f.length===1) return `<h3>${f[0]}</h3>`; const [k,t,kind,opts] = f; const id = "f_"+k;
+    if (kind==="sel") return `<div><label for="${id}">${t}</label><select id="${id}">${opts.map(([v,l]) => `<option value="${v}" ${String(c?.[k] ?? (k==="client_type"?"ppl":k==="status"?"setup":k==="trade"?"roofing":k==="payment_status"?"ok":"false"))===v?"selected":""}>${l}</option>`).join("")}</select></div>`;
+    if (kind==="area") return `<div class="full"><label for="${id}">${t}</label><textarea id="${id}" rows="3">${esc(val(k))}</textarea></div>`;
+    return `<div><label for="${id}">${t}</label><input id="${id}" type="${kind==="date"?"date":kind==="num"||kind==="money"?"number":"text"}" value="${esc(val(k,kind))}"></div>`; }).join("")}
+   <div class="full acts"><button class="btn pri" type="submit">Save</button><span id="ee"></span></div></form>`;
+}
+function bindForm(m, c) {
+  const f = m.querySelector("#ef"); if (!f) return;
+  const ty = m.querySelector("#f_client_type");
+  ty.onchange = () => { const r = ty.value==="retainer"; const gl = m.querySelector("#f_guarantee_leads"), gd = m.querySelector("#f_guarantee_days");
+    if (!gl.value && !gd.value) { gl.value = r?15:3; gd.value = r?30:21; } };
+  if (!c) ty.onchange();
+  f.onsubmit = async e => { e.preventDefault(); const row = c ? {id: c.id} : {};
+    for (const fdef of F) { if (fdef.length===1) continue; const [k,,kind] = fdef; let v = m.querySelector("#f_"+k).value;
+      if (kind==="money") v = v==="" ? null : Math.round(Number(v)*100); else if (kind==="num") v = v==="" ? null : Number(v);
+      else if (k==="photos_are_clients"||k==="is_test") v = v==="true"; else if (kind==="date" && v && /_at$/.test(k) && k!=="go_live_at") v = v+"T12:00:00Z";
+      row[k] = v; }
+    const ee = m.querySelector("#ee");
+    if (!row.company || !/^[a-z0-9-]{3,60}$/.test(String(row.slug||"").toLowerCase())) { ee.className="err"; ee.textContent = "Company name and a page name (letters, numbers, dashes) are required."; return; }
+    try { const r = await call("save_client", {client: row}); toast("Saved"); cache.list = null; location.hash = "#/client/"+r.id; if (c) clientView(r.id, "settings"); }
+    catch(x) { if (x.message!=="__login") { ee.className="err"; ee.textContent = x.message; } } };
+}
+async function newClient() {
+  const m = shell("clients", `<div class="top"><div><div class="crumb"><a href="#/clients">Clients</a> /</div><h1>Add a client</h1><div class="sub">Pay-per-lead clients get their page at home.cosaventures.com/&lt;page name&gt; as soon as you save.</div></div></div>
+  <div class="card">${clientForm(null)}</div>`);
+  wire(m); bindForm(m, null);
+}
+
+// ---------- Leads (all clients)
+let lState = {q:"", client:"", status:"", leadId:null, data:null};
+async function leadsView() {
+  if (!lState.data) { loading("leads"); lState.data = await call("leads"); }
+  const {data} = lState, names = Object.fromEntries(data.clients.map(c => [c.id, c.company]));
+  const q = lState.q.toLowerCase();
+  const rows = data.leads.filter(l => (!lState.client || l.client_id===lState.client) && (!lState.status || l.status===lState.status)
+    && (!q || [l.first_name,l.last_name,l.phone,l.zip,l.address,names[l.client_id],adOf(l)].join(" ").toLowerCase().includes(q)));
+  const lead = lState.leadId && data.leads.find(l => l.id===lState.leadId);
+  const m = shell("leads", `<div class="top"><div><h1>Leads</h1><div class="sub">${data.leads.length} total across all clients</div></div></div>
+  <div class="split ${lead?"":"closed"}"><div class="card"><div class="filters"><input id="lq" placeholder="Search name, phone, ZIP, ad…" value="${esc(lState.q)}">
+   <select id="lc"><option value="">All clients</option>${data.clients.map(c => `<option value="${c.id}" ${c.id===lState.client?"selected":""}>${esc(c.company)}</option>`).join("")}</select>
+   <select id="ls"><option value="">All statuses</option>${Object.entries(STATUS).map(([k,[,t]]) => `<option value="${k}" ${k===lState.status?"selected":""}>${t}</option>`).join("")}</select></div>
+   ${rows.length?`<div class="scroll"><table><thead><tr><th>Received</th><th>Client</th><th>Homeowner</th><th>Need</th><th>Ad</th><th>Status</th><th></th></tr></thead><tbody>
+   ${rows.map(l => `<tr class="click ${l.id===lState.leadId?"sel":""}" data-lead="${l.id}"><td>${when(l.created_at)}</td><td>${esc(names[l.client_id]||"")}</td><td><b>${name(l)}</b></td><td class="muted">${esc(l.answers?.need||"")}</td><td class="muted">${esc(adOf(l))}</td><td>${st(l.status)}</td><td class="chev">›</td></tr>`).join("")}</tbody></table></div>`:`<div class="empty">No leads match.</div>`}</div>
+  ${lead?drawer(lead, []).replace('<div class="sec"><div class="lbl">Request</div>', `<div class="sec"><a href="#/client/${lead.client_id}">Open ${esc(names[lead.client_id]||"client")} →</a></div><div class="sec"><div class="lbl">Request</div>`):""}</div>`);
+  wire(m);
+  const qi = m.querySelector("#lq"); qi.oninput = () => { lState.q = qi.value; const pos = qi.selectionStart; leadsView().then(() => { const n = document.getElementById("lq"); n.focus(); n.setSelectionRange(pos,pos); }); };
+  m.querySelector("#lc").onchange = e => { lState.client = e.target.value; leadsView(); };
+  m.querySelector("#ls").onchange = e => { lState.status = e.target.value; leadsView(); };
+  m.querySelectorAll("[data-lead]").forEach(r => r.onclick = () => { lState.leadId = r.dataset.lead; leadsView(); });
+  const x = m.querySelector(".drawer .x"); if (x) x.onclick = () => { lState.leadId = null; leadsView(); };
+  bindLeadActions(m, () => { lState.data = null; leadsView(); });
+}
+
+// ---------- Billing
+async function billingView() {
+  loading("billing"); const d = await call("billing");
+  const names = Object.fromEntries(d.clients.map(c => [c.id, c])), live = p => !names[p.client_id]?.is_test;
+  const ms = new Date().toLocaleDateString("en-CA",{timeZone:TZ}).slice(0,7);
+  const thisMonth = d.payments.filter(p => live(p) && dayKey(p.created_at).slice(0,7)===ms);
+  const packs = thisMonth.reduce((s,p) => s + (p.amount_cents||0)*(p.kind==="refund"?-1:1), 0);
+  const ret = d.clients.filter(c => c.client_type==="retainer" && c.status==="active" && !c.is_test);
+  const mrr = ret.reduce((s,c) => s + (c.monthly_price_cents||0), 0);
+  const m = shell("billing", `<div class="top"><div><h1>Billing</h1><div class="sub">From payments recorded here. Stripe sync comes once the Stripe read key is added.</div></div></div>
+  <div class="kpis"><div class="k"><small>PPL packs this month</small><b>${money(packs)}</b><div class="d">${thisMonth.filter(p=>p.kind==="purchase").length} purchases</div></div>
+   <div class="k"><small>Retainer MRR</small><b>${money(mrr)}</b><div class="d">${ret.length} active retainer${ret.length===1?"":"s"}</div></div>
+   <div class="k"><small>Past due</small><b>${d.clients.filter(c=>c.payment_status==="past_due"&&!c.is_test).length}</b><div class="d">retainer clients</div></div>
+   <div class="k"><small>Refunds this month</small><b>${money(thisMonth.filter(p=>p.kind==="refund").reduce((s,p)=>s+(p.amount_cents||0),0))}</b><div class="d">PPL guarantee / ended</div></div></div>
+  <div class="card" style="margin-bottom:18px"><div class="card-h"><h2>Retainer clients</h2></div>${ret.length?`<div class="scroll"><table><thead><tr><th>Client</th><th class="n">Monthly</th><th>Next renewal</th><th>Payment</th></tr></thead><tbody>
+   ${ret.map(c => `<tr class="click" data-go="#/client/${c.id}"><td><b>${esc(c.company)}</b></td><td class="n">${money(c.monthly_price_cents)}</td><td>${dateOnly(c.next_renewal)}</td><td><span class="pill ${c.payment_status==="ok"?"ok":c.payment_status==="past_due"?"bad":"mut"}">${esc(c.payment_status)}</span></td></tr>`).join("")}</tbody></table></div>`:`<div class="empty">No retainer clients yet.</div>`}</div>
+  <div class="card"><div class="card-h"><h2>Payments</h2></div>${d.payments.length?`<div class="scroll"><table><thead><tr><th>When</th><th>Client</th><th>Type</th><th class="n">Credits</th><th class="n">Amount</th><th>Note</th></tr></thead><tbody>
+   ${d.payments.map(p => `<tr class="click" data-go="#/client/${p.client_id}"><td>${full(p.created_at)}</td><td>${esc(names[p.client_id]?.company||"")} ${names[p.client_id]?.is_test?'<span class="pill test">Test</span>':""}</td><td>${esc(p.kind)}</td><td class="n">${p.delta>0?"+":""}${p.delta}</td><td class="n">${money(p.amount_cents)}</td><td class="muted">${esc(p.note||"")}</td></tr>`).join("")}</tbody></table></div>`:`<div class="empty">No payments yet.</div>`}</div>`);
+  wire(m);
+}
+
+// ---------- Router
+async function route() {
+  if (!pw) return login();
+  const [, view, id] = (location.hash || "#/overview").split("/");
+  try {
+    if (!cache.list) await getList();
+    if (view==="client" && id) return await clientView(id);
+    if (view==="new") return newClient();
+    if (view==="alerts") return await alertsView();
+    if (view==="clients") return await clientsView();
+    if (view==="leads") { lState.data = null; return await leadsView(); }
+    if (view==="billing") return await billingView();
+    return await overview();
+  } catch(x) { if (x.message!=="__login") shell("overview", `<p class="err">${esc(x.message)}</p>`); }
+}
+window.addEventListener("hashchange", route);
+route();
 })();
 </script>
 </body>
