@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Free Inspection · Cosa Home Services</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap">
+<script>
+/* One page for every pay-per-lead client: home.cosaventures.com/<slug>.
+   The client's settings (name, city, trade, photos) come from Supabase (ppl_clients) via the ppl-lead function.
+   Leads post to the same function. A new client = a new row in ppl_clients, no new page. */
+window.PPL_API = "https://gwekfiwckclqszxidqqz.supabase.co/functions/v1/ppl-lead";
+</script>
+<style>
+/* Homeowner lead page, phone-first. Dark navy hero with the form right under the headline (no button, Calvin 19 Nov), "who this is for" checklist (Fetchapro), before/after from the client's real jobs, what-you-get list, 3 steps, honest footer, sticky mobile button. Light body. */
+:root{--bg:#F4F6F9;--card:#FFFFFF;--ink:#14202E;--muted:#55606E;--line:#DCE2EA;--navy:#13345A;--navy-d:#0B1F35;--navy-2:#1D4E7A;--amber:#F5B83D;--soft:#EEF3F9;--ok:#1E7A45;
+--display:"Archivo",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;color-scheme:light}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--body)}
+.in{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.topbar{background:var(--navy-d);color:#C9D6E6;font-size:13px;text-align:center;padding:8px 12px}
+.topbar b{color:var(--amber)}
+.hero{background:linear-gradient(160deg,var(--navy-d) 0%,var(--navy) 60%,var(--navy-2) 100%);color:#fff;padding:18px 0 28px}
+.brandrow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:9px;font:800 17px/1.1 var(--display)}
+.brand svg{width:28px;height:28px}
+.brand small{display:block;font:500 11.5px var(--body);color:#AFC2D8}
+.pill{font:700 11px var(--body);letter-spacing:.06em;text-transform:uppercase;border:1px solid rgba(245,184,61,.6);color:var(--amber);border-radius:99px;padding:5px 10px;white-space:nowrap}
+.trust{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:20px;font-size:13px;color:#D6E2F0}
+.trust span::before{content:"★ ";color:var(--amber)}
+h1{font:900 clamp(32px,8.4vw,46px)/1.03 var(--display);letter-spacing:-.025em;margin:12px 0 10px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--amber)}
+.sub{margin:0 0 16px;color:#D6E2F0;font-size:17px}
+.qual{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:14px 16px}
+.qual p{margin:0 0 8px;font:700 13px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--amber)}
+.qual ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.qual li{display:flex;gap:10px;align-items:center;font-weight:600}
+.qual li i{width:22px;height:22px;border-radius:6px;background:var(--amber);color:var(--navy-d);display:grid;place-items:center;font:900 13px var(--body);font-style:normal;flex:none}
+.cta{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:16px;padding:16px;border:0;border-radius:12px;background:var(--amber);color:var(--navy-d);font:900 18px var(--display);text-decoration:none;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.cta:hover{filter:brightness(1.05)}
+.formcard{color:var(--ink);margin-top:4px}
+.qual.light{background:none;border:0;padding:0}
+.qual.light li{color:var(--ink)}
+.fine{font-size:12.5px;color:#AFC2D8;text-align:center;margin:10px 0 0}
+main{display:flex;flex-direction:column;gap:18px;padding-top:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 8px 24px rgba(19,52,90,.07)}
+.formhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+.formhead h2{font:800 20px/1.2 var(--display);margin:0;color:var(--navy)}
+.time{font:700 12px var(--body);color:var(--ok);background:#E7F4EC;border-radius:99px;padding:4px 10px;white-space:nowrap}
+.goes{background:var(--soft);border:1px solid #CFDCEB;border-radius:10px;padding:10px 12px;font-size:14.5px;margin-bottom:10px}
+.goes b{color:var(--navy)}
+.embed iframe{width:100%;border:0;display:block;height:420px}
+.ph{border:2px dashed #C3CEDD;border-radius:12px;padding:22px 16px;text-align:center;color:var(--muted);min-height:360px;display:flex;flex-direction:column;justify-content:center;gap:6px}
+.ph b{color:var(--navy);font:800 17px var(--display)}
+.ph ol{text-align:left;margin:6px auto 0;max-width:360px;font-size:14px}
+h3{font:800 21px/1.2 var(--display);margin:0 0 10px;color:var(--navy)}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ba figure{margin:0;position:relative;border-radius:10px;overflow:hidden;aspect-ratio:4/3;background:#DDE4EC}
+.ba img{width:100%;height:100%;object-fit:cover;display:block}
+.ba .lbl{position:absolute;top:0;left:0;right:0;font:800 13px var(--display);letter-spacing:.06em;text-align:center;padding:5px;color:#fff}
+.ba .b .lbl{background:#2F5F8F}.ba .a .lbl{background:var(--ok)}
+.ba .empty{display:grid;place-items:center;height:100%;padding-top:30px !important;font-size:13px;color:var(--muted);padding:10px;text-align:center}
+.cap{font-size:13px;color:var(--muted);margin:8px 0 0}
+.get{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.get li{display:grid;grid-template-columns:24px 1fr;gap:10px}
+.get li i{width:24px;height:24px;border-radius:50%;background:#E7F4EC;color:var(--ok);display:grid;place-items:center;font:900 13px var(--body);font-style:normal}
+.steps{display:grid;gap:10px}
+.steps div{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start}
+.steps b{width:30px;height:30px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font:800 14px var(--display)}
+.steps p{margin:3px 0 0}
+.foot{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding:14px 0 6px}
+.foot a{color:var(--muted)}
+.sticky{position:fixed;left:0;right:0;bottom:0;background:rgba(244,246,249,.96);border-top:1px solid var(--line);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;justify-content:center;transition:transform .2s}
+.sticky .cta{max-width:608px;margin:0;padding:14px;font-size:17px}
+.sticky.hide{transform:translateY(110%)}
+@media(min-width:900px){body{padding-bottom:0}.sticky{display:none}}
+.bar{height:6px;background:#E3E8EF;border-radius:99px;overflow:hidden;margin:4px 0 14px}
+.bar i{display:block;height:100%;background:var(--amber);border-radius:99px;transition:width .25s}
+.qz h4{font:800 20px/1.2 var(--display);margin:0 0 12px;color:var(--ink)}
+.qz .stp{font:700 12px var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--navy-2);margin:0 0 6px}
+.opts{display:grid;gap:10px}
+.opt{display:block;width:100%;text-align:left;border:1px solid #C9D2DE;border-radius:10px;padding:14px 16px;background:#fff;font:600 16px var(--body);color:var(--ink);cursor:pointer}
+.opt:hover{border-color:var(--navy-2);background:var(--soft)}
+.qz label{display:block;font-weight:600;font-size:14px;margin:12px 0 6px;color:var(--ink)}
+.qz input[type=text],.qz input[type=tel],.qz input[type=email]{width:100%;font:16px var(--body);padding:12px 14px;border:1px solid #C9D2DE;border-radius:10px;background:#fff;color:var(--ink)}
+.qz input:focus,.qz button:focus-visible{outline:3px solid rgba(29,78,122,.3);outline-offset:1px;border-color:var(--navy-2)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn{display:block;width:100%;margin-top:16px;padding:15px;border:0;border-radius:10px;background:var(--amber);color:var(--navy-d);font:900 17px var(--display);cursor:pointer}
+.btn:hover{filter:brightness(1.05)}
+.btn[disabled]{opacity:.6;cursor:wait}
+.back{background:none;border:0;color:var(--muted);font:600 14px var(--body);padding:0;margin-top:12px;cursor:pointer}
+.qz .consent{display:flex;gap:10px;align-items:flex-start;margin-top:16px;font-size:12.5px;color:var(--muted);line-height:1.45;font-weight:400}
+.consent input{margin-top:3px;width:18px;height:18px;flex:none;accent-color:var(--navy)}
+.err{color:#B42318;font-size:14px;margin:10px 0 0}
+.note{font-size:15px;color:var(--muted);margin:0}
+.done{text-align:center;padding:10px 0}
+.done .ok{width:56px;height:56px;border-radius:50%;background:var(--soft);display:grid;place-items:center;margin:0 auto 10px}
+.done .ok svg{width:26px;height:26px}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.gone{max-width:520px;margin:60px auto;text-align:center;padding:0 16px}
+@media(max-width:420px){.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="topbar"><b>Free</b> · No cost, no obligation · Takes about 60 seconds</div>
+
+<header class="hero"><div class="in">
+  <div class="brandrow">
+    <div class="brand"><svg viewBox="0 0 120 120" fill="none" stroke="#F5B83D" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M12 60 60 18l48 42"/><path d="M26 50v52h68V50"/><path d="M50 102V74h20v28"/></svg><div>Cosa Home Services<small>Connecting homeowners with local pros</small></div></div>
+    <span class="pill" id="pill"></span>
+  </div>
+  <div class="trust" id="trust"></div>
+  <h1 id="headline"></h1>
+  <p class="sub" id="subline"></p>
+  <section class="card formcard" id="form" aria-label="Request form">
+    <div class="formhead"><h2 id="formh"></h2><span class="time">⏱ 60 seconds</span></div>
+    <div class="goes">Your request goes to <b data-company></b>, a licensed local <span data-pro></span>, and no one else.</div>
+    <div class="qz" id="qz">
+      <div class="bar" aria-hidden="true"><i id="prog" style="width:20%"></i></div>
+      <div id="s1"><p class="stp">Question 1 of 5</p><h4>What do you need help with?</h4><div class="opts" data-key="need"></div></div>
+      <div id="s2" hidden><p class="stp">Question 2 of 5</p><h4>How soon do you need it?</h4>
+        <div class="opts" data-key="timeframe"><button class="opt" type="button">As soon as possible</button><button class="opt" type="button">Within a month</button><button class="opt" type="button">Just researching for now</button></div>
+        <button class="back" type="button" data-back="s1">&larr; Back</button></div>
+      <div id="s3" hidden><p class="stp">Question 3 of 5</p><h4>Do you own the home?</h4>
+        <div class="opts" data-key="owner"><button class="opt" type="button">Yes, I own it</button><button class="opt" type="button">No, I rent</button></div>
+        <button class="back" type="button" data-back="s2">&larr; Back</button></div>
+      <div id="s4" hidden><p class="stp">Question 4 of 5</p><h4>What's the address of the home?</h4>
+        <label for="ad">Street address</label><input id="ad" type="text" autocomplete="street-address">
+        <div class="row"><div><label for="city">City</label><input id="city" type="text" autocomplete="address-level2"></div>
+          <div><label for="zip">ZIP code</label><input id="zip" type="text" inputmode="numeric" maxlength="5" autocomplete="postal-code"></div></div>
+        <p class="err" id="aerr" hidden></p>
+        <button class="btn" id="b4" type="button">Next</button>
+        <button class="back" type="button" data-back="s3">&larr; Back</button></div>
+      <div id="s5" hidden><p class="stp">Last step</p><h4>Where should they reach you?</h4>
+        <div class="row"><div><label for="fn">First name</label><input id="fn" type="text" autocomplete="given-name"></div>
+          <div><label for="ln">Last name</label><input id="ln" type="text" autocomplete="family-name"></div></div>
+        <label for="ph">Mobile phone</label><input id="ph" type="tel" autocomplete="tel" placeholder="(555) 555-0123">
+        <label for="em">Email (optional)</label><input id="em" type="email" autocomplete="email">
+        <div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" type="text" tabindex="-1" autocomplete="off"></div>
+        <label class="consent" for="ok"><input type="checkbox" id="ok"><span id="consentText">By submitting, I agree that <b data-company></b> and <b>Cosa Home Services</b> may call and text me, including automated texts, about my request at the number provided. Consent is not required to purchase. Msg &amp; data rates may apply. Reply STOP to opt out.</span></label>
+        <p class="err" id="ferr" hidden></p>
+        <button class="btn" id="b5" type="button"></button>
+        <button class="back" type="button" data-back="s4">&larr; Back</button></div>
+      <div id="s6" class="done" hidden>
+        <div class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="#13345A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg></div>
+        <h4 id="doneh">You're all set.</h4><p class="note" id="donep"></p></div>
+    </div>
+  </section>
+</div></header>
+
+<main class="in">
+  <section class="card whofor" aria-label="Who this is for">
+  <div class="qual light"><p>Who this is for</p><ul>
+    <li><i>✓</i>You own your home</li>
+    <li><i>✓</i>You live in the <span data-city></span> area</li>
+    <li><i>✓</i><span id="q3"></span></li>
+  </ul></div>
+  </section>
+
+  <section class="card" id="basec" aria-label="Before and after" hidden>
+    <h3 id="bah"></h3>
+    <div class="ba"><figure class="b"><span class="lbl">BEFORE</span><div id="bimg"></div></figure><figure class="a"><span class="lbl">AFTER</span><div id="aimg"></div></figure></div>
+    <p class="cap" id="cap"></p>
+  </section>
+
+  <section class="card" aria-label="What you get">
+    <h3 id="geth"></h3>
+    <ul class="get" id="getlist"></ul>
+  </section>
+
+  <section aria-label="How it works"><div class="steps">
+    <div><b>1</b><p><strong>Answer a few quick questions.</strong> About a minute.</p></div>
+    <div><b>2</b><p><strong><span data-company></span> reaches out</strong> to set a time that works for you.</p></div>
+    <div><b>3</b><p><strong>They take a look</strong> and tell you what they find. No cost, no pressure.</p></div>
+  </div></section>
+
+  <p class="foot">Cosa Home Services, a service of Cosa Ventures LLC, connects homeowners with licensed local home service companies. We are not a contractor and don't perform the work. Your request goes only to the company named above. <a href="/privacy">Privacy policy</a> · <a href="/terms">Terms</a></p>
+</main>
+
+
+<script>
+(async function(){
+const API = window.PPL_API;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+const qs = new URLSearchParams(location.search);
+const slug = (qs.get("client") || location.pathname.split("/").filter(Boolean)[0] || "").toLowerCase();
+
+let C, pixelId = "";
+try {
+  const r = await fetch(API + "?client=" + encodeURIComponent(slug));
+  if (!r.ok) throw 0;
+  const j = await r.json(); C = j.client; pixelId = j.pixel_id || "";
+} catch (_e) {
+  document.body.innerHTML = '<div class="gone"><h1 style="color:var(--navy);font-size:30px">Page not found</h1><p>This page isn\'t available. If you were looking for a free inspection, please check the link you were sent.</p></div>';
+  return;
+}
+
+const T = {
+  roofing:{pro:"roofer",offer:"roof inspection",pill:"Free roof inspection",
+    head:c=>`Free roof inspection for <em>${c}</em> homeowners.`,
+    sub:"A licensed local roofer will check your roof and tell you exactly what they find. No cost, no obligation.",
+    q3:"You'd like your roof checked (leaks, storm damage, age)",form:"Get your free roof inspection",button:"Get my free inspection",
+    needs:["Roof replacement","Leak or repair","Storm or hail damage","Not sure, I just want it checked"],
+    geth:"What you get at your free inspection", bah:"What a new roof looks like", cap:"Illustration of a typical roof replacement.",
+    get:["A full check of your roof, top to bottom","Signs of leaks, storm damage and wear you can't see from the ground","A straight answer: fine as is, repair, or replace","No cost and no pressure to buy anything"]},
+  hvac:{pro:"HVAC company",offer:"HVAC check",pill:"Free HVAC check",
+    head:c=>`Free HVAC check for <em>${c}</em> homeowners.`,
+    sub:"A licensed local HVAC company will check your system and tell you exactly what they find. No cost, no obligation.",
+    q3:"You'd like your heating or AC checked",form:"Get your free HVAC check",button:"Get my free HVAC check",
+    needs:["AC not cooling","Heat not working","Replace my system","Tune-up","Not sure, I just want it checked"],
+    geth:"What you get at your free check", bah:"What a new system looks like", cap:"Illustration of a typical system replacement.",
+    get:["A full check of your heating and cooling system","Problems caught before they become breakdowns","A straight answer: fine as is, repair, or replace","No cost and no pressure to buy anything"]}
+}[C.trade] || null;
+
+document.title = `${T.pill} · ${C.city} · Cosa Home Services`;
+document.querySelectorAll("[data-company]").forEach(e => e.textContent = C.company);
+document.querySelectorAll("[data-pro]").forEach(e => e.textContent = T.pro);
+document.querySelectorAll("[data-city]").forEach(e => e.textContent = C.city);
+$("pill").textContent = T.pill; $("headline").innerHTML = T.head(esc(C.city)); $("subline").textContent = T.sub;
+$("q3").textContent = T.q3; $("formh").textContent = T.form; $("b5").textContent = T.button;
+$("geth").textContent = T.geth; $("getlist").innerHTML = T.get.map(g => `<li><i>✓</i><span>${esc(g)}</span></li>`).join("");
+document.querySelector('[data-key="need"]').innerHTML = T.needs.map(n => `<button class="opt" type="button">${esc(n)}</button>`).join("");
+const trust = []; if (C.rating) trust.push(C.rating); if (C.license) trust.push(C.license);
+$("trust").innerHTML = trust.map(t => `<span>${esc(t)}</span>`).join(""); if (!trust.length) $("trust").hidden = true;
+if (C.before_img && C.after_img) {
+  $("bimg").innerHTML = `<img src="${esc(C.before_img)}" alt="Before">`;
+  $("aimg").innerHTML = `<img src="${esc(C.after_img)}" alt="After">`;
+  $("bah").textContent = C.photos_are_clients ? `Recent work from ${C.company}` : T.bah;
+  $("cap").textContent = C.photos_are_clients ? "" : T.cap;
+  $("basec").hidden = false;
+}
+
+// Ad tracking: UTMs + ids from the ad link, Facebook click id and cookies
+const track = {};
+["utm_source","utm_medium","utm_campaign","utm_content","utm_term","campaign_id","adset_id","ad_id","fbclid"].forEach(k => { if (qs.get(k)) track[k] = qs.get(k); });
+const cookie = n => (document.cookie.match(new RegExp("(?:^|; )" + n + "=([^;]*)")) || [])[1] || "";
+const eventId = "l_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+if (pixelId) {
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', pixelId); fbq('track', 'PageView');
+}
+
+// The 5-step form
+const ans = {};
+const steps = ["s1","s2","s3","s4","s5","s6"], pct = {s1:20,s2:40,s3:60,s4:80,s5:95,s6:100};
+function show(id){ steps.forEach(x => $(x).hidden = x !== id); $("prog").style.width = pct[id] + "%"; $("form").scrollIntoView({behavior:"smooth", block:"start"}); }
+function done(h, p){ $("doneh").textContent = h || "You're all set."; $("donep").textContent = p || `${C.company} has your request and will reach out shortly to set up your free ${T.offer}.`; show("s6"); }
+document.querySelectorAll(".opts").forEach(g => g.addEventListener("click", e => {
+  const b = e.target.closest(".opt"); if (!b) return;
+  ans[g.dataset.key] = b.textContent;
+  if (g.dataset.key === "need") show("s2");
+  else if (g.dataset.key === "timeframe") show("s3");
+  else if (g.dataset.key === "owner") {
+    if (b.textContent.startsWith("No")) done("Thanks for reaching out.", `Free ${T.offer}s are for homeowners. If you rent, please ask your landlord to reach out.`);
+    else show("s4");
+  }
+}));
+document.querySelectorAll("[data-back]").forEach(b => b.onclick = () => show(b.dataset.back));
+$("b4").onclick = () => {
+  const m = [];
+  if (!$("ad").value.trim()) m.push("street address");
+  if (!$("city").value.trim()) m.push("city");
+  if (!/^\d{5}$/.test($("zip").value.trim())) m.push("5-digit ZIP");
+  if (m.length) { $("aerr").textContent = "Please add: " + m.join(", ") + "."; $("aerr").hidden = false; return; }
+  $("aerr").hidden = true; show("s5");
+};
+$("b5").onclick = async () => {
+  const m = [], digits = $("ph").value.replace(/\D/g, "").replace(/^1(?=\d{10}$)/, "");
+  if (!$("fn").value.trim()) m.push("first name");
+  if (!/^\d{10}$/.test(digits)) m.push("a 10-digit mobile number");
+  if ($("em").value.trim() && !/^\S+@\S+\.\S+$/.test($("em").value.trim())) m.push("a valid email");
+  if (!$("ok").checked) m.push("the consent box");
+  if (m.length) { $("ferr").textContent = "Please add: " + m.join(", ") + "."; $("ferr").hidden = false; return; }
+  $("ferr").hidden = true;
+  const lead = {
+    client: slug, need: ans.need, timeframe: ans.timeframe, owner: ans.owner,
+    address: $("ad").value.trim(), city: $("city").value.trim(), zip: $("zip").value.trim(),
+    first_name: $("fn").value.trim(), last_name: $("ln").value.trim(), phone: "+1" + digits, email: $("em").value.trim(),
+    website: $("website").value,
+    consent: true, consent_text: $("consentText").textContent.replace(/\s+/g, " ").trim(), consent_at: new Date().toISOString(),
+    page_url: location.origin + location.pathname, referrer: document.referrer,
+    event_id: eventId, fbc: cookie("_fbc"), fbp: cookie("_fbp"), ...track
+  };
+  $("b5").disabled = true; $("b5").textContent = "Sending...";
+  try {
+    const r = await fetch(API, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(lead)});
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.error || "");
+  } catch (x) {
+    $("b5").disabled = false; $("b5").textContent = T.button;
+    $("ferr").textContent = x.message || "Something went wrong sending your request. Please try again."; $("ferr").hidden = false; return;
+  }
+  if (pixelId && window.fbq) fbq("track", "Lead", {content_name: C.trade}, {eventID: eventId});
+  done();
+};
+})();
+</script>
+
+</body>
+</html>

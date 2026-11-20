@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>PPL Dashboard · Cosa</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+/* Pay-per-lead agency dashboard. Data: Supabase project "Cosa Marketing PPL" via the ppl-admin function (password). */
+:root{--bg:#F4F6F9;--card:#fff;--ink:#14202E;--muted:#5B6675;--line:#DCE2EA;--navy:#13345A;--navy-2:#1D4E7A;--amber:#F5B83D;--soft:#EEF3F9;--ok:#1E7A45;--okbg:#E7F4EC;--bad:#B42318;--badbg:#FDECEA;--warnbg:#FFF4DB}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,system-ui,sans-serif}
+header{background:var(--navy);color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+header b{font-size:16px}header span{color:#AFC2D8;font-size:12.5px}
+header button{background:none;border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:8px;padding:6px 10px;cursor:pointer;font:600 13px Inter}
+.wrap{max-width:1200px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+h2{font-size:17px;margin:0 0 12px;color:var(--navy)}h3{font-size:14px;margin:0 0 8px;color:var(--navy)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.tile small{display:block;color:var(--muted);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.tile b{font-size:26px;font-variant-numeric:tabular-nums}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{text-align:left;color:var(--muted);font-weight:600;font-size:12px;border-bottom:1px solid var(--line);padding:8px 8px;white-space:nowrap}
+.tbl td{border-bottom:1px solid #EEF1F5;padding:8px;vertical-align:top}
+.tbl td.n{text-align:right;font-variant-numeric:tabular-nums}
+.tbl tr.click{cursor:pointer}.tbl tr.click:hover td{background:var(--soft)}
+.scroll{overflow-x:auto}
+.tag{display:inline-block;border-radius:99px;padding:2px 8px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.t-new{background:var(--soft);color:var(--navy-2)}.t-qualified{background:var(--okbg);color:var(--ok)}.t-returned,.t-rejected{background:var(--badbg);color:var(--bad)}.t-duplicate{background:#EEE;color:#666}
+.t-active{background:var(--okbg);color:var(--ok)}.t-setup{background:var(--warnbg);color:#8A5A00}.t-paused,.t-ended{background:#EEE;color:#555}.t-test{background:#EDE7FB;color:#5B3FA8}
+.zero{color:var(--bad);font-weight:800}
+.muted{color:var(--muted)}.small{font-size:12px}
+button.b{background:var(--navy);color:#fff;border:0;border-radius:8px;padding:8px 12px;font:700 13px Inter;cursor:pointer}
+button.b2{background:#fff;color:var(--navy);border:1px solid var(--line);border-radius:8px;padding:5px 9px;font:600 12px Inter;cursor:pointer;white-space:nowrap}
+button:disabled{opacity:.5;cursor:wait}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px 14px}
+label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:3px}
+input,select,textarea{width:100%;font:14px Inter;padding:8px 10px;border:1px solid #C9D2DE;border-radius:8px;background:#fff;color:var(--ink)}
+.row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+.err{color:var(--bad);font-weight:600}
+.ok{color:var(--ok);font-weight:600}
+.back{background:none;border:0;color:var(--navy-2);font:600 14px Inter;cursor:pointer;padding:0;margin-bottom:12px}
+.login{max-width:360px;margin:80px auto}
+details summary{cursor:pointer;font-weight:700;color:var(--navy)}
+.lead-x{font-size:12px;color:var(--muted);margin-top:2px}
+</style>
+</head>
+<body>
+<header><div><b>Pay-Per-Lead Dashboard</b> <span>Cosa Home Services · times in ET</span></div><div id="hdr"></div></header>
+<div class="wrap" id="app"></div>
+<script>
+(function(){
+const API = "https://gwekfiwckclqszxidqqz.supabase.co/functions/v1/ppl-admin";
+const PAGE = "https://home.cosaventures.com/";
+const app = document.getElementById("app"), hdr = document.getElementById("hdr");
+const esc = s => String(s ?? "").replace(/[&<>"]/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+const et = d => d ? new Date(d).toLocaleString("en-US",{timeZone:"America/New_York",month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}) : "";
+const ago = d => { if (!d) return "never"; const m = (Date.now()-new Date(d))/6e4; return m<60?Math.round(m)+"m ago":m<1440?Math.round(m/60)+"h ago":Math.round(m/1440)+"d ago"; };
+const phone = p => { const d = String(p||"").replace(/\D/g,"").slice(-10); return d.length===10?`(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`:esc(p); };
+let pw = ""; try { pw = sessionStorage.getItem("ppl_pw") || ""; } catch(_e) {}
+let clientsById = {};
+
+async function call(action, extra={}) {
+  const r = await fetch(API, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({password: pw, action, ...extra})});
+  const j = await r.json().catch(() => ({error:"Server error"}));
+  if (r.status === 403 || r.status === 429) { pw = ""; try { sessionStorage.removeItem("ppl_pw"); } catch(_e) {} login(j.error); throw new Error(j.error); }
+  if (!r.ok) throw new Error(j.error || "Error");
+  return j;
+}
+
+function login(msg) {
+  hdr.innerHTML = "";
+  app.innerHTML = `<div class="card login"><h2>Sign in</h2><form id="lf"><label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" autofocus>
+  <p class="err" id="le">${esc(msg||"")}</p><button class="b" type="submit">Sign in</button></form></div>`;
+  document.getElementById("lf").onsubmit = e => { e.preventDefault(); pw = document.getElementById("pw").value; try { sessionStorage.setItem("ppl_pw", pw); } catch(_e) {} home(); };
+}
+
+const leadAd = l => { const u = l.utm||{}; return u.utm_campaign||u.utm_content ? `${esc(u.utm_campaign||"-")}<div class="lead-x">${esc(u.utm_term||"")}${u.utm_term&&u.utm_content?" · ":""}${esc(u.utm_content||"")}</div>` : `<span class="muted">${l.fbclid?"ad click, no UTMs":"no ad data"}</span>`; };
+const st = s => `<span class="tag t-${esc(s)}">${esc(s)}</span>`;
+
+async function home() {
+  hdr.innerHTML = `<button id="add">+ Add client</button> <button id="out">Sign out</button>`;
+  document.getElementById("out").onclick = () => { try { sessionStorage.removeItem("ppl_pw"); } catch(_e) {} pw=""; login(); };
+  document.getElementById("add").onclick = () => editClient(null);
+  app.innerHTML = `<p class="muted">Loading…</p>`;
+  let d; try { d = await call("list"); } catch(e) { if (pw) app.innerHTML = `<p class="err">${esc(e.message)}</p>`; return; }
+  clientsById = Object.fromEntries(d.clients.map(c => [c.id, c]));
+  const live = d.clients.filter(c => !c.is_test);
+  const sum = (a,k) => a.reduce((s,c) => s + (c[k]||0), 0);
+  app.innerHTML = `
+  <div class="tiles">
+    <div class="tile"><small>Active clients</small><b>${live.filter(c=>c.status==="active").length}</b></div>
+    <div class="tile"><small>Leads, last 7 days</small><b>${sum(live,"leads_7d")}</b></div>
+    <div class="tile"><small>Leads, all time</small><b>${sum(live,"leads_total")}</b></div>
+    <div class="tile"><small>Credits owed to clients</small><b>${sum(live,"credits_left")}</b></div>
+    <div class="tile"><small>Out of credits</small><b class="${live.some(c=>c.status==="active"&&c.credits_left<=0)?"zero":""}">${live.filter(c=>c.status==="active"&&c.credits_left<=0).length}</b></div>
+  </div>
+  <div class="card"><h2>Clients</h2><div class="scroll"><table class="tbl"><thead><tr><th>Client</th><th>Status</th><th>Area</th><th class="n">Credits left</th><th class="n">Bought</th><th class="n">Leads</th><th class="n">7 days</th><th class="n">Qualified</th><th class="n">Returned</th><th>Last lead</th></tr></thead><tbody>
+  ${d.clients.map(c => `<tr class="click" data-id="${c.id}"><td><b>${esc(c.company)}</b><div class="lead-x">${esc(c.trade)} · /${esc(c.slug)}</div></td><td>${st(c.status)} ${c.is_test?st("test"):""}</td><td>${esc(c.city||"")}${c.state?", "+esc(c.state):""}</td>
+    <td class="n ${c.credits_left<=0?"zero":""}">${c.credits_left}</td><td class="n">${c.credits_bought}</td><td class="n">${c.leads_total}</td><td class="n">${c.leads_7d}</td><td class="n">${c.leads_qualified}</td><td class="n">${c.leads_returned}</td><td>${ago(c.last_lead_at)}</td></tr>`).join("") || `<tr><td colspan="10" class="muted">No clients yet.</td></tr>`}
+  </tbody></table></div></div>
+  <div class="card"><h2>Latest leads, all clients</h2><div class="scroll"><table class="tbl"><thead><tr><th>Received</th><th>Client</th><th>Homeowner</th><th>Need</th><th>Campaign / ad</th><th>Status</th></tr></thead><tbody>
+  ${d.leads.map(l => `<tr class="click" data-id="${l.client_id}"><td>${et(l.created_at)}</td><td>${esc(clientsById[l.client_id]?.company||"")}</td><td>${esc(l.first_name)} ${esc(l.last_name||"")}<div class="lead-x">${phone(l.phone)} · ${esc(l.zip||"")}</div></td><td>${esc(l.answers?.need||"")}<div class="lead-x">${esc(l.answers?.timeframe||"")}</div></td><td>${leadAd(l)}</td><td>${st(l.status)}${l.is_test?" "+st("test"):""}</td></tr>`).join("") || `<tr><td colspan="6" class="muted">No leads yet.</td></tr>`}
+  </tbody></table></div></div>`;
+  app.querySelectorAll("tr.click").forEach(tr => tr.onclick = () => client(tr.dataset.id));
+}
+
+async function client(id) {
+  app.innerHTML = `<p class="muted">Loading…</p>`;
+  let d; try { d = await call("client", {client_id: id}); } catch(e) { if (pw) app.innerHTML = `<p class="err">${esc(e.message)}</p>`; return; }
+  const c = d.client, s = d.summary;
+  app.innerHTML = `
+  <button class="back" id="bk">&larr; All clients</button>
+  <div class="card"><div class="row" style="justify-content:space-between"><div><h2 style="margin:0">${esc(c.company)} ${st(c.status)} ${c.is_test?st("test"):""}</h2>
+    <div class="muted small">${esc(c.trade)} · ${esc(c.service_area||c.city||"")} · page: <a href="${PAGE}${esc(c.slug)}" target="_blank" rel="noopener">${PAGE.replace("https://","")}${esc(c.slug)}</a></div></div>
+    <button class="b2" id="ed">Edit settings</button></div></div>
+  <div class="tiles">
+    <div class="tile"><small>Credits left</small><b class="${s.credits_left<=0?"zero":""}">${s.credits_left}</b></div>
+    <div class="tile"><small>Credits bought</small><b>${s.credits_bought}</b></div>
+    <div class="tile"><small>Leads delivered</small><b>${s.leads_total}</b></div>
+    <div class="tile"><small>Last 7 days</small><b>${s.leads_7d}</b></div>
+    <div class="tile"><small>Qualified</small><b>${s.leads_qualified}</b></div>
+    <div class="tile"><small>Returned</small><b>${s.leads_returned}</b></div>
+  </div>
+  ${c.status==="active"&&s.credits_left<=0?`<div class="card" style="background:var(--badbg);border-color:#F3C2BC"><b class="err">Out of credits.</b> Pause this client's ads until they buy another pack (leads that still come in are free).</div>`:""}
+  <div class="card"><h2>Leads (${d.leads.length})</h2><div class="scroll"><table class="tbl"><thead><tr><th>Received</th><th>Homeowner</th><th>Address</th><th>Need</th><th>Campaign / ad</th><th>Status</th><th>Sent to</th><th></th></tr></thead><tbody>
+  ${d.leads.map(l => `<tr><td>${et(l.created_at)}</td><td><b>${esc(l.first_name)} ${esc(l.last_name||"")}</b><div class="lead-x">${phone(l.phone)}${l.email?" · "+esc(l.email):""}</div></td>
+    <td>${esc(l.address||"")}<div class="lead-x">${esc(l.answers?.city||"")} ${esc(l.zip||"")}</div></td>
+    <td>${esc(l.answers?.need||"")}<div class="lead-x">${esc(l.answers?.timeframe||"")}</div></td><td>${leadAd(l)}</td>
+    <td>${st(l.status)}${l.return_reason?`<div class="lead-x">${esc(l.return_reason)}</div>`:""}</td>
+    <td class="small muted">GHL: ${esc(l.ghl_status||"-")}<br>Client CRM: ${esc(l.crm_status||"-")}<br>Meta lead: ${esc(l.capi_lead_status||"-")}${l.capi_qualified_status?`<br>Meta qualified: ${esc(l.capi_qualified_status)}`:""}</td>
+    <td>${l.status==="new"?`<button class="b2" data-q="${l.id}">Qualified</button> <button class="b2" data-r="${l.id}">Return</button>`:""}</td></tr>
+    <tr><td></td><td colspan="7" class="small muted" style="border-bottom:1px solid var(--line)">Consent ${et(l.consent_at)}: “${esc(l.consent_text||"")}”</td></tr>`).join("") || `<tr><td colspan="8" class="muted">No leads yet.</td></tr>`}
+  </tbody></table></div><p class="small muted" style="margin:8px 0 0">“Qualified” sends the qualified event to the Meta pixel. “Return” approves a return under the agreement and gives the client 1 credit back.</p></div>
+  <div class="card"><h2>Credits</h2>
+    <form class="row" id="cf" style="margin-bottom:14px">
+      <div style="width:110px"><label for="cd">Credits</label><input id="cd" type="number" value="3" step="1"></div>
+      <div style="width:150px"><label for="ck">Type</label><select id="ck"><option value="purchase">Purchase</option><option value="adjust">Adjustment</option><option value="refund">Refund (use minus)</option></select></div>
+      <div style="width:130px"><label for="ca">Amount paid ($)</label><input id="ca" type="number" value="450" step="1"></div>
+      <div style="flex:1;min-width:180px"><label for="cn">Note</label><input id="cn" placeholder="e.g. Stripe 3-pack, 20 Nov"></div>
+      <button class="b" type="submit">Add</button><span id="cm"></span></form>
+    <div class="scroll"><table class="tbl"><thead><tr><th>When</th><th>Type</th><th class="n">Credits</th><th class="n">Paid</th><th>Note</th></tr></thead><tbody>
+    ${d.credits.map(k => `<tr><td>${et(k.created_at)}</td><td>${esc(k.kind)}</td><td class="n">${k.delta>0?"+":""}${k.delta}</td><td class="n">${k.amount_cents!=null?"$"+(k.amount_cents/100).toLocaleString():""}</td><td>${esc(k.note||"")}</td></tr>`).join("")}
+    </tbody></table></div></div>`;
+  document.getElementById("bk").onclick = home;
+  document.getElementById("ed").onclick = () => editClient(c);
+  document.getElementById("cf").onsubmit = async e => {
+    e.preventDefault(); const m = document.getElementById("cm");
+    try { await call("add_credits", {client_id: id, delta: document.getElementById("cd").value, kind: document.getElementById("ck").value,
+      amount_cents: Math.round(Number(document.getElementById("ca").value||0)*100), note: document.getElementById("cn").value}); client(id); }
+    catch(x) { m.className = "err"; m.textContent = x.message; }
+  };
+  app.querySelectorAll("[data-q]").forEach(b => b.onclick = async () => { if (!confirm("Mark this lead qualified and send the qualified event to Meta?")) return; b.disabled = true; try { await call("lead_status", {lead_id: b.dataset.q, status: "qualified"}); client(id); } catch(x) { alert(x.message); b.disabled = false; } });
+  app.querySelectorAll("[data-r]").forEach(b => b.onclick = async () => { const reason = prompt("Return reason (wrong number, renter, outside area, duplicate, never requested, service not offered):"); if (!reason) return; b.disabled = true; try { await call("lead_status", {lead_id: b.dataset.r, status: "returned", reason}); client(id); } catch(x) { alert(x.message); b.disabled = false; } });
+}
+
+function editClient(c) {
+  const v = k => esc(c?.[k] ?? "");
+  const f = (k, label, ph="") => `<div><label for="f_${k}">${label}</label><input id="f_${k}" value="${v(k)}" placeholder="${esc(ph)}"></div>`;
+  app.innerHTML = `<button class="back" id="bk">&larr; ${c?"Back to client":"All clients"}</button>
+  <div class="card"><h2>${c?"Edit "+esc(c.company):"Add a client"}</h2><form id="ef"><div class="grid">
+    ${f("company","Company name (shown on the page)","Summit Roofing")}
+    ${f("slug","Page name: home.cosaventures.com/…","summit-roofing")}
+    ${f("legal_name","Legal name","Summit Roofing LLC")}
+    <div><label for="f_trade">Trade</label><select id="f_trade"><option value="roofing">Roofing</option><option value="hvac">HVAC</option></select></div>
+    ${f("city","City (headline)","Rochester")}${f("state","State","NY")}
+    ${f("service_area","Service area","Rochester + 25 miles")}
+    ${f("license","License # (only if real)")}${f("rating","Rating (only if real)","4.9 on Google (120 reviews)")}
+    ${f("before_img","Before photo URL")}${f("after_img","After photo URL")}
+    <div><label for="f_photos_are_clients">Photos are the client's own job?</label><select id="f_photos_are_clients"><option value="false">No (illustration)</option><option value="true">Yes, real job</option></select></div>
+    ${f("alert_phone","Lead alert phone")}${f("alert_email","Lead alert email")}
+    ${f("crm_webhook_url","Client CRM webhook URL")}${f("meta_campaign_id","Meta campaign ID")}
+    <div><label for="f_status">Status</label><select id="f_status"><option value="setup">Setup</option><option value="active">Active</option><option value="paused">Paused</option><option value="ended">Ended</option></select></div>
+    <div><label for="f_is_test">Test client?</label><select id="f_is_test"><option value="false">No</option><option value="true">Yes</option></select></div>
+  </div><div style="margin-top:10px"><label for="f_notes">Notes</label><textarea id="f_notes" rows="2">${v("notes")}</textarea></div>
+  <p class="err" id="ee"></p><button class="b" type="submit">Save</button></form></div>`;
+  for (const k of ["trade","status"]) document.getElementById("f_"+k).value = c?.[k] ?? (k==="trade"?"roofing":"setup");
+  for (const k of ["photos_are_clients","is_test"]) document.getElementById("f_"+k).value = String(!!c?.[k]);
+  document.getElementById("bk").onclick = () => c ? client(c.id) : home();
+  document.getElementById("ef").onsubmit = async e => {
+    e.preventDefault();
+    const row = c ? {id: c.id} : {};
+    for (const k of ["company","slug","legal_name","trade","city","state","service_area","license","rating","before_img","after_img","alert_phone","alert_email","crm_webhook_url","meta_campaign_id","status","notes"]) row[k] = document.getElementById("f_"+k).value;
+    for (const k of ["photos_are_clients","is_test"]) row[k] = document.getElementById("f_"+k).value === "true";
+    if (!row.company || !/^[a-z0-9-]{3,60}$/.test(row.slug.toLowerCase())) { document.getElementById("ee").textContent = "Company name and a page name (letters, numbers, dashes) are required."; return; }
+    try { const r = await call("save_client", {client: row}); client(r.id); } catch(x) { document.getElementById("ee").textContent = x.message; }
+  };
+}
+
+pw ? home() : login();
+})();
+</script>
+</body>
+</html>
