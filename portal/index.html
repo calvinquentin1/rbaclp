@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Your Leads · Cosa</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+/* Cosa client portal (portal.cosagrowth.com), pay-per-lead clients. Built 21 Nov 2026, styled after the Bluejack portal (admin.bluejack.ai/k).
+   Data: Supabase "Cosa Marketing PPL" via the ppl-portal function. Login: private link (#token) or email + password. */
+:root{--bg:#f4f6fa;--card:#fff;--fg:#0f172a;--muted:#64748b;--faint:#94a3b8;--line:#e6e9f0;--brand:#2563eb;--brand-soft:#e8f0ff;--good:#16a34a;--good-soft:#e7f7ec;--warn:#b45309;--warn-soft:#fdf3e1;--bad:#dc2626;--bad-soft:#fdecec;--navy:#0f1b3d;--navy2:#1e3a8a;--shadow:0 1px 2px rgba(15,23,42,.04),0 4px 16px rgba(15,23,42,.05)}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.5 Inter,system-ui,sans-serif}
+button{font:inherit;cursor:pointer}
+a{color:var(--brand);text-decoration:none}
+.app{display:grid;grid-template-columns:244px minmax(0,1fr);min-height:100vh}
+#side{background:var(--navy);color:#c7d2fe;padding:20px 14px;display:flex;flex-direction:column;gap:3px;position:sticky;top:0;height:100vh}
+#side .logo{display:flex;align-items:center;gap:10px;color:#fff;font-weight:800;font-size:16px;padding:2px 10px 18px}
+#side .logo i{width:30px;height:30px;border-radius:9px;background:#f5b83d;color:var(--navy);display:grid;place-items:center;font:900 15px Inter;font-style:normal}
+#side .co{font-size:12px;color:#8ea0d6;padding:0 10px 14px;margin-top:-10px}
+#side button.nv{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;color:#c7d2fe;padding:10px 12px;border-radius:10px;font-weight:600;text-align:left}
+#side button.nv:hover{background:#18264f}
+#side button.nv.on{background:var(--navy2);color:#fff}
+#side button.nv svg{width:17px;height:17px;flex:none;opacity:.8}
+#side .c{margin-left:auto;font-size:12px;font-weight:600;background:#1e2b57;color:#c7d2fe;padding:1px 8px;border-radius:99px}
+#side .c.hot{background:var(--bad);color:#fff}
+#side .foot{margin-top:auto;background:var(--navy2);border-radius:14px;padding:14px;font-size:13px;color:#dbe4ff}
+#side .foot b{display:block;color:#fff;font-size:14px;margin-bottom:3px}
+#side .foot button{margin-top:10px;background:none;border:1px solid #3b55a5;color:#dbe4ff;border-radius:8px;padding:5px 10px;font-weight:600;font-size:12.5px}
+.content{min-width:0}
+header{padding:24px 28px 4px}
+header .t{font-weight:700;font-size:22px;letter-spacing:-.01em}header .s{color:var(--muted);font-size:13px;margin-top:2px}
+main{max-width:1000px;padding:16px 28px 80px}
+.grp{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:22px 0 10px}
+.grp h2{font-size:16px;margin:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:12px;box-shadow:var(--shadow)}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow);min-width:0}
+.kpi small{display:block;color:var(--muted);font-weight:600;font-size:12px}
+.kpi b{display:block;font-size:26px;font-weight:800;margin-top:2px;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.kpi b span{font-size:14px;color:var(--faint);font-weight:600}
+.kpi .d{font-size:12px;color:var(--muted)}
+.bar{height:6px;border-radius:99px;background:#eef1f6;margin-top:8px;overflow:hidden}.bar i{display:block;height:100%;border-radius:99px;background:var(--brand)}
+.bar.good i{background:var(--good)}.bar.warn i{background:#f5b83d}.bar.bad i{background:var(--bad)}
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:99px;padding:2px 9px;font-weight:700;font-size:11.5px;white-space:nowrap}
+.pill.good{background:var(--good-soft);color:var(--good)}.pill.warn{background:var(--warn-soft);color:var(--warn)}.pill.bad{background:var(--bad-soft);color:var(--bad)}.pill.mut{background:#eef1f6;color:#475569}.pill.brand{background:var(--brand-soft);color:var(--brand)}
+.lead{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:center;cursor:pointer}
+.lead:hover{border-color:#cdd5e3}
+.lead .who{font-weight:700;font-size:15px}
+.lead .meta{color:var(--muted);font-size:13px}
+.lead .r{text-align:right}
+.lead .when{color:var(--faint);font-size:12.5px;margin-top:3px}
+.btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 14px;font-weight:600;color:var(--fg);white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{border-color:#cdd5e3}
+.btn.pri{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.dark{background:var(--navy);border-color:var(--navy);color:#fff}
+.btn:disabled{opacity:.5;cursor:wait}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.empty{text-align:center;color:var(--muted);padding:28px 10px}
+.hint{color:var(--muted);font-size:13px}
+.kv{display:grid;grid-template-columns:110px minmax(0,1fr);gap:7px 12px;font-size:14px}.kv>span:nth-child(odd){color:var(--muted)}
+.sec{border-top:1px solid var(--line);margin-top:14px;padding-top:14px}
+.lbl{font-size:11px;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.quote{background:#f6f8fc;border-radius:10px;padding:10px 12px;font-size:12.5px;color:#475569}
+.outs{display:flex;gap:6px;flex-wrap:wrap}
+.outs button{border:1px solid var(--line);background:#fff;border-radius:99px;padding:6px 12px;font-weight:600;font-size:13px;color:#334155}
+.outs button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+label{display:block;font-size:13px;font-weight:600;margin:12px 0 5px}
+input,select,textarea{width:100%;font:15px Inter;padding:10px 12px;border:1px solid #cfd6e2;border-radius:10px;background:#fff;color:var(--fg)}
+textarea{min-height:80px}
+.err{color:var(--bad);font-weight:600;margin:8px 0 0}
+.ok{color:var(--good);font-weight:600}
+.back{border:0;background:none;color:var(--brand);font-weight:600;padding:0;margin-bottom:12px}
+.packs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.pack{text-align:center;padding:18px 12px}
+.pack b{display:block;font-size:22px}.pack span{display:block;color:var(--muted);font-size:13px;margin:2px 0 10px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;color:var(--muted);font-weight:600;font-size:12px;padding:8px 6px;border-bottom:1px solid var(--line)}
+td{padding:10px 6px;border-bottom:1px solid #f0f2f6}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+.login{max-width:380px;margin:12vh auto;padding:26px}
+.login .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;margin-bottom:6px}
+.login .logo i{width:32px;height:32px;border-radius:9px;background:#f5b83d;color:var(--navy);display:grid;place-items:center;font:900 15px Inter;font-style:normal}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:22px;background:var(--fg);color:#fff;border-radius:12px;padding:10px 16px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.2);z-index:9}
+.steps{display:grid;gap:12px}.steps div{display:grid;grid-template-columns:28px 1fr;gap:10px}.steps b{width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:13px}
+@media(max-width:900px){.app{grid-template-columns:1fr}#side{position:sticky;height:auto;flex-direction:row;overflow-x:auto;padding:8px;gap:4px;z-index:6}#side .logo,#side .co,#side .foot{display:none}#side button.nv{width:auto;white-space:nowrap}header{padding:16px 16px 0}main{padding:12px 16px 80px}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.packs{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+(function(){
+const API = "https://gwekfiwckclqszxidqqz.supabase.co/functions/v1/ppl-portal";
+const PACKS = [["3 leads","$450","https://buy.stripe.com/6oU9AVakQ5CZeMe61i3F60E"],["5 leads","$750","https://buy.stripe.com/bJe4gBgJe3uR7jM0GY3F60F"],["10 leads","$1,500","https://buy.stripe.com/8x24gBgJefdz1Zs3Ta3F60G"]];
+const TZ = "America/New_York";
+const root = document.getElementById("root");
+const esc = s => String(s ?? "").replace(/[&<>"]/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+const dk = d => new Date(d).toLocaleDateString("en-CA",{timeZone:TZ});
+const when = d => { const t = new Date(d), k = dk(t), hm = t.toLocaleTimeString("en-US",{timeZone:TZ,hour:"numeric",minute:"2-digit"});
+  return k===dk(Date.now()) ? "Today, "+hm : k===dk(Date.now()-864e5) ? "Yesterday, "+hm : t.toLocaleDateString("en-US",{timeZone:TZ,month:"short",day:"numeric"})+", "+hm; };
+const full = d => new Date(d).toLocaleString("en-US",{timeZone:TZ,month:"short",day:"numeric",year:"numeric",hour:"numeric",minute:"2-digit"})+" ET";
+const phone = p => { const d = String(p||"").replace(/\D/g,"").slice(-10); return d.length===10?`(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`:esc(p); };
+const money = c => c==null?"":"$"+(c/100).toLocaleString("en-US");
+const nm = l => esc(((l.first_name||"")+" "+(l.last_name||"")).trim());
+const left = d => { const ms = new Date(d)-Date.now(); if (ms<=0) return "closed"; const h = Math.floor(ms/36e5); return h>=24 ? Math.floor(h/24)+"d "+(h%24)+"h left" : h+"h "+Math.floor(ms%36e5/6e4)+"m left"; };
+const OUT = {contacted:"Contacted",booked:"Inspection booked",sold:"Sold",no_answer:"No answer",not_interested:"Not interested"};
+const ICON = {home:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>',leads:'<circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/><path d="M17 11h5M19.5 8.5v5"/>',returns:'<path d="M9 14l-5-5 5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/>',credits:'<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>',help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.7v.5M12 17h.01"/>'};
+const svg = k => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICON[k]}</svg>`;
+let token = "", D = null, tab = "home", openLead = null;
+try { token = localStorage.getItem("cosa_portal") || ""; } catch(_e) {}
+if (location.hash.length > 30) { token = location.hash.slice(1); try { localStorage.setItem("cosa_portal", token); } catch(_e) {} history.replaceState(null, "", location.pathname); }
+
+async function call(op, extra={}) {
+  const r = await fetch(API, {method:"POST", headers:{"content-type":"application/json"}, body: JSON.stringify({token, op, ...extra})});
+  const j = await r.json().catch(() => ({error:"Something went wrong. Please try again."}));
+  if (r.status === 401 && op !== "login") { token = ""; try { localStorage.removeItem("cosa_portal"); } catch(_e) {} login(j.error); throw new Error("__login"); }
+  if (!r.ok) throw new Error(j.error || "Something went wrong.");
+  return j;
+}
+const toast = t => { const d = document.createElement("div"); d.className = "toast"; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 2600); };
+
+function login(msg) {
+  root.innerHTML = `<div class="card login"><div class="logo"><i>C</i>Cosa</div><div class="hint" style="margin-bottom:8px">Sign in to see your leads.</div>
+  <form id="lf"><label for="em">Email</label><input id="em" type="email" autocomplete="email" required><label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" required>
+  <p class="err" id="le">${esc(msg||"")}</p><button class="btn pri" style="width:100%;justify-content:center;margin-top:10px" type="submit">Sign in</button></form>
+  <p class="hint" style="margin-top:14px">Got a private link from Cosa? Just open it and you're in.</p></div>`;
+  document.getElementById("lf").onsubmit = async e => { e.preventDefault(); const le = document.getElementById("le"); le.textContent = "";
+    try { const r = await call("login", {email: document.getElementById("em").value, password: document.getElementById("pw").value}); token = r.token; try { localStorage.setItem("cosa_portal", token); } catch(_e) {} load(); }
+    catch(x) { if (x.message !== "__login") le.textContent = x.message; } };
+}
+
+async function load() {
+  if (!token) return login();
+  root.innerHTML = `<div style="padding:40px;color:#64748b">Loading…</div>`;
+  try { D = await call("me"); render(); } catch(x) { if (x.message !== "__login") root.innerHTML = `<div class="card login"><p class="err">${esc(x.message)}</p></div>`; }
+}
+
+function render() {
+  const c = D.client, s = D.summary, pend = D.returns.filter(r => r.status==="pending").length;
+  const navs = [["home","Overview"],["leads","Leads",D.leads.length],["returns","Returns",pend||null],["credits","Credits"],["help","How it works"]];
+  const titles = {home:["Overview", `${esc(c.company)} · ${esc(c.service_area||c.city||"")}`], leads:["Your leads","Every homeowner who asked for you. Tap one to see details."], returns:["Returns","Bad lead? Request a return within "+D.return_hours+" hours and we'll replace it."], credits:["Credits","Each credit is one lead. Credits never expire."], help:["How it works","Get the most out of every lead."]};
+  root.innerHTML = `<div class="app"><aside id="side"><div class="logo"><i>C</i>Cosa Leads</div><div class="co">${esc(c.company)}</div>
+   ${navs.map(([k,t,n]) => `<button class="nv ${k===tab?"on":""}" data-tab="${k}">${svg(k==="home"?"home":k)}${t}${n?`<span class="c ${k==="returns"?"hot":""}">${n}</span>`:""}</button>`).join("")}
+   <div class="foot"><b>${s.credits_left} credit${s.credits_left===1?"":"s"} left</b>${s.credits_left<=1?"Top up so your ads keep running.":"Your ads are running."}<br><button data-tab="credits">Buy more</button> <button id="out">Sign out</button></div></aside>
+   <div class="content"><header><div class="t">${titles[tab][0]}</div><div class="s">${titles[tab][1]}</div></header><main id="m"></main></div></div>`;
+  root.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { tab = b.dataset.tab; openLead = null; render(); window.scrollTo(0,0); });
+  document.getElementById("out").onclick = () => { try { localStorage.removeItem("cosa_portal"); } catch(_e) {} token = ""; login(); };
+  const m = document.getElementById("m");
+  if (openLead) return leadDetail(m, D.leads.find(l => l.id===openLead));
+  ({home, leads: leadsTab, returns: returnsTab, credits: creditsTab, help: helpTab})[tab](m);
+}
+
+function kpis() {
+  const s = D.summary, g = s.guarantee;
+  return `<div class="kpis">
+   <div class="kpi"><small>Credits left</small><b>${s.credits_left} <span>of ${s.credits_bought}</span></b><div class="bar ${s.credits_left<=0?"bad":s.credits_left<=1?"warn":""}"><i style="width:${s.credits_bought?Math.max(0,Math.min(100,s.credits_left/s.credits_bought*100)):0}%"></i></div></div>
+   <div class="kpi"><small>Leads this week</small><b>${s.leads_7d}</b><div class="d">${s.leads_30d} in the last 30 days</div></div>
+   <div class="kpi"><small>Leads delivered</small><b>${s.leads_total}</b><div class="d">${s.booked} booked · ${s.sold} sold (you mark these)</div></div>
+   ${g?`<div class="kpi"><small>${g.target}-lead guarantee</small><b>${g.got} <span>of ${g.target}</span></b><div class="bar ${g.done?"good":""}"><i style="width:${Math.min(100,g.got/g.target*100)}%"></i></div><div class="d">${g.done?"Delivered ✓":g.days_left+" days left"}</div></div>`
+      :`<div class="kpi"><small>Status</small><b style="font-size:18px;margin-top:8px">${D.client.status==="active"?"🟢 Live":D.client.status==="setup"?"Getting set up":"Paused"}</b><div class="d">${D.client.go_live_at?"since "+new Date(D.client.go_live_at+"T12:00:00Z").toLocaleDateString("en-US",{month:"short",day:"numeric"}):""}</div></div>`}</div>`;
+}
+const leadCard = l => `<div class="card lead" data-lead="${l.id}"><div><div class="who">${nm(l)}</div><div class="meta">${esc(l.answers?.need||"")} · ${esc(l.answers?.timeframe||"")}</div><div class="when">${when(l.created_at)} · ${esc(l.answers?.city||"")} ${esc(l.zip||"")}</div></div>
+  <div class="r">${l.status==="returned"?'<span class="pill bad">Returned</span>':l.client_outcome?`<span class="pill ${l.client_outcome==="sold"||l.client_outcome==="booked"?"good":"mut"}">${OUT[l.client_outcome]}</span>`:'<span class="pill brand">New</span>'}</div></div>`;
+function bindLeads(m){ m.querySelectorAll("[data-lead]").forEach(e => e.onclick = () => { openLead = e.dataset.lead; render(); window.scrollTo(0,0); }); }
+
+function home(m) {
+  const s = D.summary;
+  m.innerHTML = kpis() + (s.credits_left<=1 && D.client.client_type!=="retainer" ? `<div class="card" style="margin-top:12px;background:#fff8ea;border-color:#f3dfb3"><b>${s.credits_left<=0?"You're out of credits.":"1 credit left."}</b> <span class="hint">Your ads pause at zero. Top up any time.</span> <button class="btn dark" data-tab="credits" style="margin-left:6px">Buy more leads</button></div>`:"")
+   + `<div class="grp"><h2>Newest leads</h2>${D.leads.length>3?'<button class="btn" data-tab="leads">See all</button>':""}</div>`
+   + (D.leads.length ? D.leads.slice(0,5).map(leadCard).join("") : `<div class="card empty">No leads yet. As soon as a homeowner asks for you, they show up here and we text and email you right away.</div>`);
+  m.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { tab = b.dataset.tab; render(); });
+  bindLeads(m);
+}
+function leadsTab(m) { m.innerHTML = D.leads.length ? D.leads.map(leadCard).join("") : `<div class="card empty">No leads yet.</div>`; bindLeads(m); }
+
+function leadDetail(m, l) {
+  if (!l) { openLead = null; return render(); }
+  const req = D.returns.find(r => r.lead_id===l.id);
+  const digits = String(l.phone||"").replace(/[^\d+]/g,"");
+  m.innerHTML = `<button class="back" id="bk">&larr; Back</button><div class="card">
+   <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap"><div><div style="font-size:20px;font-weight:800">${nm(l)}</div><div class="hint">${full(l.created_at)}</div></div>
+   <div class="btns"><a class="btn pri" href="tel:${esc(digits)}">📞 Call</a><a class="btn" href="sms:${esc(digits)}">💬 Text</a></div></div>
+   <div class="sec"><div class="kv"><span>Phone</span><span>${phone(l.phone)}</span>${l.email?`<span>Email</span><span>${esc(l.email)}</span>`:""}<span>Address</span><span>${esc(l.address||"")}, ${esc(l.answers?.city||"")} ${esc(l.zip||"")}</span>
+    <span>Needs</span><span>${esc(l.answers?.need||"")}</span><span>When</span><span>${esc(l.answers?.timeframe||"")}</span><span>Owns home</span><span>${esc(l.answers?.owner||"")}</span></div></div>
+   ${l.status!=="returned"?`<div class="sec"><div class="lbl">What happened? (helps us send you better leads)</div><div class="outs">${Object.entries(OUT).map(([k,t]) => `<button data-o="${k}" class="${l.client_outcome===k?"on":""}">${t}</button>`).join("")}</div></div>`:""}
+   <div class="sec"><div class="lbl">Their request (proof of consent)</div><div class="quote">“${esc(l.consent_text||"")}”<br><span style="color:#94a3b8">${l.consent_at?full(l.consent_at):""}</span></div></div>
+   <div class="sec">${l.status==="returned" ? `<span class="pill bad">Returned</span> <span class="hint">${esc(l.return_reason||"")} · credit added back</span>`
+     : req && req.status!=="denied" ? `<span class="pill ${req.status==="approved"?"good":"warn"}">Return ${req.status==="pending"?"under review":req.status}</span> <span class="hint">${esc(req.reason)}</span>`
+     : l.can_return ? `<div class="lbl">Bad lead?</div><div class="hint" style="margin-bottom:8px">You can request a return for <b>${left(l.return_deadline)}</b>. Before requesting, try them at least 3 times (calls or texts) in the first 48 hours.</div><button class="btn" id="rq">Request a return</button>${req&&req.status==="denied"?`<div class="hint" style="margin-top:8px">An earlier request was denied: ${esc(req.decision_note||"")}</div>`:""}`
+     : `<span class="hint">The ${D.return_hours}-hour return window for this lead has closed.</span>`}</div></div>`;
+  document.getElementById("bk").onclick = () => { openLead = null; render(); };
+  m.querySelectorAll("[data-o]").forEach(b => b.onclick = async () => { const o = l.client_outcome===b.dataset.o ? "" : b.dataset.o; try { await call("outcome", {lead_id: l.id, outcome: o}); l.client_outcome = o || null; toast("Saved"); leadDetail(m, l); } catch(x) { if (x.message!=="__login") toast(x.message); } });
+  const rq = document.getElementById("rq"); if (rq) rq.onclick = () => returnForm(m, l);
+}
+
+function returnForm(m, l) {
+  m.innerHTML = `<button class="back" id="bk">&larr; Back to ${nm(l)}</button><div class="card"><div style="font-size:18px;font-weight:800">Request a return</div>
+   <div class="hint">For ${nm(l)}, received ${when(l.created_at)}. Window: ${left(l.return_deadline)}.</div>
+   <form id="rf"><label for="rr">Reason</label><select id="rr" required><option value="">Choose one…</option>${D.reasons.map(r => `<option>${esc(r)}</option>`).join("")}</select>
+   <label for="ra">How did you try to reach them?</label><input id="ra" placeholder="e.g. Called 3 times Tue/Wed, texted twice, no answer" required>
+   <label for="rfiles">Screenshots of your calls or texts (up to 5)</label><input id="rfiles" type="file" accept="image/*,application/pdf" multiple>
+   <label for="rn">Anything else? (optional)</label><textarea id="rn"></textarea>
+   <p class="hint">Not returnable: no answer, already hired someone, just shopping, or didn't book. We review every request within 2 business days. Approved returns get a free replacement lead.</p>
+   <p class="err" id="re"></p><button class="btn pri" type="submit" id="rs">Send request</button></form></div>`;
+  document.getElementById("bk").onclick = () => leadDetail(m, l);
+  document.getElementById("rf").onsubmit = async e => { e.preventDefault(); const re = document.getElementById("re"), bt = document.getElementById("rs"); re.textContent = "";
+    const fl = [...document.getElementById("rfiles").files].slice(0,5);
+    if (fl.some(f => f.size > 6*1024*1024)) { re.textContent = "Each file must be under 6 MB."; return; }
+    bt.disabled = true; bt.textContent = "Sending…";
+    try {
+      const files = await Promise.all(fl.map(f => new Promise((ok, no) => { const r = new FileReader(); r.onload = () => ok({name:f.name, type:f.type||"image/jpeg", data:String(r.result)}); r.onerror = no; r.readAsDataURL(f); })));
+      await call("return", {lead_id: l.id, reason: document.getElementById("rr").value, attempts: document.getElementById("ra").value, notes: document.getElementById("rn").value, files});
+      toast("Return requested. We'll review it within 2 business days."); D = await call("me"); openLead = l.id; render();
+    } catch(x) { if (x.message!=="__login") { re.textContent = x.message; bt.disabled = false; bt.textContent = "Send request"; } } };
+}
+
+function returnsTab(m) {
+  const name = id => { const l = D.leads.find(x => x.id===id); return l ? nm(l) : "Lead"; };
+  m.innerHTML = (D.returns.length ? D.returns.map(r => `<div class="card"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><div><b>${name(r.lead_id)}</b><div class="hint">${esc(r.reason)} · sent ${when(r.created_at)}</div></div>
+     <span class="pill ${r.status==="approved"?"good":r.status==="denied"?"bad":"warn"}">${r.status==="pending"?"Under review":r.status==="approved"?"Approved · credit added":"Denied"}</span></div>
+     ${r.decision_note?`<div class="hint" style="margin-top:8px">Cosa: ${esc(r.decision_note)}</div>`:""}</div>`).join("")
+     : `<div class="card empty">No return requests. To request one, open a lead and tap "Request a return".</div>`)
+   + `<div class="card"><div class="lbl">What can be returned</div><div class="hint" style="line-height:1.8">${D.reasons.map(esc).join(" · ")}</div><div class="hint" style="margin-top:8px">Within ${D.return_hours} hours of delivery, after at least 3 calls or texts in the first 48 hours.</div></div>`;
+}
+function creditsTab(m) {
+  const s = D.summary;
+  m.innerHTML = kpis().replace('<div class="kpis">','<div class="kpis" style="margin-bottom:6px">') + `<div class="grp"><h2>Buy more leads</h2></div><div class="packs">${PACKS.map(([t,p,u]) => `<div class="card pack"><b>${t}</b><span>${p} · $150 per lead</span><a class="btn pri" href="${u}" target="_blank" rel="noopener">Buy</a></div>`).join("")}</div>
+   <p class="hint">Credits show up here once your payment goes through. Credits never expire.</p>
+   <div class="grp"><h2>History</h2></div><div class="card" style="padding:6px 12px">${D.credits.length?`<table><thead><tr><th>Date</th><th>What</th><th class="n">Credits</th></tr></thead><tbody>
+   ${D.credits.map(k => `<tr><td>${new Date(k.created_at).toLocaleDateString("en-US",{timeZone:TZ,month:"short",day:"numeric"})}</td><td>${k.kind==="purchase"?"Bought "+k.delta+" leads"+(k.amount_cents?" · "+money(k.amount_cents):""):k.kind==="lead"?"Lead delivered":k.kind==="return"?"Return approved":esc(k.note||k.kind)}</td><td class="n">${k.delta>0?"+":""}${k.delta}</td></tr>`).join("")}</tbody></table>`:`<div class="empty">No history yet.</div>`}</div>`;
+}
+function helpTab(m) {
+  m.innerHTML = `<div class="card"><div class="steps">
+   <div><b>1</b><div><b>Call fast.</b> <span class="hint">Homeowners who get a call within 5 minutes book far more often. We text and email you the second a lead comes in.</span></div></div>
+   <div><b>2</b><div><b>Try at least 3 times in 48 hours.</b> <span class="hint">Mix calls and texts. Many people answer on the second or third try.</span></div></div>
+   <div><b>3</b><div><b>Mark what happened.</b> <span class="hint">Open the lead and tap Contacted, Inspection booked or Sold. It helps us send you more of the leads that turn into jobs.</span></div></div>
+   <div><b>4</b><div><b>Bad lead? Request a return.</b> <span class="hint">Wrong number, renter, outside your area, a duplicate, a service you don't offer, or they never asked. Within ${D.return_hours} hours, with screenshots of your attempts. Approved returns get a free replacement.</span></div></div>
+   <div><b>5</b><div><b>Top up before you hit zero.</b> <span class="hint">Your ads pause at zero credits. Buy a pack any time on the Credits page.</span></div></div></div></div>
+   <div class="card"><b>Questions?</b> <span class="hint">Text or call your Cosa contact, or reply to any lead email.</span></div>`;
+}
+load();
+})();
+</script>
+</body>
+</html>

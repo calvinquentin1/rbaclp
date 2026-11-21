@@ -14,6 +14,11 @@ export default function middleware(request) {
     const p = url.pathname === '/' ? '/ppl-admin/' : url.pathname;
     return new Response(null, { headers: { 'x-middleware-rewrite': new URL(p + url.search, url).toString() } });
   }
+  // portal.cosagrowth.com -> the pay-per-lead client portal (/portal)
+  if (url.hostname === 'portal.cosagrowth.com') {
+    const p = url.pathname === '/' ? '/portal/' : url.pathname;
+    return new Response(null, { headers: { 'x-middleware-rewrite': new URL(p + url.search, url).toString() } });
+  }
   if (url.hostname !== 'home.cosaventures.com') return;
   const first = url.pathname.split('/').filter(Boolean)[0] || '';
   let path;

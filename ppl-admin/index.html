@@ -255,7 +255,8 @@ function renderClient() {
     : `<div class="k"><small>Cost per lead</small><b class="na">No ad data yet</b><div class="d">fills in once Meta is connected</div></div>`;
   const k4 = g ? `<div class="k"><small>${g.target}-lead guarantee</small><b>${g.got} <span>of ${g.target} · ${g.done?"met":g.days_left+" days left"}</span></b><div class="bar ${g.done?"ok":c.health.level==="bad"?"bad":c.health.level==="warn"&&c.alerts.some(a=>a.title.startsWith("Behind"))?"warn":"ok"}"><i style="width:${Math.min(100,g.got/g.target*100)}%"></i></div></div>`
     : `<div class="k"><small>Guarantee</small><b class="na">Not set</b><div class="d">set go-live date and target in Settings</div></div>`;
-  const tabs = [["leads","Leads",d.leads.length],["credits",isPPL?"Credits & billing":"Billing",null],["ads","Ads",null],["activity","Activity",d.events.length],["settings","Settings",null]];
+  const pendR = (d.returns||[]).filter(r => r.status==="pending").length;
+  const tabs = [["leads","Leads",d.leads.length],["portal","Portal & returns",pendR||null],["credits",isPPL?"Credits & billing":"Billing",null],["ads","Ads",null],["activity","Activity",d.events.length],["settings","Settings",null]];
   const lead = leadId && d.leads.find(l => l.id===leadId);
   const m = shell("clients", `
   <div class="top"><div><div class="crumb"><a href="#/clients">Clients</a> /</div><h1>${esc(c.company)} <span class="pill ${c.health.level}"><span class="dot"></span>${esc(c.health.label)}</span> ${type(c.client_type)} ${c.is_test?'<span class="pill test">Test</span>':""}</h1>
@@ -272,6 +273,7 @@ function renderClient() {
   bindLeadActions(m, () => clientView(c.id, "leads", cState.leadId));
   if (tab==="credits") bindCredits(m, c);
   if (tab==="settings") bindForm(m, c);
+  if (tab==="portal") bindPortal(m, c);
 }
 function tabBody(tab) {
   const {d} = cState, c = d.client;
@@ -298,9 +300,19 @@ function tabBody(tab) {
   }
   if (tab==="activity") return d.events.length ? `<div class="sec"><ul class="tl">${d.events.map(e => `<li><i class="${esc(e.status)}"></i><span>${evText(e, d.leads)}</span><time>${full(e.created_at)}</time></li>`).join("")}</ul></div>` : `<div class="empty">No activity yet.</div>`;
   if (tab==="settings") return clientForm(c);
+  if (tab==="portal") {
+    const R = d.returns||[], L = id => d.leads.find(l => l.id===id);
+    return `<div class="card-h"><h2>Return requests</h2><span class="muted small">Approve = 1 credit back. Deny needs a short reason (the client sees it).</span></div>
+    ${R.length ? R.map(r => { const l = L(r.lead_id)||{}; return `<div class="sec"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><div><b>${fullName(l)}</b> <span class="muted">· lead ${when(l.created_at)} · asked ${when(r.created_at)}</span>
+      <div><b>${esc(r.reason)}</b></div><div class="muted small">Tried: ${esc(r.attempts||"")}${r.notes?` · ${esc(r.notes)}`:""}</div>
+      ${(r.evidence||[]).length?`<div class="acts" style="margin-top:6px">${r.evidence.map(e => e.url?`<a class="btn sm" href="${esc(e.url)}" target="_blank" rel="noopener">📎 ${esc(e.name)}</a>`:"").join("")}</div>`:`<div class="faint small">No screenshots attached</div>`}</div>
+      <div>${r.status==="pending"?`<div class="acts"><button class="btn pri sm" data-ap="${r.id}">Approve</button><button class="btn sm" data-dn="${r.id}">Deny</button></div>`:`<span class="pill ${r.status==="approved"?"ok":"bad"}">${r.status}</span>${r.decision_note?`<div class="muted small">${esc(r.decision_note)}</div>`:""}`}</div></div></div>`; }).join("") : `<div class="empty">No return requests.</div>`}
+    <div class="card-h" style="border-top:1px solid var(--line2)"><h2>Client portal access</h2><a class="small" href="https://portal.cosagrowth.com" target="_blank" rel="noopener">portal.cosagrowth.com</a></div>
+    <div id="portalbox"><div class="sec muted">Loading…</div></div>`;
+  }
   return "";
 }
-const EV = {lead_received:"Lead received",lead_duplicate:"Duplicate lead (not charged)",delivery:"Delivery",meta_event:"Meta event",qualified:"Marked qualified",returned:"Return approved",status_changed:"Status changed",credits_added:"Credits added",client_created:"Client created",client_updated:"Settings changed",note:"Note"};
+const EV = {lead_received:"Lead received",lead_duplicate:"Duplicate lead (not charged)",delivery:"Delivery",meta_event:"Meta event",qualified:"Marked qualified",returned:"Return approved",status_changed:"Status changed",credits_added:"Credits added",client_created:"Client created",client_updated:"Settings changed",note:"Note",return_requested:"Client asked for a return",return_denied:"Return denied",client_outcome:"Client marked outcome",portal_login:"Client logged in",portal_link_created:"Portal link made",portal_link_revoked:"Portal link revoked",portal_user_created:"Portal login created"};
 function evText(e, leads) {
   const l = e.lead_id && leads.find(x => x.id===e.lead_id); const who = l ? ` · ${name(l)}` : "";
   const dt = e.detail||{};
@@ -335,6 +347,30 @@ function bindCredits(m, c) {
     try { await call("add_credits", {client_id: c.id, delta: m.querySelector("#cd").value, kind: m.querySelector("#ck").value, stripe_payment_id: m.querySelector("#cs").value,
       amount_cents: Math.round(Number(m.querySelector("#ca").value||0)*100), note: m.querySelector("#cn").value}); toast("Credits added"); clientView(c.id, "credits"); }
     catch(x) { if (x.message!=="__login") { msg.className = "err"; msg.textContent = x.message; } } };
+}
+
+function bindPortal(m, c) {
+  const reload = () => clientView(c.id, "portal");
+  m.querySelectorAll("[data-ap]").forEach(b => b.onclick = async () => { if (!confirm("Approve this return and give the client 1 credit back?")) return; b.disabled = true; try { await call("return_decide", {request_id: b.dataset.ap, decision: "approve"}); toast("Approved · credit added back"); reload(); } catch(x) { if (x.message!=="__login") alert(x.message); b.disabled = false; } });
+  m.querySelectorAll("[data-dn]").forEach(b => b.onclick = async () => { const note = prompt("Why is this denied? (the client will see this)"); if (!note) return; b.disabled = true; try { await call("return_decide", {request_id: b.dataset.dn, decision: "deny", note}); toast("Denied"); reload(); } catch(x) { if (x.message!=="__login") alert(x.message); b.disabled = false; } });
+  call("portal", {client_id: c.id}).then(p => {
+    const box = m.querySelector("#portalbox"); if (!box) return;
+    box.innerHTML = `<div class="sec"><div class="lbl">Logins (email + password)</div>
+      ${p.users.length ? p.users.map(u => `<div>${esc(u.email)}${u.person_name?` · ${esc(u.person_name)}`:""} <span class="faint small">added ${dateOnly(u.created_at)}</span></div>`).join("") : `<div class="muted small">No logins yet.</div>`}
+      <form class="inline" id="pu" style="padding:10px 0 0;border:0"><div><label for="pue">Email</label><input id="pue" type="email" style="width:220px"></div><div><label for="pun">Name</label><input id="pun" style="width:150px"></div>
+      <div><label for="pup">Password (8+)</label><input id="pup" type="text" style="width:160px"></div><button class="btn pri" type="submit">Create login</button><span id="pum"></span></form>
+      <div class="muted small">Send them the email and password yourself. Saving again with the same email resets the password.</div></div>
+      <div class="sec"><div class="lbl">Private links (no password needed)</div>
+      ${p.links.filter(k => !String(k.label||"").startsWith("login:")).map(k => `<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:6px"><span>${esc(k.label||"Link")}</span><span class="faint small">made ${dateOnly(k.created_at)} · ${k.last_used_at?"last used "+ago(k.last_used_at):"never used"}</span>${k.revoked_at?'<span class="pill mut">revoked</span>':`<button class="btn sm" data-rv="${k.id}">Revoke</button>`}</div>`).join("") || `<div class="muted small">No links yet.</div>`}
+      <div class="acts" style="margin-top:8px"><button class="btn" id="mk">+ Make a private link</button></div><div id="newlink"></div></div>`;
+    box.querySelector("#pu").onsubmit = async e => { e.preventDefault(); const msg = box.querySelector("#pum");
+      try { await call("portal_user", {client_id: c.id, email: box.querySelector("#pue").value, password: box.querySelector("#pup").value, person_name: box.querySelector("#pun").value}); toast("Login created"); reload(); }
+      catch(x) { if (x.message!=="__login") { msg.className="err"; msg.textContent = x.message; } } };
+    box.querySelector("#mk").onclick = async () => { const label = prompt("Who is this link for? (e.g. Owner, Office)") || "Private link";
+      try { const r = await call("portal_link", {client_id: c.id, label}); box.querySelector("#newlink").innerHTML = `<div class="quote" style="margin-top:10px">Copy this now. It's shown only once:<br><b style="word-break:break-all">${esc(r.url)}</b><br><button class="btn sm" id="cp" style="margin-top:6px">Copy</button></div>`;
+        box.querySelector("#cp").onclick = () => { navigator.clipboard?.writeText(r.url); toast("Copied"); }; } catch(x) { if (x.message!=="__login") alert(x.message); } };
+    box.querySelectorAll("[data-rv]").forEach(b => b.onclick = async () => { if (!confirm("Revoke this link? It stops working right away.")) return; await call("portal_revoke", {id: b.dataset.rv}); toast("Revoked"); reload(); });
+  }).catch(x => { const box = m.querySelector("#portalbox"); if (box && x.message!=="__login") box.innerHTML = `<div class="sec err">${esc(x.message)}</div>`; });
 }
 
 // ---------- Client form (Settings tab + Add client)
