@@ -1,4 +1,4 @@
-// Remote MCP server exposing one tool: generate_image, backed by Gemini.
+// Remote MCP server exposing two tools backed by Gemini: generate_image and generate_speech.
 //
 // Served at /api/mcp/<MCP_SECRET>. A wrong secret returns 404, not 401, so
 // probing the path reveals nothing about whether it exists.
@@ -8,7 +8,7 @@
 // pages are deployed, and those are live on paid traffic.
 
 const PROTOCOL_VERSION = "2025-06-18";
-const SERVER_INFO = { name: "cosa-image", version: "1.0.0" };
+const SERVER_INFO = { name: "cosa-image", version: "1.1.0" };
 
 const ASPECT_RATIOS = ["4:5", "1:1", "9:16"];
 
@@ -34,7 +34,92 @@ const TOOL = {
   },
 };
 
+const VOICES = ["Puck", "Fenrir", "Kore", "Charon", "Zephyr", "Aoede", "Leda", "Orus", "Callirrhoe", "Autonoe"];
+
+const SPEECH_TOOL = {
+  name: "generate_speech",
+  description:
+    "Generate a voice-over with Google Gemini text-to-speech. Returns a 24 kHz mono WAV. Put the delivery in `style` in plain English (for example: upbeat, quick and confident, like a friendly salesperson talking to one contractor).",
+  inputSchema: {
+    type: "object",
+    properties: {
+      text: { type: "string", description: "The words to speak." },
+      voice: { type: "string", description: "Prebuilt voice name. Defaults to Puck.", enum: VOICES },
+      style: { type: "string", description: "How to say it, in plain English." },
+    },
+    required: ["text"],
+    additionalProperties: false,
+  },
+};
+
+const TOOLS = [TOOL, SPEECH_TOOL];
+
 // ── Gemini ────────────────────────────────────────────────────────────────
+function pcmToWav(pcm, sampleRate = 24000) {
+  const header = Buffer.alloc(44);
+  header.write("RIFF", 0);
+  header.writeUInt32LE(36 + pcm.length, 4);
+  header.write("WAVE", 8);
+  header.write("fmt ", 12);
+  header.writeUInt32LE(16, 16);
+  header.writeUInt16LE(1, 20); // PCM
+  header.writeUInt16LE(1, 22); // mono
+  header.writeUInt32LE(sampleRate, 24);
+  header.writeUInt32LE(sampleRate * 2, 28);
+  header.writeUInt16LE(2, 32);
+  header.writeUInt16LE(16, 34);
+  header.write("data", 36);
+  header.writeUInt32LE(pcm.length, 40);
+  return Buffer.concat([header, pcm]);
+}
+
+async function generateSpeech(text, voice, style) {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) throw new Error("GEMINI_API_KEY is not set on the server.");
+
+  const model = process.env.GEMINI_TTS_MODEL || "gemini-2.5-flash-preview-tts";
+  const prompt = style
+    ? `Say this as a real person would in a radio ad, ${style}. Do not read punctuation aloud: ${text}`
+    : text;
+
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
+    {
+      method: "POST",
+      headers: { "content-type": "application/json", "x-goog-api-key": apiKey },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: {
+          responseModalities: ["AUDIO"],
+          speechConfig: {
+            voiceConfig: { prebuiltVoiceConfig: { voiceName: voice || "Puck" } },
+          },
+        },
+      }),
+    }
+  );
+
+  const raw = await res.text();
+  if (!res.ok) {
+    throw new Error(`Gemini TTS (${model}) returned ${res.status}: ${raw.slice(0, 1500)}`);
+  }
+
+  let body;
+  try {
+    body = JSON.parse(raw);
+  } catch {
+    throw new Error(`Gemini TTS returned unparseable JSON: ${raw.slice(0, 500)}`);
+  }
+
+  const part = body?.candidates?.[0]?.content?.parts?.find((p) => p?.inlineData?.data);
+  if (!part) {
+    throw new Error(`No audio in the Gemini TTS response. Body began: ${raw.slice(0, 800)}`);
+  }
+  const mime = part.inlineData.mimeType || "audio/L16;rate=24000";
+  const rate = Number((/rate=(\d+)/.exec(mime) || [])[1]) || 24000;
+  const pcm = Buffer.from(part.inlineData.data, "base64");
+  return { data: pcmToWav(pcm, rate).toString("base64"), mimeType: "audio/wav" };
+}
 async function generateImage(prompt, aspectRatio) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) throw new Error("GEMINI_API_KEY is not set on the server.");
@@ -130,9 +215,31 @@ async function handleRpc(msg) {
       return ok(id, {});
 
     case "tools/list":
-      return ok(id, { tools: [TOOL] });
+      return ok(id, { tools: TOOLS });
 
     case "tools/call": {
+      if (params?.name === "generate_speech") {
+        const text = params?.arguments?.text;
+        if (typeof text !== "string" || !text.trim()) {
+          return fail(id, -32602, "text is required.");
+        }
+        try {
+          const audio = await generateSpeech(
+            text.trim(),
+            params?.arguments?.voice,
+            params?.arguments?.style
+          );
+          return ok(id, {
+            content: [{ type: "audio", data: audio.data, mimeType: audio.mimeType }],
+          });
+        } catch (err) {
+          return ok(id, {
+            isError: true,
+            content: [{ type: "text", text: String(err?.message ?? err) }],
+          });
+        }
+      }
+
       if (params?.name !== "generate_image") {
         return fail(id, -32602, `Unknown tool: ${params?.name}`);
       }
