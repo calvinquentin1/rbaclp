@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Free AC estimate · Orlando area · Neighbors AC Repair and Services</title>
+<style>
+/* Neighbors AC (Sal) lead page. Fully static: everything is in this HTML, nothing waits for a network call before it draws.
+   System fonts only (no font swap = no layout jump). Mobile-first: the hero + the form fit on one phone screen on every step. */
+:root{--bg:#F4F6F9;--card:#fff;--ink:#14202E;--muted:#55606E;--line:#DCE2EA;--navy:#13345A;--navy-d:#0B1F35;--navy-2:#1D4E7A;--amber:#F5B83D;--soft:#EEF3F9;--ok:#1E7A45;
+--f:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color-scheme:light}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--f)}
+.in{max-width:560px;margin:0 auto;padding:0 max(14px,env(safe-area-inset-left,0px))}
+.topbar{background:var(--navy-d);color:#C9D6E6;font-size:12px;text-align:center;padding:6px 10px}
+.topbar b{color:var(--amber)}
+.hero{background:linear-gradient(160deg,var(--navy-d) 0%,var(--navy) 60%,var(--navy-2) 100%);color:#fff;padding:10px 0 16px}
+.brandrow{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:15px;line-height:1.15}
+.brand svg{width:24px;height:24px;flex:none}
+.brand small{display:block;font-weight:500;font-size:11px;color:#AFC2D8}
+.pill{font-weight:700;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;border:1px solid rgba(245,184,61,.6);color:var(--amber);border-radius:99px;padding:4px 9px;white-space:nowrap}
+h1{font-weight:900;font-size:27px;line-height:1.08;letter-spacing:-.02em;margin:10px 0 10px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--amber)}
+.sub{display:none;margin:0 0 12px;color:#D6E2F0;font-size:16px}
+.card{background:var(--card);color:var(--ink);border-radius:14px;padding:12px 14px 14px;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+.head h2{font-weight:800;font-size:16px;line-height:1.2;margin:0;color:var(--navy)}
+.step{font-weight:700;font-size:12px;color:var(--navy-2);white-space:nowrap}
+.bar{height:5px;background:#E3E8EF;border-radius:99px;overflow:hidden;margin:2px 0 10px}
+.bar i{display:block;height:100%;background:var(--amber);border-radius:99px;transition:width .2s}
+h4{font-weight:800;font-size:19px;line-height:1.2;margin:0 0 10px;color:var(--ink)}
+.opts{display:grid;gap:8px}
+.opts.three{grid-template-columns:repeat(3,1fr)}
+.opts.two{grid-template-columns:1fr 1fr}
+.opt{min-height:52px;border:1px solid #C9D2DE;border-radius:10px;padding:10px 6px;background:#fff;font:600 16px var(--f);color:var(--ink);cursor:pointer;text-align:center}
+.opt:active{background:var(--soft);border-color:var(--navy-2)}
+.opt.tall{min-height:56px}
+label.f{display:block;font-weight:600;font-size:13px;margin:0 0 4px}
+input[type=text],input[type=tel]{width:100%;font:16px var(--f);padding:11px 12px;min-height:48px;border:1px solid #C9D2DE;border-radius:10px;background:#fff;color:var(--ink)}
+input:focus,button:focus-visible{outline:3px solid rgba(29,78,122,.3);outline-offset:1px;border-color:var(--navy-2)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
+.btn{display:block;width:100%;min-height:52px;margin-top:10px;padding:13px;border:0;border-radius:10px;background:var(--amber);color:var(--navy-d);font:900 17px var(--f);cursor:pointer}
+.btn[disabled]{opacity:.6}
+.back{background:none;border:0;color:var(--muted);font:600 13px var(--f);padding:6px 0 0;cursor:pointer}
+.consent{display:flex;gap:9px;align-items:flex-start;margin-top:8px;font-size:11.5px;color:var(--muted);line-height:1.4}
+.consent input{margin-top:2px;width:20px;height:20px;flex:none;accent-color:var(--navy)}
+.err{color:#B42318;font-size:13.5px;margin:6px 0 0}
+.done{text-align:center;padding:14px 0 8px}
+.done .ok{width:52px;height:52px;border-radius:50%;background:var(--soft);display:grid;place-items:center;margin:0 auto 8px}
+.done h4{margin-bottom:6px}
+.note{margin:0;font-size:15px;color:var(--muted)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+[hidden]{display:none!important}
+main{display:flex;flex-direction:column;gap:14px;padding-top:16px;padding-bottom:20px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.box h3{font-weight:800;font-size:19px;margin:0 0 10px;color:var(--navy)}
+.list{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.list li{display:grid;grid-template-columns:22px 1fr;gap:9px}
+.list i{width:22px;height:22px;border-radius:50%;background:#E7F4EC;color:var(--ok);display:grid;place-items:center;font:900 12px var(--f);font-style:normal}
+.steps{display:grid;gap:10px}
+.steps div{display:grid;grid-template-columns:28px 1fr;gap:10px}
+.steps b{width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:13px}
+.steps p{margin:2px 0 0}
+.foot{font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding:12px 0 4px}
+.foot a{color:var(--muted)}
+@media(min-width:601px){h1{font-size:40px;margin:14px 0 12px}.sub{display:block}.hero{padding:16px 0 26px}.card{padding:18px}.head h2{font-size:19px}h4{font-size:21px}.topbar{font-size:13px;padding:8px}}
+@media(max-width:420px){.pill{display:none}}
+</style>
+</head>
+<body>
+<div class="topbar"><b>Free</b> · No cost, no obligation</div>
+
+<header class="hero"><div class="in">
+  <div class="brandrow">
+    <div class="brand"><svg viewBox="0 0 120 120" fill="none" stroke="#F5B83D" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M12 60 60 18l48 42"/><path d="M26 50v52h68V50"/><path d="M50 102V74h20v28"/></svg><div>Neighbors AC Repair and Services<small>Free estimates · Orlando area</small></div></div>
+    <span class="pill">Free AC estimate</span>
+  </div>
+  <h1>New AC in the <em>Orlando area</em>. Free estimate.</h1>
+  <p class="sub">Neighbors AC Repair and Services will give you a free estimate on a new AC system. No cost, no obligation.</p>
+
+  <section class="card" id="form" aria-label="Request form">
+    <div class="head"><h2>Get your free AC estimate</h2><span class="step" id="stepn">Step 1 of 3</span></div>
+    <div class="bar" aria-hidden="true"><i id="prog" style="width:33%"></i></div>
+
+    <div id="s1"><h4>What do you need for your AC?</h4>
+      <div class="opts three" id="need"><button class="opt tall" type="button" data-v="Replace my AC">Replace</button><button class="opt tall" type="button" data-v="Install a new AC">New install</button><button class="opt tall" type="button" data-v="Repair my AC">Repair</button></div></div>
+
+    <div id="s2" hidden><h4>Do you own the home?</h4>
+      <div class="opts two" id="own"><button class="opt tall" type="button">Yes, I own it</button><button class="opt tall" type="button">No, I rent</button></div>
+      <button class="back" type="button" data-back="s1">&larr; Back</button></div>
+
+    <div id="s3" hidden>
+      <div class="row"><div><label class="f" for="fn">First name</label><input id="fn" type="text" autocomplete="given-name" enterkeyhint="next"></div>
+        <div><label class="f" for="zip">ZIP code</label><input id="zip" type="text" inputmode="numeric" maxlength="5" autocomplete="postal-code" enterkeyhint="next"></div></div>
+      <label class="f" for="ph">Mobile phone</label><input id="ph" type="tel" inputmode="tel" autocomplete="tel" placeholder="(555) 555-0123" enterkeyhint="done">
+      <div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" type="text" tabindex="-1" autocomplete="off"></div>
+      <label class="consent" for="ok"><input type="checkbox" id="ok"><span id="consentText">By submitting, I agree that <b>Neighbors AC Repair and Services</b> and <b>Cosa Home Services</b> may call and text me, including automated texts, about my request at the number provided. Consent is not required to purchase. Msg &amp; data rates may apply. Reply STOP to opt out.</span></label>
+      <p class="err" id="err" hidden></p>
+      <button class="btn" id="go" type="button">Get my free estimate</button>
+      <button class="back" type="button" data-back="s2">&larr; Back</button></div>
+
+    <div id="s4" class="done" hidden>
+      <div class="ok"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#13345A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg></div>
+      <h4 id="doneh">You're all set.</h4><p class="note" id="donep"></p></div>
+  </section>
+</div></header>
+
+<main class="in">
+  <section class="box" aria-label="Who this is for"><h3>Who this is for</h3>
+    <ul class="list"><li><i>✓</i>You own your home</li><li><i>✓</i>You live in the Orlando area</li><li><i>✓</i>You're thinking about a new AC (replace or install)</li></ul></section>
+  <section class="box" aria-label="What you get"><h3>What you get with your free estimate</h3>
+    <ul class="list"><li><i>✓</i><span>A free estimate on a new AC system for your home</span></li><li><i>✓</i><span>A straight answer on what it would take, with no pressure to buy</span></li><li><i>✓</i><span>Your request goes to one company only</span></li></ul></section>
+  <section aria-label="How it works"><div class="steps">
+    <div><b>1</b><p><strong>Answer 3 quick steps.</strong> About 30 seconds.</p></div>
+    <div><b>2</b><p><strong>Neighbors AC Repair and Services reaches out</strong> to set a time that works for you.</p></div>
+    <div><b>3</b><p><strong>You get a free estimate</strong> on a new AC. No cost, no pressure.</p></div>
+  </div></section>
+  <p class="foot">Cosa Home Services, a service of Cosa Ventures LLC, connects homeowners with local home service companies. We are not a contractor and don't perform the work. Your request goes only to the company named above. <a href="/privacy">Privacy policy</a> · <a href="/terms">Terms</a></p>
+</main>
+
+<script>
+(function(){
+const API = "https://gwekfiwckclqszxidqqz.supabase.co/functions/v1/ppl-lead";
+const $ = id => document.getElementById(id);
+const qs = new URLSearchParams(location.search);
+const slug = (qs.get("client") || location.pathname.split("/").filter(Boolean)[0] || "neighbors-ac").toLowerCase();
+const COMPANY = "Neighbors AC Repair and Services";
+
+// Ad tracking: UTMs + ids from the ad link, Facebook click id and cookies
+const track = {};
+["utm_source","utm_medium","utm_campaign","utm_content","utm_term","campaign_id","adset_id","ad_id","fbclid"].forEach(k => { if (qs.get(k)) track[k] = qs.get(k); });
+const cookie = n => (document.cookie.match(new RegExp("(?:^|; )" + n + "=([^;]*)")) || [])[1] || "";
+const eventId = "l_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+
+// The page is already drawn. Only now ask the server for the pixel id (never blocks the first paint).
+let pixelId = "";
+fetch(API + "?client=" + encodeURIComponent(slug)).then(r => r.ok ? r.json() : null).then(j => {
+  if (!j || !j.pixel_id) return; pixelId = j.pixel_id;
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', pixelId); fbq('track', 'PageView');
+}).catch(() => {});
+
+const steps = ["s1","s2","s3","s4"], label = {s1:"Step 1 of 3", s2:"Step 2 of 3", s3:"Step 3 of 3"}, pct = {s1:33,s2:66,s3:100,s4:100};
+function show(id){
+  steps.forEach(x => $(x).hidden = x !== id);
+  if (id === "s4") { document.querySelector(".bar").hidden = true; $("stepn").hidden = true; document.querySelector(".head").hidden = true; }
+  else { $("stepn").textContent = label[id]; $("prog").style.width = pct[id] + "%"; }
+}
+function done(h, p){ $("doneh").textContent = h || "You're all set."; $("donep").textContent = p || COMPANY + " has your request and will reach out shortly to set up your free AC estimate."; show("s4"); }
+let needA = "", own = "";
+$("need").addEventListener("click", e => { const b = e.target.closest(".opt"); if (!b) return; needA = b.dataset.v; show("s2"); });
+$("own").addEventListener("click", e => {
+  const b = e.target.closest(".opt"); if (!b) return; own = b.textContent;
+  if (own.startsWith("No")) done("Thanks for reaching out.", "Free estimates are for homeowners. If you rent, please ask your landlord to reach out.");
+  else show("s3");
+});
+document.querySelectorAll("[data-back]").forEach(b => b.onclick = () => show(b.dataset.back));
+
+$("go").onclick = async () => {
+  const m = [], digits = $("ph").value.replace(/\D/g, "").replace(/^1(?=\d{10}$)/, "");
+  if (!$("fn").value.trim()) m.push("first name");
+  if (!/^\d{5}$/.test($("zip").value.trim())) m.push("5-digit ZIP");
+  if (!/^\d{10}$/.test(digits)) m.push("a 10-digit mobile number");
+  if (!$("ok").checked) m.push("the consent box");
+  if (m.length) { $("err").textContent = "Please add: " + m.join(", ") + "."; $("err").hidden = false; return; }
+  $("err").hidden = true;
+  const lead = {
+    client: slug, need: needA, owner: own, zip: $("zip").value.trim(), first_name: $("fn").value.trim(), phone: "+1" + digits, website: $("website").value,
+    consent: true, consent_text: $("consentText").textContent.replace(/\s+/g, " ").trim(), consent_at: new Date().toISOString(),
+    page_url: location.origin + location.pathname, referrer: document.referrer,
+    event_id: eventId, fbc: cookie("_fbc"), fbp: cookie("_fbp"), ...track
+  };
+  $("go").disabled = true; $("go").textContent = "Sending...";
+  try {
+    const r = await fetch(API, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(lead)});
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.error || "");
+  } catch (x) {
+    $("go").disabled = false; $("go").textContent = "Get my free estimate";
+    $("err").textContent = x.message || "Something went wrong sending your request. Please try again."; $("err").hidden = false; return;
+  }
+  if (pixelId && window.fbq && !needA.startsWith("Repair")) fbq("track", "Lead", {content_name: "hvac"}, {eventID: eventId});
+  done();
+};
+})();
+</script>
+</body>
+</html>
