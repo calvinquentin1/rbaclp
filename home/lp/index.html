@@ -105,6 +105,15 @@ h3{font:800 21px/1.2 var(--display);margin:0 0 10px;color:var(--navy)}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .gone{max-width:520px;margin:60px auto;text-align:center;padding:0 16px}
 @media(max-width:420px){.row{grid-template-columns:1fr}}
+/* Short form, phone-first: compact so the button sits close to the first screen; first name + ZIP stay side by side */
+#sf label{margin:10px 0 5px}
+#sf .row{grid-template-columns:1fr 1fr;gap:10px}
+.btn,.opt{min-height:52px}
+.sticky .cta{min-height:52px}
+body.hasstk{padding-bottom:84px}
+@media(max-width:600px){.hero{padding-bottom:18px}h1{margin:8px 0 8px}.sub{font-size:15px;margin-bottom:12px}.formcard{padding:14px}.goes{font-size:13.5px;padding:8px 10px;margin-bottom:6px}.formhead{margin-bottom:6px}.formhead h2{font-size:18px}.qz .consent{font-size:12px;margin-top:12px}.topbar{font-size:12px}}
+@media(min-width:900px){body.hasstk{padding-bottom:0}}
+@media(max-width:600px){body.short .goes{display:none}}
 </style>
 </head>
 <body>
@@ -232,7 +241,7 @@ const SHORT = C.form_mode === "short";
 if (SHORT) {
   // Replacement/install ad pages (e.g. Neighbors AC): first name, phone, ZIP only. Address and "do you own it" are asked on the call.
   Object.assign(T, {
-    offer: "AC estimate", pill: "Free AC estimate", head: c => `New AC installed in <em>${c}</em>. Free estimate.`,
+    offer: "AC estimate", pill: "Free AC estimate", head: c => `New AC in the <em>${c} area</em>. Free estimate.`,
     sub: `${C.company} will give you a free estimate on a new AC system. No cost, no obligation.`,
     q3: "You're thinking about a new AC (replace or install)", form: "Get your free AC estimate", button: "Get my free estimate",
     geth: "What you get with your free estimate",
@@ -251,13 +260,19 @@ document.querySelector('[data-key="need"]').innerHTML = T.needs.map(n => `<butto
 if (SHORT) {
   ["s1","s2","s3","s4","s5"].forEach(x => $(x).hidden = true);
   document.querySelector(".bar").hidden = true; $("sf").hidden = false; $("sb").textContent = T.button;
+  document.body.classList.add("short");   $("sfstp").hidden = true; document.querySelector("#sf > h4").hidden = true;
+  $("sph").setAttribute("inputmode", "tel"); $("sfn").setAttribute("enterkeyhint", "next"); $("szip").setAttribute("enterkeyhint", "next"); $("sph").setAttribute("enterkeyhint", "done");
+  // Mobile: a sticky button that jumps back to the form once the form scrolls out of view
+  const stk = document.createElement("div"); stk.className = "sticky hide"; stk.innerHTML = '<a class="cta" href="#form">' + esc(T.button) + '</a>';
+  document.body.appendChild(stk); document.body.classList.add("hasstk");
+  if ("IntersectionObserver" in window) new IntersectionObserver(es => stk.classList.toggle("hide", es[0].isIntersecting), {threshold: 0.15}).observe($("form"));
   document.querySelector(".brand div").innerHTML = esc(C.company) + "<small>Free estimates · " + esc(C.city) + " area</small>";
   document.querySelector(".goes").innerHTML = "Your request goes to <b>" + esc(C.company) + "</b> and no one else.";
   document.querySelector(".time").textContent = "⏱ 30 seconds";
   document.querySelector(".topbar").innerHTML = "<b>Free</b> · No cost, no obligation · Takes about 30 seconds";
   document.querySelector(".steps").innerHTML = '<div><b>1</b><p><strong>Send your name, number and ZIP.</strong> About 30 seconds.</p></div><div><b>2</b><p><strong>' + esc(C.company) + ' reaches out</strong> to set a time that works for you.</p></div><div><b>3</b><p><strong>You get a free estimate</strong> on a new AC. No cost, no pressure.</p></div>';
   document.querySelector(".foot").innerHTML = "Cosa Home Services, a service of Cosa Ventures LLC, connects homeowners with local home service companies. We are not a contractor and don't perform the work. Your request goes only to the company named above. <a href=\"/privacy\">Privacy policy</a> · <a href=\"/terms\">Terms</a>";
-  document.title = T.pill + " · " + C.city + " · " + C.company;
+  document.title = T.pill + " · " + C.city + " area · " + C.company;
 }
 const trust = []; if (C.rating) trust.push(C.rating); if (C.license) trust.push(C.license);
 $("trust").innerHTML = trust.map(t => `<span>${esc(t)}</span>`).join(""); if (!trust.length) $("trust").hidden = true;
@@ -283,7 +298,7 @@ if (pixelId) {
 const ans = {};
 const steps = ["s1","s2","s3","s4","s5","sf","s6"], pct = {s1:20,s2:40,s3:60,s4:80,s5:95,sf:90,s6:100};
 function show(id){ steps.forEach(x => $(x).hidden = x !== id); $("prog").style.width = pct[id] + "%"; $("form").scrollIntoView({behavior:"smooth", block:"start"}); }
-function done(h, p){ $("doneh").textContent = h || "You're all set."; $("donep").textContent = p || `${C.company} has your request and will reach out shortly to set up your free ${T.offer}.`; show("s6"); }
+function done(h, p){ const k = document.querySelector(".sticky"); if (k) k.remove(); document.body.classList.remove("hasstk"); $("doneh").textContent = h || "You're all set."; $("donep").textContent = p || `${C.company} has your request and will reach out shortly to set up your free ${T.offer}.`; show("s6"); }
 document.querySelectorAll(".opts").forEach(g => g.addEventListener("click", e => {
   const b = e.target.closest(".opt"); if (!b) return;
   ans[g.dataset.key] = b.textContent;
