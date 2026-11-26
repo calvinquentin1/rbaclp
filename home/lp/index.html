@@ -99,6 +99,8 @@ h3{font:800 21px/1.2 var(--display);margin:0 0 10px;color:var(--navy)}
 .done{text-align:center;padding:10px 0}
 .done .ok{width:56px;height:56px;border-radius:50%;background:var(--soft);display:grid;place-items:center;margin:0 auto 10px}
 .done .ok svg{width:26px;height:26px}
+.need{display:grid;gap:8px}
+.need .opt{text-align:center;min-height:48px;padding:11px 14px}
 .own{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .own .opt{text-align:center;padding:13px 10px}
 .opt.sel{border-color:var(--navy-2);background:var(--soft);box-shadow:inset 0 0 0 2px var(--navy-2)}
@@ -160,6 +162,8 @@ body.hasstk{padding-bottom:84px}
         <div class="row"><div><label for="sfn">First name</label><input id="sfn" type="text" autocomplete="given-name"></div>
           <div><label for="szip">ZIP code</label><input id="szip" type="text" inputmode="numeric" maxlength="5" autocomplete="postal-code"></div></div>
         <label for="sph">Mobile phone</label><input id="sph" type="tel" autocomplete="tel" placeholder="(555) 555-0123">
+        <label id="sneedl">What do you need?</label>
+        <div class="need" id="sneed" role="group" aria-labelledby="sneedl"><button class="opt" type="button">Replace my AC</button><button class="opt" type="button">Install a new AC</button><button class="opt" type="button">Repair my AC</button></div>
         <label id="sownl">Do you own the home?</label>
         <div class="own" id="sown" role="group" aria-labelledby="sownl"><button class="opt" type="button">Yes, I own it</button><button class="opt" type="button">No, I rent</button></div>
         <div class="hp" aria-hidden="true"><label for="swebsite">Website</label><input id="swebsite" type="text" tabindex="-1" autocomplete="off"></div>
@@ -347,7 +351,10 @@ $("b5").onclick = async () => {
   if (pixelId && window.fbq) fbq("track", "Lead", {content_name: C.trade}, {eventID: eventId});
   done();
 };
-let own = "";
+let own = "", needA = "";
+document.querySelectorAll("#sneed .opt").forEach(b => b.addEventListener("click", () => {
+  needA = b.textContent; document.querySelectorAll("#sneed .opt").forEach(x => x.classList.toggle("sel", x === b));
+}));
 document.querySelectorAll("#sown .opt").forEach(b => b.addEventListener("click", () => {
   own = b.textContent; document.querySelectorAll("#sown .opt").forEach(x => x.classList.toggle("sel", x === b));
 }));
@@ -356,13 +363,14 @@ $("sb").onclick = async () => {
   if (!$("sfn").value.trim()) m.push("first name");
   if (!/^\d{5}$/.test($("szip").value.trim())) m.push("5-digit ZIP");
   if (!/^\d{10}$/.test(digits)) m.push("a 10-digit mobile number");
+  if (!needA) m.push("what you need");
   if (!own) m.push("whether you own the home");
   if (!$("sok").checked) m.push("the consent box");
   if (m.length) { $("sferr").textContent = "Please add: " + m.join(", ") + "."; $("sferr").hidden = false; return; }
   $("sferr").hidden = true;
   if (own.startsWith("No")) { done("Thanks for reaching out.", `Free estimates are for homeowners. If you rent, please ask your landlord to reach out.`); return; }
   const lead = {
-    client: slug, owner: own, zip: $("szip").value.trim(), first_name: $("sfn").value.trim(), phone: "+1" + digits, website: $("swebsite").value,
+    client: slug, need: needA, owner: own, zip: $("szip").value.trim(), first_name: $("sfn").value.trim(), phone: "+1" + digits, website: $("swebsite").value,
     consent: true, consent_text: $("sconsent").textContent.replace(/\s+/g, " ").trim(), consent_at: new Date().toISOString(),
     page_url: location.origin + location.pathname, referrer: document.referrer,
     event_id: eventId, fbc: cookie("_fbc"), fbp: cookie("_fbp"), ...track
@@ -376,7 +384,7 @@ $("sb").onclick = async () => {
     $("sb").disabled = false; $("sb").textContent = T.button;
     $("sferr").textContent = x.message || "Something went wrong sending your request. Please try again."; $("sferr").hidden = false; return;
   }
-  if (pixelId && window.fbq) fbq("track", "Lead", {content_name: C.trade}, {eventID: eventId});
+  if (pixelId && window.fbq && !needA.startsWith("Repair")) fbq("track", "Lead", {content_name: C.trade}, {eventID: eventId});
   done();
 };
 })();
