@@ -99,8 +99,8 @@ h3{font:800 21px/1.2 var(--display);margin:0 0 10px;color:var(--navy)}
 .done{text-align:center;padding:10px 0}
 .done .ok{width:56px;height:56px;border-radius:50%;background:var(--soft);display:grid;place-items:center;margin:0 auto 10px}
 .done .ok svg{width:26px;height:26px}
-.need{display:grid;gap:8px}
-.need .opt{text-align:center;min-height:48px;padding:11px 14px}
+.need{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.need .opt{text-align:center;min-height:48px;padding:10px 4px;font-size:15px}
 .own{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .own .opt{text-align:center;padding:13px 10px}
 .opt.sel{border-color:var(--navy-2);background:var(--soft);box-shadow:inset 0 0 0 2px var(--navy-2)}
@@ -162,8 +162,8 @@ body.hasstk{padding-bottom:84px}
         <div class="row"><div><label for="sfn">First name</label><input id="sfn" type="text" autocomplete="given-name"></div>
           <div><label for="szip">ZIP code</label><input id="szip" type="text" inputmode="numeric" maxlength="5" autocomplete="postal-code"></div></div>
         <label for="sph">Mobile phone</label><input id="sph" type="tel" autocomplete="tel" placeholder="(555) 555-0123">
-        <label id="sneedl">What do you need?</label>
-        <div class="need" id="sneed" role="group" aria-labelledby="sneedl"><button class="opt" type="button">Replace my AC</button><button class="opt" type="button">Install a new AC</button><button class="opt" type="button">Repair my AC</button></div>
+        <label id="sneedl">What do you need for your AC?</label>
+        <div class="need" id="sneed" role="group" aria-labelledby="sneedl"><button class="opt" type="button" data-v="Replace my AC">Replace</button><button class="opt" type="button" data-v="Install a new AC">New install</button><button class="opt" type="button" data-v="Repair my AC">Repair</button></div>
         <label id="sownl">Do you own the home?</label>
         <div class="own" id="sown" role="group" aria-labelledby="sownl"><button class="opt" type="button">Yes, I own it</button><button class="opt" type="button">No, I rent</button></div>
         <div class="hp" aria-hidden="true"><label for="swebsite">Website</label><input id="swebsite" type="text" tabindex="-1" autocomplete="off"></div>
@@ -353,7 +353,7 @@ $("b5").onclick = async () => {
 };
 let own = "", needA = "";
 document.querySelectorAll("#sneed .opt").forEach(b => b.addEventListener("click", () => {
-  needA = b.textContent; document.querySelectorAll("#sneed .opt").forEach(x => x.classList.toggle("sel", x === b));
+  needA = b.dataset.v; document.querySelectorAll("#sneed .opt").forEach(x => x.classList.toggle("sel", x === b));
 }));
 document.querySelectorAll("#sown .opt").forEach(b => b.addEventListener("click", () => {
   own = b.textContent; document.querySelectorAll("#sown .opt").forEach(x => x.classList.toggle("sel", x === b));
