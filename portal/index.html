@@ -180,10 +180,9 @@ function leadDetail(m, l) {
   const req = D.returns.find(r => r.lead_id===l.id);
   const digits = String(l.phone||"").replace(/[^\d+]/g,"");
   m.innerHTML = `<button class="back" id="bk">&larr; Back</button><div class="card">
-   <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap"><div><div style="font-size:20px;font-weight:800">${nm(l)}</div><div class="hint">${full(l.created_at)}</div></div>
-   <div class="btns"><a class="btn pri" href="tel:${esc(digits)}">📞 Call</a><a class="btn" href="sms:${esc(digits)}">💬 Text</a></div></div>
-   <div class="sec"><div class="kv"><span>Phone</span><span>${phone(l.phone)}</span>${l.email?`<span>Email</span><span>${esc(l.email)}</span>`:""}<span>Address</span><span>${esc(l.address||"")}, ${esc(l.answers?.city||"")} ${esc(l.zip||"")}</span>
-    <span>Needs</span><span>${esc(l.answers?.need||"")}</span><span>When</span><span>${esc(l.answers?.timeframe||"")}</span><span>Owns home</span><span>${esc(l.answers?.owner||"")}</span></div></div>
+   <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap"><div><div style="font-size:20px;font-weight:800">${nm(l)}</div><div class="hint">${full(l.created_at)}</div></div></div>
+   <div class="sec"><div class="kv"><span>Phone</span><span>${phone(l.phone)}</span>${l.email?`<span>Email</span><span>${esc(l.email)}</span>`:""}${l.address?`<span>Address</span><span>${esc(l.address)}, ${esc(l.answers?.city||"")} ${esc(l.zip||"")}</span>`:`<span>ZIP</span><span>${esc(l.zip||"")}${l.answers?.zip_in_area===true?" (in your area)":l.answers?.zip_in_area===false?" (outside your area)":""}</span>`}
+    <span>Needs</span><span>${esc(l.answers?.need||"")}</span>${l.answers?.timeframe?`<span>When</span><span>${esc(l.answers.timeframe)}</span>`:""}<span>Owns home</span><span>${esc(l.answers?.owner||"")}</span></div></div>
    ${l.status!=="returned"?`<div class="sec"><div class="lbl">What happened? (helps us send you better leads)</div><div class="outs">${Object.entries(OUT).map(([k,t]) => `<button data-o="${k}" class="${l.client_outcome===k?"on":""}">${t}</button>`).join("")}</div></div>`:""}
    <div class="sec"><div class="lbl">Their request (proof of consent)</div><div class="quote">“${esc(l.consent_text||"")}”<br><span style="color:#94a3b8">${l.consent_at?full(l.consent_at):""}</span></div></div>
    <div class="sec">${l.status==="returned" ? `<span class="pill bad">Returned</span> <span class="hint">${esc(l.return_reason||"")} · credit added back</span>`
@@ -233,7 +232,7 @@ function creditsTab(m) {
 }
 function helpTab(m) {
   m.innerHTML = `<div class="card"><div class="steps">
-   <div><b>1</b><div><b>Call fast.</b> <span class="hint">Homeowners who get a call within 5 minutes book far more often. We text and email you the second a lead comes in.</span></div></div>
+   <div><b>1</b><div><b>Call fast.</b> <span class="hint">Homeowners who get a call within 5 minutes book far more often. We email you the second a lead comes in.</span></div></div>
    <div><b>2</b><div><b>Try at least 3 times in 48 hours.</b> <span class="hint">Mix calls and texts. Many people answer on the second or third try.</span></div></div>
    <div><b>3</b><div><b>Mark what happened.</b> <span class="hint">Open the lead and tap Contacted, Inspection booked or Sold. It helps us send you more of the leads that turn into jobs.</span></div></div>
    <div><b>4</b><div><b>Bad lead? Request a return.</b> <span class="hint">Wrong number, renter, outside your area, a duplicate, a service you don't offer, or they never asked. Within ${D.return_hours} hours, with screenshots of your attempts. Approved returns get a free replacement.</span></div></div>
