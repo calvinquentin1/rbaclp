@@ -176,7 +176,13 @@ function shell(active, body) {
 }
 const loading = active => shell(active, `<p class="muted">Loading…</p>`);
 
-async function getList(force) { if (!cache.list || force) { cache.list = await call("list"); } const live = cache.list.clients.filter(c => !c.is_test);
+// Test clients (is_test) are hidden everywhere by default; a "Show test clients" switch brings them back (kept in this browser only).
+let SHOW_TESTS = false; try { SHOW_TESTS = localStorage.getItem("hub_show_tests") === "1"; } catch(_e) {}
+const testToggle = n => n ? `<button class="btn" id="tt">${SHOW_TESTS ? "Hide" : "Show"} test clients (${n})</button>` : "";
+function bindToggle(m, again) { const b = m.querySelector("#tt"); if (b) b.onclick = () => { SHOW_TESTS = !SHOW_TESTS; try { localStorage.setItem("hub_show_tests", SHOW_TESTS ? "1" : "0"); } catch(_e) {} again(); }; }
+async function getList(force) { if (!cache.raw || force) { cache.raw = await call("list"); }
+  const raw = cache.raw, tid = new Set(raw.clients.filter(c => c.is_test).map(c => c.id));
+  cache.list = {...raw, clients: raw.clients.filter(c => SHOW_TESTS || !c.is_test), leads: raw.leads.filter(l => SHOW_TESTS || !tid.has(l.client_id)), nTests: tid.size};
   alertCount = cache.list.clients.reduce((s,c) => s + c.alerts.filter(a => a.level!=="info").length, 0); return cache.list; }
 
 // ---------- Overview
@@ -189,7 +195,7 @@ async function overview() {
   const pct = lp ? Math.round((l7-lp)/lp*100) : null;
   const alerts = d.clients.flatMap(c => c.alerts.map(a => ({...a, c})));
   const m = shell("overview", `
-  <div class="top"><div><h1>Overview</h1><div class="sub">${new Date().toLocaleDateString("en-US",{timeZone:TZ,weekday:"long",month:"short",day:"numeric"})} · all clients</div></div><button class="btn pri" data-go="#/new">+ Add client</button></div>
+  <div class="top"><div><h1>Overview</h1><div class="sub">${new Date().toLocaleDateString("en-US",{timeZone:TZ,weekday:"long",month:"short",day:"numeric"})} · all clients</div></div><div style="display:flex;gap:8px;flex-wrap:wrap">${testToggle(d.nTests)}<button class="btn pri" data-go="#/new">+ Add client</button></div></div>
   <div class="kpis five">
    <div class="k"><small>Active clients</small><b>${act.length}</b><div class="d">${act.filter(c=>c.client_type==="ppl").length} pay-per-lead · ${act.filter(c=>c.client_type==="retainer").length} retainer</div></div>
    <div class="k"><small>Leads, last 7 days</small><b>${l7}</b><div class="d ${pct>0?"up":pct<0?"dn":""}">${pct==null?"no prior week yet":(pct>=0?"▲ ":"▼ ")+Math.abs(pct)+"% vs prior week"}</div></div>
@@ -200,7 +206,7 @@ async function overview() {
    <div class="card"><div class="card-h"><h2>Clients</h2><span class="muted">${act.length} active</span></div>${clientTable(d.clients.filter(c => c.status!=="ended"))}</div>
    <div class="card"><div class="card-h"><h2>Needs attention</h2>${alerts.length?`<span class="pill bad">${alerts.filter(a=>a.level!=="info").length}</span>`:""}</div>${alertList(alerts.slice(0,8))}</div>
   </div>`);
-  wire(m);
+  wire(m); bindToggle(m, overview);
 }
 function clientTable(cs) {
   if (!cs.length) return `<div class="empty">No clients yet. Add your first client.</div>`;
@@ -232,9 +238,9 @@ async function alertsView() {
 // ---------- Clients list
 async function clientsView() {
   loading("clients"); const d = await getList(true);
-  const m = shell("clients", `<div class="top"><div><h1>Clients</h1><div class="sub">${d.clients.length} total</div></div><button class="btn pri" data-go="#/new">+ Add client</button></div>
+  const m = shell("clients", `<div class="top"><div><h1>Clients</h1><div class="sub">${d.clients.length} total</div></div><div style="display:flex;gap:8px;flex-wrap:wrap">${testToggle(d.nTests)}<button class="btn pri" data-go="#/new">+ Add client</button></div></div>
   <div class="card">${clientTable(d.clients)}</div>`);
-  wire(m);
+  wire(m); bindToggle(m, clientsView);
 }
 
 // ---------- One client
@@ -405,7 +411,7 @@ function bindForm(m, c) {
       row[k] = v; }
     const ee = m.querySelector("#ee");
     if (!row.company || !/^[a-z0-9-]{3,60}$/.test(String(row.slug||"").toLowerCase())) { ee.className="err"; ee.textContent = "Company name and a page name (letters, numbers, dashes) are required."; return; }
-    try { const r = await call("save_client", {client: row}); toast("Saved"); cache.list = null; location.hash = "#/client/"+r.id; if (c) clientView(r.id, "settings"); }
+    try { const r = await call("save_client", {client: row}); toast("Saved"); cache.list = null; cache.raw = null; location.hash = "#/client/"+r.id; if (c) clientView(r.id, "settings"); }
     catch(x) { if (x.message!=="__login") { ee.className="err"; ee.textContent = x.message; } } };
 }
 async function newClient() {
@@ -418,19 +424,21 @@ async function newClient() {
 let lState = {q:"", client:"", status:"", leadId:null, data:null};
 async function leadsView() {
   if (!lState.data) { loading("leads"); lState.data = await call("leads"); }
-  const {data} = lState, names = Object.fromEntries(data.clients.map(c => [c.id, c.company]));
+  const tid = new Set(lState.data.clients.filter(c => c.is_test).map(c => c.id));
+  const data = {...lState.data, clients: lState.data.clients.filter(c => SHOW_TESTS || !c.is_test), leads: lState.data.leads.filter(l => SHOW_TESTS || !tid.has(l.client_id))};
+  const names = Object.fromEntries(data.clients.map(c => [c.id, c.company]));
   const q = lState.q.toLowerCase();
   const rows = data.leads.filter(l => (!lState.client || l.client_id===lState.client) && (!lState.status || l.status===lState.status)
     && (!q || [l.first_name,l.last_name,l.phone,l.zip,l.address,names[l.client_id],adOf(l)].join(" ").toLowerCase().includes(q)));
   const lead = lState.leadId && data.leads.find(l => l.id===lState.leadId);
-  const m = shell("leads", `<div class="top"><div><h1>Leads</h1><div class="sub">${data.leads.length} total across all clients</div></div></div>
+  const m = shell("leads", `<div class="top"><div><h1>Leads</h1><div class="sub">${data.leads.length} total across all clients</div></div>${testToggle(tid.size)}</div>
   <div class="split ${lead?"":"closed"}"><div class="card"><div class="filters"><input id="lq" placeholder="Search name, phone, ZIP, ad…" value="${esc(lState.q)}">
    <select id="lc"><option value="">All clients</option>${data.clients.map(c => `<option value="${c.id}" ${c.id===lState.client?"selected":""}>${esc(c.company)}</option>`).join("")}</select>
    <select id="ls"><option value="">All statuses</option>${Object.entries(STATUS).map(([k,[,t]]) => `<option value="${k}" ${k===lState.status?"selected":""}>${t}</option>`).join("")}</select></div>
    ${rows.length?`<div class="scroll"><table><thead><tr><th>Received</th><th>Client</th><th>Homeowner</th><th>Need</th><th>Ad</th><th>Status</th><th></th></tr></thead><tbody>
    ${rows.map(l => `<tr class="click ${l.id===lState.leadId?"sel":""}" data-lead="${l.id}"><td>${when(l.created_at)}</td><td>${esc(names[l.client_id]||"")}</td><td><b>${name(l)}</b></td><td class="muted">${esc(l.answers?.need||"")}</td><td class="muted">${esc(adOf(l))}</td><td>${st(l.status)}</td><td class="chev">›</td></tr>`).join("")}</tbody></table></div>`:`<div class="empty">No leads match.</div>`}</div>
   ${lead?drawer(lead, []).replace('<div class="sec"><div class="lbl">Request</div>', `<div class="sec"><a href="#/client/${lead.client_id}">Open ${esc(names[lead.client_id]||"client")} →</a></div><div class="sec"><div class="lbl">Request</div>`):""}</div>`);
-  wire(m);
+  wire(m); bindToggle(m, leadsView);
   const qi = m.querySelector("#lq"); qi.oninput = () => { lState.q = qi.value; const pos = qi.selectionStart; leadsView().then(() => { const n = document.getElementById("lq"); n.focus(); n.setSelectionRange(pos,pos); }); };
   m.querySelector("#lc").onchange = e => { lState.client = e.target.value; leadsView(); };
   m.querySelector("#ls").onchange = e => { lState.status = e.target.value; leadsView(); };
